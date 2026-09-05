@@ -186,3 +186,6 @@ fn check_expr<F: FnMut(&Term)>(e: &crate::ast::Expr, f: &mut F) {
         }
     }
 }
+
+#[cfg(feature = "mcp")]
+pub mod ddlog;

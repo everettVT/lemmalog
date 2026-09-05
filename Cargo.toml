@@ -6,6 +6,7 @@ description = "A Datalog engine for LLM context management: bi-temporal, provena
 license = "MIT"
 
 [dependencies]
+serde = { version = "1", features = ["derive"], optional = true }
 serde_json = { version = "1", optional = true }
 ureq = { version = "2", optional = true }
 
@@ -39,4 +40,8 @@ required-features = ["llm"]
 llm = ["dep:ureq", "dep:serde_json"]
 # MCP server binary (Model Context Protocol over stdio) for agent CLIs
 # (Claude Code, Kimi CLI, ...). Needs only serde_json.
-mcp = ["dep:serde_json"]
+mcp = ["dep:serde_json", "dep:serde"]
+
+[[bin]]
+name = "lemmalog-ddlog-mcp"
+required-features = ["mcp"]
