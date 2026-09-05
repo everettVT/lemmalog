@@ -1,10 +1,11 @@
 //! Pure, typed composition of exact leaf processor versions in one DDlog graph.
 //! Connections become rules in the same parsed AST; no runtime copies facts
 //! between processors and no current-version pointer participates in lowering.
-use super::lower::{ident, lower_clauses};
+use super::lower::{ident, lower_clauses_with_operators};
 use super::registry::{
     ProcessorDefinition, ProcessorReference, ProcessorVersion, ProgramDefinition,
 };
+use super::star::Operator;
 use super::Schema;
 use crate::ast::{parse_program, Atom, Clause, Lit};
 use crate::intern::Term;
@@ -185,6 +186,7 @@ fn compatible(from: &str, source: &[String], to: &Endpoint, destination: &[Strin
 struct Expansion {
     schemas: BTreeMap<String, Schema>,
     clauses: Vec<Clause>,
+    operators: Vec<Operator>,
     origins: Vec<Value>,
     relations: BTreeMap<String, Value>,
     dependencies: BTreeMap<String, ProcessorReference>,
@@ -208,7 +210,8 @@ impl Expansion {
             .ok_or_else(|| format!("Node {path} requires an explicit interface"))?;
         let schemas: BTreeMap<String, Schema> =
             serde_json::from_value(program.schemas.clone()).map_err(|error| error.to_string())?;
-        super::lower(&program.rules, &schemas).map_err(|error| format!("Node {path}: {error}"))?;
+        super::lower_with_operators(&program.rules, &schemas, &program.operators)
+            .map_err(|error| format!("Node {path}: {error}"))?;
         let names: BTreeMap<_, _> = schemas
             .keys()
             .map(|name| (name.clone(), format!("Module{index}_{name}")))
@@ -223,6 +226,12 @@ impl Expansion {
             );
             self.relations.insert(names[name].clone(), json!({"kind":"processor_relation","node":path,"processor_id":reference.processor_id,"version":reference.version,"relation":name,"schema":schema}));
         }
+        self.operators.extend(
+            program
+                .operators
+                .iter()
+                .map(|operator| operator.renamed(&names)),
+        );
         for (rule, mut clause) in parse_program(&program.rules)
             .map_err(|error| error.to_string())?
             .into_iter()
@@ -424,13 +433,15 @@ pub fn compile_resolved(
     let mut expansion = Expansion {
         schemas: BTreeMap::new(),
         clauses: Vec::new(),
+        operators: Vec::new(),
         origins: Vec::new(),
         relations: BTreeMap::new(),
         dependencies: BTreeMap::new(),
         next_node: 0,
     };
     let ports = expansion.manifest(manifest, programs, "", None, None)?;
-    let source = lower_clauses(&expansion.clauses, &expansion.schemas)?;
+    let source =
+        lower_clauses_with_operators(&expansion.clauses, &expansion.schemas, &expansion.operators)?;
     let resolution = CompositionResolution {
         nodes: manifest.nodes.clone(),
         dependencies: expansion.dependencies,

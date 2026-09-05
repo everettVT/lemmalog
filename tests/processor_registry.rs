@@ -42,6 +42,7 @@ fn definition() -> ProcessorDefinition {
         }),
         operation: None,
         interface: None,
+        operators: Vec::new(),
     })
 }
 fn program(definition: &mut ProcessorDefinition) -> &mut ProgramDefinition {
@@ -273,6 +274,7 @@ fn registered_validation_supports_public_results_and_rejects_private_protocol() 
             description: "Review text".into(),
         }),
         interface: None,
+        operators: Vec::new(),
     });
     let first = registry.create(valid.clone(), None).unwrap();
     assert!(first.validation.syntax_checked && first.validation.types_checked);

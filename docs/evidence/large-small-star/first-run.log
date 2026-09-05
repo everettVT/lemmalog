@@ -1,0 +1,72 @@
+Finished compiling "program.dl" in 0.19s
+   Compiling ddlog_profiler v0.1.0 (<LOCAL_PATH>
+   Compiling ddlog_derive v0.1.0 (<LOCAL_PATH>
+   Compiling program v0.1.0 (<LOCAL_PATH>
+   Compiling differential_datalog v0.1.0 (<LOCAL_PATH>
+warning: unused return value of `CString::from_raw` that must be used
+    --> differential_datalog/src/api/c_api.rs:1043:5
+     |
+1043 |     CString::from_raw(s);
+     |     ^^^^^^^^^^^^^^^^^^^^^
+     |
+     = note: `#[warn(unused_must_use)]` on by default
+     = note: call `drop(from_raw(ptr))` if you intend to drop the `CString`
+
+warning: unused return value of `Box::<T>::from_raw` that must be used
+    --> differential_datalog/src/api/c_api.rs:1137:9
+     |
+1137 |         Box::from_raw(delta);
+     |         ^^^^^^^^^^^^^^^^^^^^^
+     |
+     = note: call `drop(from_raw(ptr))` if you intend to drop the `Box`
+
+warning: unused return value of `Box::<T>::from_raw` that must be used
+    --> differential_datalog/src/record/mod.rs:1177:5
+     |
+1177 |     Box::from_raw(rec);
+     |     ^^^^^^^^^^^^^^^^^^^
+     |
+     = note: call `drop(from_raw(ptr))` if you intend to drop the `Box`
+
+   Compiling ddlog_rt v0.1.0 (<LOCAL_PATH>
+   Compiling ddlog_log v0.1.0 (<LOCAL_PATH>
+   Compiling cmd_parser v0.1.0 (<LOCAL_PATH>
+   Compiling ddlog_bigint v0.1.0 (<LOCAL_PATH>
+warning: unused return value of `Box::<T>::from_raw` that must be used
+   --> types/ddlog_bigint/ddlog_bigint.rs:661:9
+    |
+661 |         Box::from_raw(x);
+    |         ^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(unused_must_use)]` on by default
+    = note: call `drop(from_raw(ptr))` if you intend to drop the `Box`
+
+warning: unused return value of `Box::<T>::from_raw` that must be used
+   --> types/ddlog_bigint/ddlog_bigint.rs:680:9
+    |
+680 |         Box::from_raw(x);
+    |         ^^^^^^^^^^^^^^^^^
+    |
+    = note: call `drop(from_raw(ptr))` if you intend to drop the `Box`
+
+   Compiling ddlog_std v0.1.0 (<LOCAL_PATH>
+warning: `ddlog_bigint` (lib) generated 2 warnings
+   Compiling internment v0.1.0 (<LOCAL_PATH>
+   Compiling debug v0.1.0 (<LOCAL_PATH>
+   Compiling types__lemmalog_star v0.1.0 (<LOCAL_PATH>
+   Compiling types v0.1.0 (<LOCAL_PATH>
+warning: `differential_datalog` (lib) generated 3 warnings
+    Finished dev [unoptimized] target(s) in 17.70s
+
+{"passed": false, "checks": ["registered_and_composed_ordinary_program_with_pinned_native_operator", "bridge_merge_split_isolates_signed_ids_duplicate_reverse_support_and_endpoint_removal", "independent_pipe_clients_disconnect_reconnect_retains_instance", "relabeled_path_80_mutations_and_complete_retraction_match_independent_bfs", "explicit_stop_and_bounded_cleanup"], "snapshots": 97, "receipt": "<LOCAL_PATH>"}
+Traceback (most recent call last):
+  File "<LOCAL_PATH>", line 152, in <module>
+    run(root)
+    ~~~^^^^^^
+  File "<LOCAL_PATH>", line 136, in run
+    shutil.copyfile(source, retained / filename)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<LOCAL_PATH>", line 313, in copyfile
+    with open(src, 'rb') as fsrc:
+         ~~~~^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<LOCAL_PATH>'

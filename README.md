@@ -108,6 +108,8 @@ A separate experimental [DDlog MCP backend](docs/ddlog.md) compiles typed positi
 rules to Differential Dataflow. It supports [shared program instances and an
 immutable registry](docs/shared-instances.md), including discovery and archival,
 and [composition of exact processor versions in one graph](docs/composition.md).
+A typed [Large-Star/Small-Star operator](docs/large-small-star.md) maintains
+connected-component labels through edge additions and removals in that graph.
 
 ## MCP server: use from Claude Code or Kimi CLI
 

@@ -1,0 +1,62 @@
+   Compiling lemmalog v0.2.0 (<LOCAL_PATH>
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.19s
+     Running tests/ddlog_lowering.rs (target/debug/deps/ddlog_lowering-b7b028cb2b5b04b2)
+
+running 2 tests
+test rejects_cli_incompatible_controls_before_install ... ok
+test lowers_existing_ast_and_checks_types ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/processor_composition_registry.rs (target/debug/deps/processor_composition_registry-ffb1c45b38ea7162)
+
+running 13 tests
+test invalid_program_interfaces_are_rejected_before_registry_writes ... ok
+test interface_contract_affects_hash_and_ambiguous_wire_shapes_are_rejected ... ok
+test cyclic_node_wiring_is_valid_when_expanded_rule_dependencies_are_acyclic ... ok
+test compiler_namespaces_private_relations_preserves_literals_and_broadcasts_inputs ... ok
+test invalid_composition_never_writes_or_moves_a_pointer ... ok
+test exact_leaf_versions_resolve_before_publication_and_survive_pointer_moves ... ok
+test composed_nodes_are_programs_and_registered_operation_nodes_remain_rejected ... ok
+test resolution_and_referenced_leaf_integrity_are_verified_on_read ... ok
+test composition_hash_cas_and_fork_track_exact_references ... ok
+test nested_program_interfaces_preserve_private_boundaries_and_exact_leaf_history ... ok
+test archived_dependencies_preserve_existing_compositions_but_reject_new_references ... ok
+test repeated_program_expansion_has_a_bounded_actionable_resource_limit ... ok
+test excessive_exact_reference_nesting_fails_with_a_bounded_actionable_error ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.04s
+
+     Running tests/processor_registry.rs (target/debug/deps/processor_registry-61723d42b73787d0)
+
+running 17 tests
+test invalid_definitions_never_publish_or_advance_current ... ok
+test malformed_or_tampered_records_fail_closed ... ok
+test identity_content_and_provenance_are_distinct_and_persist ... ok
+test initial_lifecycle_noop_has_no_transition_time_even_after_code_publication ... ok
+test independent_processes_cannot_both_advance_the_same_expected_pointer ... ok
+test subprocess_lifecycle_transition ... ok
+test subprocess_publish ... ok
+test private_permissions_and_stale_lock_are_enforced ... ok
+test independent_processes_cannot_both_commit_one_lifecycle_revision ... ok
+test unknown_registry_references_provide_discovery_actions ... ok
+test fork_has_new_identity_and_exact_source_lineage ... ok
+test publish_checks_expected_pointer_and_pins_immutable_history ... ok
+test registered_validation_supports_public_results_and_rejects_private_protocol ... ok
+test exact_operation_binding_participates_in_definition_identity ... ok
+test archive_is_conditional_idempotent_and_keeps_every_version_readable ... ok
+test discovery_pages_by_identity_and_searches_literal_current_definitions ... ok
+test restore_round_trip_preserves_definitions_and_rejects_stale_aba_requests ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.91s
+
+     Running tests/star_registry.rs (target/debug/deps/star_registry-3e37e942904367de)
+
+running 5 tests
+test typed_operator_rejects_unknown_fields_and_registered_operation_mixing ... ok
+test invalid_operator_types_references_and_cycles_never_publish ... ok
+test empty_operators_preserve_legacy_wire_shape_and_content_hash ... ok
+test operator_only_definition_validates_without_native_compilation_and_pins_history ... ok
+test nested_composition_namespaces_operators_and_keeps_rule_witness_indexes ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.34s

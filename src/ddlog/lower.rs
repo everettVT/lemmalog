@@ -1,3 +1,4 @@
+use super::star::Operator;
 use crate::ast::{parse_program, Atom, Clause, CmpOp, Expr, Lit};
 use crate::intern::Term;
 use serde::{Deserialize, Serialize};
@@ -89,20 +90,32 @@ fn check(
 /// Lower a typed, positive, non-recursive subset of Lemmalog's existing AST.
 /// Unsupported constructs fail before the installed program is touched.
 pub fn lower(rules: &str, schemas: &BTreeMap<String, Schema>) -> Result<String, String> {
-    let clauses = parse_program(rules).map_err(|e| e.to_string())?;
-    lower_clauses(&clauses, schemas)
+    lower_with_operators(rules, schemas, &[])
 }
 
-/// Composition renames predicates in the parsed AST without round-tripping
+pub fn lower_with_operators(
+    rules: &str,
+    schemas: &BTreeMap<String, Schema>,
+    operators: &[Operator],
+) -> Result<String, String> {
+    let clauses = parse_program(rules).map_err(|e| e.to_string())?;
+    lower_clauses_with_operators(&clauses, schemas, operators)
+}
+
+/// Composition renames predicates and typed operators without round-tripping
 /// authored terms or string literals through a second source parser.
-pub(super) fn lower_clauses(
+pub(super) fn lower_clauses_with_operators(
     clauses: &[Clause],
     schemas: &BTreeMap<String, Schema>,
+    operators: &[Operator],
 ) -> Result<String, String> {
-    if clauses.is_empty() {
+    if clauses.is_empty() && operators.is_empty() {
         return Err("Expected at least one rule".into());
     }
     let mut out = String::new();
+    if !operators.is_empty() {
+        out.push_str(&super::star::prelude());
+    }
     for (name, s) in schemas {
         if !ident(name) || s.fields.is_empty() {
             return Err("Invalid relation name or zero arity".into());
@@ -127,6 +140,15 @@ pub(super) fn lower_clauses(
         ));
     }
     let mut dependencies: BTreeMap<String, Vec<String>> = BTreeMap::new();
+    for (index, operator) in operators.iter().enumerate() {
+        operator.validate(schemas)?;
+        let (vertices, edges, output) = operator.relations();
+        dependencies
+            .entry(output.into())
+            .or_default()
+            .extend([vertices.into(), edges.into()]);
+        out.push_str(&operator.source(index));
+    }
     for (index, c) in clauses.iter().enumerate() {
         if c.is_fact {
             return Err("Facts must be submitted through apply_changes".into());

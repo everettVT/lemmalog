@@ -1,0 +1,15 @@
+test_bridge_insert_merges_and_delete_splits_exact_partitions (test_connected_components_oracle.ConnectedComponentsOracle.test_bridge_insert_merges_and_delete_splits_exact_partitions) ... ok
+test_copy_on_apply_and_malformed_batch_preserve_prior_state (test_connected_components_oracle.ConnectedComponentsOracle.test_copy_on_apply_and_malformed_batch_preserve_prior_state) ... ok
+test_ddlog_label_rows_are_exact_and_reject_malformed_or_duplicate_output (test_connected_components_oracle.ConnectedComponentsOracle.test_ddlog_label_rows_are_exact_and_reject_malformed_or_duplicate_output) ... ok
+test_deleting_explicit_vertex_keeps_incident_endpoint (test_connected_components_oracle.ConnectedComponentsOracle.test_deleting_explicit_vertex_keeps_incident_endpoint) ... ok
+test_duplicate_tuple_is_idempotent_reverse_tuple_retains_support (test_connected_components_oracle.ConnectedComponentsOracle.test_duplicate_tuple_is_idempotent_reverse_tuple_retains_support) ... ok
+test_edge_only_vertices_self_loop_and_signed_minimum (test_connected_components_oracle.ConnectedComponentsOracle.test_edge_only_vertices_self_loop_and_signed_minimum) ... ok
+test_empty_graph_and_isolated_signed_vertices (test_connected_components_oracle.ConnectedComponentsOracle.test_empty_graph_and_isolated_signed_vertices) ... ok
+test_exact_minimum_labels_for_disconnected_components (test_connected_components_oracle.ConnectedComponentsOracle.test_exact_minimum_labels_for_disconnected_components) ... ok
+test_fixture_trace_is_deterministic_and_has_exact_boundary_results (test_connected_components_oracle.ConnectedComponentsOracle.test_fixture_trace_is_deterministic_and_has_exact_boundary_results) ... ok
+test_self_loop_endpoint_disappears_only_without_explicit_vertex (test_connected_components_oracle.ConnectedComponentsOracle.test_self_loop_endpoint_disappears_only_without_explicit_vertex) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.001s
+
+OK

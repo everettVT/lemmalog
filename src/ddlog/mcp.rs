@@ -5,12 +5,19 @@ use super::{AgentProgram, Backend, Operation};
 use serde_json::{json, Value};
 use std::collections::BTreeMap;
 
+fn operator_schema() -> Value {
+    json!({"type":"array","items":{"type":"object","properties":{
+        "type":{"const":"large_small_star"},"vertices":{"type":"string"},
+        "edges":{"type":"string"},"output":{"type":"string"}
+    },"required":["type","vertices","edges","output"],"additionalProperties":false}})
+}
+
 fn tools() -> Value {
     json!([
-        {"name":"lemmalog_install_rules","description":"Compile and atomically replace this session's typed positive rule program; replay retained facts. Unsupported syntax is rejected.","inputSchema":{"type":"object","properties":{"rules":{"type":"string"},"schemas":{"type":"object","additionalProperties":{"type":"object","properties":{"input":{"type":"boolean"},"fields":{"type":"array","items":{"enum":["int","string"]},"minItems":1}},"required":["input","fields"],"additionalProperties":false}}},"required":["rules","schemas"],"additionalProperties":false}},
+        {"name":"lemmalog_install_rules","description":"Compile and atomically replace this session's typed positive program, including optional built-in Large-Star/Small-Star operators; replay retained facts. Unsupported syntax is rejected.","inputSchema":{"type":"object","properties":{"rules":{"type":"string"},"schemas":{"type":"object","additionalProperties":{"type":"object","properties":{"input":{"type":"boolean"},"fields":{"type":"array","items":{"enum":["int","string"]},"minItems":1}},"required":["input","fields"],"additionalProperties":false}},"operators":operator_schema()},"required":["rules","schemas"],"additionalProperties":false}},
         {"name":"apply_changes","description":"Transactionally insert or delete input facts with set semantics.","inputSchema":{"type":"object","properties":{"changes":{"type":"array","items":{"type":"object","properties":{"op":{"enum":["insert","delete"]},"predicate":{"type":"string"},"values":{"type":"array","items":{"type":["integer","string"]}}},"required":["op","predicate","values"],"additionalProperties":false}}},"required":["changes"],"additionalProperties":false}},
         {"name":"lemmalog_query","description":"Dump a declared output relation at the last completed transaction. Returns DDlog row text.","inputSchema":{"type":"object","properties":{"predicate":{"type":"string"}},"required":["predicate"],"additionalProperties":false}},
-        {"name":"lemmalog_why","description":"Read direct variable-binding witnesses for a zero-based rule index. Not recursive provenance.","inputSchema":{"type":"object","properties":{"rule":{"type":"integer","minimum":0}},"required":["rule"],"additionalProperties":false}}
+        {"name":"lemmalog_why","description":"Read direct variable-binding witnesses for a zero-based ordinary rule index. Typed operators have no Evidence row. Not recursive provenance.","inputSchema":{"type":"object","properties":{"rule":{"type":"integer","minimum":0}},"required":["rule"],"additionalProperties":false}}
     ])
 }
 fn agent_tools() -> Value {
@@ -253,6 +260,9 @@ impl ProgramInstance {
                     }
                     ProcessorDefinition::Program(definition) => {
                         let result = if let Some(binding) = definition.operation {
+                            if !definition.operators.is_empty() {
+                                return Err("Typed operators cannot be combined with a registered operation; put the operator in a separate pure program".into());
+                            }
                             let operation = self
                                 .operations
                                 .get(&binding.name)
@@ -276,8 +286,11 @@ impl ProgramInstance {
                             self.agent = Some(agent);
                             result
                         } else {
-                            self.backend
-                                .install(&definition.rules, definition.schemas)?
+                            self.backend.install_with_operators(
+                                &definition.rules,
+                                definition.schemas,
+                                &definition.operators,
+                            )?
                         };
                         self.interface = definition.interface.map(|interface| PublicInterface {
                             inputs: interface
@@ -307,6 +320,9 @@ impl ProgramInstance {
                 json!({"operations":self.operations.iter().map(|(name,op)|json!({"name":name,"version":op.version,"description":op.description,"input":"string","output":"string"})).collect::<Vec<_>>()}),
             ),
             "install_agent_program" => {
+                if !parse_operators(a)?.is_empty() {
+                    return Err("Typed operators cannot be combined with a registered operation; install a separate pure program using lemmalog_install_rules or processor_install".into());
+                }
                 let name = string(a, "operation")?;
                 let operation = self
                     .operations
@@ -355,9 +371,11 @@ impl ProgramInstance {
             "lemmalog_install_rules" if self.agent.is_some() => {
                 Err("Create a new instance to replace a registered agent program".into())
             }
-            "lemmalog_install_rules" => self
-                .backend
-                .install(string(a, "rules")?, a["schemas"].clone()),
+            "lemmalog_install_rules" => self.backend.install_with_operators(
+                string(a, "rules")?,
+                a["schemas"].clone(),
+                &parse_operators(a)?,
+            ),
             "apply_changes" => {
                 if self.agent.is_some()
                     && a["changes"].as_array().is_some_and(|changes| {
@@ -487,6 +505,16 @@ fn string<'a>(value: &'a Value, key: &str) -> Result<&'a str, String> {
         .as_str()
         .ok_or_else(|| format!("Missing string field: {key}"))
 }
+fn parse_operators(value: &Value) -> Result<Vec<super::star::Operator>, String> {
+    value
+        .get("operators")
+        .map(|operators| {
+            serde_json::from_value(operators.clone())
+                .map_err(|error| format!("Invalid operators: {error}"))
+        })
+        .transpose()
+        .map(Option::unwrap_or_default)
+}
 pub(super) fn rpc_error(id: Value, code: i64, message: &str) -> Value {
     json!({"jsonrpc":"2.0","id":id,"error":{"code":code,"message":message}})
 }
@@ -496,7 +524,7 @@ fn registry_tools() -> Value {
     let reference = json!({"type":"object","properties":{"processor_id":{"type":"string"},"version":{"type":"string"}},"required":["processor_id","version"],"additionalProperties":false});
     let interface = json!({"type":"object","properties":{"inputs":{"type":"array","items":{"type":"string"}},"outputs":{"type":"array","items":{"type":"string"},"minItems":1}},"required":["inputs","outputs"],"additionalProperties":false});
     let definition = json!({"oneOf":[
-        {"type":"object","properties":{"rules":{"type":"string"},"schemas":{"type":"object"},"interface":interface,"operation":{"type":["object","null"],"properties":{"name":{"type":"string"},"version":{"type":"string"},"description":{"type":"string"}},"required":["name","version","description"],"additionalProperties":false}},"required":["rules","schemas"],"additionalProperties":false},
+        {"type":"object","properties":{"rules":{"type":"string"},"schemas":{"type":"object"},"interface":interface,"operators":operator_schema(),"operation":{"type":["object","null"],"properties":{"name":{"type":"string"},"version":{"type":"string"},"description":{"type":"string"}},"required":["name","version","description"],"additionalProperties":false}},"required":["rules","schemas"],"additionalProperties":false},
         {"type":"object","properties":{"composition":{"type":"object","properties":{
             "nodes":{"type":"object","minProperties":1,"additionalProperties":reference},
             "inputs":{"type":"object","additionalProperties":{"type":"object","properties":{"fields":{"type":"array","items":{"enum":["int","string"]},"minItems":1},"targets":{"type":"array","items":endpoint,"minItems":1}},"required":["fields","targets"],"additionalProperties":false}},
@@ -524,6 +552,56 @@ fn registry_tools() -> Value {
 #[cfg(test)]
 mod interface_tests {
     use super::*;
+    #[test]
+    fn operator_schema_is_shared_by_direct_and_saved_programs() {
+        let direct = tools();
+        let saved = registry_tools();
+        let create = saved
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|tool| tool["name"] == "processor_create")
+            .unwrap();
+        assert_eq!(
+            direct[0]["inputSchema"]["properties"]["operators"],
+            create["inputSchema"]["properties"]["definition"]["oneOf"][0]["properties"]
+                ["operators"]
+        );
+        assert_eq!(
+            operator_schema()["items"]["properties"]["type"]["const"],
+            "large_small_star"
+        );
+        assert_eq!(operator_schema()["items"]["additionalProperties"], false);
+    }
+    #[test]
+    fn operator_arguments_are_typed_and_default_empty() {
+        assert!(parse_operators(&json!({})).unwrap().is_empty());
+        let value = json!({"operators":[{"type":"large_small_star","vertices":"v","edges":"e","output":"labels"}]});
+        let operators = parse_operators(&value).unwrap();
+        assert_eq!(operators[0].relations(), ("v", "e", "labels"));
+        for value in [
+            json!({"operators":null}),
+            json!({"operators":[{"type":"native_source","path":"code.rs"}]}),
+        ] {
+            assert!(parse_operators(&value)
+                .unwrap_err()
+                .contains("Invalid operators"));
+        }
+    }
+    #[test]
+    fn direct_registered_install_rejects_operators_before_build() {
+        let backend = Backend::new("unused-star-test".into(), "unused-star-driver".into());
+        let mut instance = ProgramInstance::new(backend, BTreeMap::new(), None, None);
+        let error = instance.call("install_agent_program", &json!({
+            "operation":"review","rules":"","schemas":{},
+            "operators":[{"type":"large_small_star","vertices":"v","edges":"e","output":"labels"}]
+        })).unwrap_err();
+        assert!(
+            error.contains("operators") && error.contains("registered operation"),
+            "{error}"
+        );
+        assert_eq!(instance.backend.health(), "uninitialized");
+    }
     #[test]
     fn interface_filters_private_deltas_without_rewriting_values() {
         let interface = PublicInterface {

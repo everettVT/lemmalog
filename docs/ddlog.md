@@ -16,6 +16,9 @@ executable path; only the operator configures it. Start the built server as an
 MCP stdio process. For independently attached clients sharing one program, see
 [shared instances and processor versions](shared-instances.md). Explicit typed
 [composition](composition.md) connects exact saved versions in one graph.
+Programs can also declare a typed [Large-Star/Small-Star connected-components
+operator](large-small-star.md), lowered to a native Differential iteration in
+that same graph. Ordinary recursive/aggregate rule syntax remains unsupported.
 
 Tool calls use typed schema declarations. Example installation arguments:
 

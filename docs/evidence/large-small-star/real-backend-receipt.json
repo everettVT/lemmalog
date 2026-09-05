@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "backend": "official DDlog / Differential Dataflow",
+  "algorithm": "alternating_large_star_small_star",
+  "server_sha256": "3920135e89b973ac4b41dd153b60c006244ef51a65cdc9fa2055a1f07d2aba84",
+  "checks": [
+    "registered_and_composed_ordinary_program_with_pinned_native_operator",
+    "bridge_merge_split_isolates_signed_ids_duplicate_reverse_support_and_endpoint_removal",
+    "independent_pipe_clients_disconnect_reconnect_retains_instance",
+    "relabeled_path_80_mutations_and_complete_retraction_match_independent_bfs",
+    "explicit_stop_and_bounded_cleanup"
+  ],
+  "processor": {
+    "processor_id": "processor_5ff3b27cb0065ccaa1fc14d599423d6f",
+    "version": "sha256:965e21f112c6d15d3e19612519232059308616d828f17e41b6cd0c188fc62cdc"
+  },
+  "leaf_processor": {
+    "processor_id": "processor_2c130a5f45a9412b9aa48ba8067c8112",
+    "version": "sha256:3d94c79b90a6cf86bbf90262b6a9557813d0b07305dce034f771b5aa6a1973fc"
+  },
+  "build": {
+    "program.dl": {
+      "sha256": "f07707494bcaf69e4c3030007685805bccd78c319fe5c335c7093862902019ee",
+      "bytes": 1699
+    },
+    "lemmalog_star.dl": {
+      "sha256": "185d130ea9974275a58bfbc155eac7779f500f5c663e0f39d88383fa5d1c52cb",
+      "bytes": 674
+    },
+    "lemmalog_star.rs": {
+      "sha256": "b6b434bcaea589bee1bb1204700634390d2c2b7909c9158653aeb0a8726f185e",
+      "bytes": 3483
+    },
+    "program_cli": {
+      "sha256": "45eca6cbd741886548ab38d83f32cd8682894ea558a43cc6688e099b3506bb6d",
+      "bytes": 245697344
+    },
+    "build.log": {
+      "sha256": "c524165f81c91572446627a43f466d42ebb4b68a13ba0bb8fece368742f6b2a8",
+      "bytes": 3639
+    }
+  },
+  "native_builds": 1,
+  "cleanup_errors": [],
+  "snapshot_count": 98,
+  "rpc_count": 198,
+  "raw_receipt_sha256": "e5d5c4c712cc013b8801b4c5c831f8c05d7d6c874b5e39f5d0ea7183293e9f15",
+  "snapshots_sha256": "e69e10d42ceefe3af9bcaa50e46e0c74f6eae5b1b13097d9703e18bbbd0d993d",
+  "rpc_sha256": "19ac4f0dd73676dd63fa50867d39d28b9289904f439943fb0243309dd574d64b"
+}
