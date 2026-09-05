@@ -1,0 +1,27 @@
+test_exact_escaped_multiline_content (test_inference_oracle.InferenceOracleTests.test_exact_escaped_multiline_content) ... ok
+test_stale_response_excluded_and_owner_join_independent (test_inference_oracle.InferenceOracleTests.test_stale_response_excluded_and_owner_join_independent) ... ok
+test_unexpected_record_rejected (test_inference_oracle.InferenceOracleTests.test_unexpected_record_rejected) ... ok
+test_canonical_public_hash_binding_and_defaults (test_inference_worker.ConfigTests.test_canonical_public_hash_binding_and_defaults) ... ok
+test_cli_does_not_offer_or_echo_credentials (test_inference_worker.ConfigTests.test_cli_does_not_offer_or_echo_credentials) ... ok
+test_duplicate_config_fields_are_rejected_without_echoing_values (test_inference_worker.ConfigTests.test_duplicate_config_fields_are_rejected_without_echoing_values) ... ok
+test_strict_schema_endpoint_and_numeric_bounds (test_inference_worker.ConfigTests.test_strict_schema_endpoint_and_numeric_bounds) ... ok
+test_mcp_connect_initializes_and_serializes_independent_rpc_ids (test_inference_worker.TransportTests.test_mcp_connect_initializes_and_serializes_independent_rpc_ids) ... ok
+test_mcp_eof_is_uncertain_and_never_reconnects (test_inference_worker.TransportTests.test_mcp_eof_is_uncertain_and_never_reconnects) ... ok
+test_mcp_malformed_identity_or_shape_breaks_pipe_without_replay (test_inference_worker.TransportTests.test_mcp_malformed_identity_or_shape_breaks_pipe_without_replay) ... ok
+test_mcp_oversized_request_is_rejected_before_write (test_inference_worker.TransportTests.test_mcp_oversized_request_is_rejected_before_write) ... ok
+test_modal_cli_uses_stdin_profile_and_sanitized_result (test_inference_worker.TransportTests.test_modal_cli_uses_stdin_profile_and_sanitized_result) ... ok
+test_provider_invalid_schema_and_output_cap_never_settle (test_inference_worker.TransportTests.test_provider_invalid_schema_and_output_cap_never_settle) ... ok
+test_provider_nonzero_timeout_and_response_cap_are_uncertain_once (test_inference_worker.TransportTests.test_provider_nonzero_timeout_and_response_cap_are_uncertain_once) ... ok
+test_bind_verifies_exact_pin_and_three_field_operation_before_provider (test_inference_worker.WorkerTests.test_bind_verifies_exact_pin_and_three_field_operation_before_provider) ... ok
+test_claim_identity_mismatch_never_calls_provider (test_inference_worker.WorkerTests.test_claim_identity_mismatch_never_calls_provider) ... ok
+test_cli_retains_exact_prepared_result_when_settlement_fails (test_inference_worker.WorkerTests.test_cli_retains_exact_prepared_result_when_settlement_fails) ... ok
+test_dispatch_holds_result_and_stale_settlement_passes_through (test_inference_worker.WorkerTests.test_dispatch_holds_result_and_stale_settlement_passes_through) ... ok
+test_duplicate_claim_never_calls_provider_again (test_inference_worker.WorkerTests.test_duplicate_claim_never_calls_provider_again) ... ok
+test_maximum_two_concurrent_provider_calls (test_inference_worker.WorkerTests.test_maximum_two_concurrent_provider_calls) ... ok
+test_provider_failure_never_completes_or_retries (test_inference_worker.WorkerTests.test_provider_failure_never_completes_or_retries) ... ok
+test_settlement_rechecks_bound_instance_and_validates_exact_output (test_inference_worker.WorkerTests.test_settlement_rechecks_bound_instance_and_validates_exact_output) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.219s
+
+OK

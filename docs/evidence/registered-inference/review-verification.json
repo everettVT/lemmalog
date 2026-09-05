@@ -1,0 +1,36 @@
+{
+  "original_commit": "409419ed88ad5582e33587581edd3217e493dd46",
+  "original_real_run_worker_sha256": "f037ae70c7c0b22eb8470d1a9ef6dba3a016a138f58dbc80448bd51fd5072a98",
+  "corrected_worker_sha256": "8cbf05517d7678aad3321125a49c14b3fee3895884b530015e3914a24b096565",
+  "corrected_tests_sha256": "93c545daa958433748ca8ab2913ff67af7fdbf448c10e73da010f09d5e37b231",
+  "baseline_regressions": {
+    "oversized_combined_completion": "failed: prepared response missing",
+    "empty_successful_settlement": "failed: passed incorrectly true",
+    "malformed_acknowledgements": "10 cases failed: connection remained usable"
+  },
+  "current_tests": {
+    "passed": 27,
+    "worker": 24,
+    "independent_oracle": 3,
+    "malformed_ack_cases": 12,
+    "recorded_real_acknowledgements_replayed": 4
+  },
+  "new_provider_calls": 0,
+  "new_native_compilations": 0,
+  "evidence_scope": "Original live run is unchanged and belongs to the original worker hash. Corrected code is verified by controlled regressions and replay of four recorded real acknowledgements, not a new live-provider run.",
+  "raw_log_sha256": {
+    "review-regression-before-oversize.log": "aec2f6b109e68049e7ae9891284af595ec6441bb4c401f0ae3a8c94863be2e69",
+    "review-regression-before-settlement.log": "ef3e881130f1da436fc13cfe649e1d43ff7c0eac92c48fc77a02dcfe2aaca90d",
+    "review-regression-before-pipe.log": "9b80bdeb11c40db4cef347d0676d83b52884f4c78d11289e4324afb40633db9f",
+    "review-regression-after.log": "e9e70e0568ca4c4bfd6d149aab385c5b6372f2ceb196947901d06073d6281982"
+  },
+  "published_log_sha256": {
+    "review-regression-before-oversize.log": "005ff9b91c72d58e4d9b4abb8354a861817f8b43112d3cec580a47efb1ba9f93",
+    "review-regression-before-settlement.log": "86b1df649a3ecea38353bb4823ceae3497705a57e830a7156d9219cfc9cbe358",
+    "review-regression-before-pipe.log": "ab4699f37d4fabd4fc32dab2fa545a63c499a8fd5ad9dc9a86a588e6955228ca",
+    "review-regression-after.log": "e9e70e0568ca4c4bfd6d149aab385c5b6372f2ceb196947901d06073d6281982"
+  },
+  "sanitization": [
+    "incidental source worktree and Python installation paths replaced; all assertions and outcomes preserved"
+  ]
+}

@@ -1,0 +1,22 @@
+input relation R_agent_claimed(f0: string)
+input relation R_agent_current(f0: string, f1: string)
+output relation R_agent_finished(f0: string)
+input relation R_agent_intent(f0: string, f1: string, f2: signed<64>, f3: string)
+output relation R_agent_pending(f0: string, f1: string, f2: signed<64>, f3: string)
+input relation R_agent_response(f0: string, f1: string)
+output relation R_agent_result(f0: string, f1: signed<64>, f2: string)
+output relation R_agent_running(f0: string)
+input relation R_owner(f0: string, f1: string)
+output relation R_reviewed(f0: string, f1: signed<64>, f2: string)
+output relation R_routed(f0: string, f1: signed<64>, f2: string, f3: string)
+output relation Evidence0(v_E: string, v_O: string, v_R: signed<64>)
+Evidence0(v_E, v_O, v_R) :- R_agent_result(v_E, v_R, v_O).
+R_reviewed(v_E, v_R, v_O) :- Evidence0(v_E, v_O, v_R).
+output relation Evidence1(v_E: string, v_O: string, v_R: signed<64>, v_T: string)
+Evidence1(v_E, v_O, v_R, v_T) :- R_agent_result(v_E, v_R, v_O), R_owner(v_E, v_T).
+R_routed(v_E, v_R, v_O, v_T) :- Evidence1(v_E, v_O, v_R, v_T).
+
+R_agent_finished(id) :- R_agent_response(id, _).
+R_agent_pending(id, entity, revision, payload) :- R_agent_intent(id, entity, revision, payload), R_agent_current(entity, id), not R_agent_finished(id), not R_agent_claimed(id).
+R_agent_running(id) :- R_agent_claimed(id), R_agent_intent(id, entity, _, _), R_agent_current(entity, id), not R_agent_finished(id).
+R_agent_result(entity, revision, response_value) :- R_agent_intent(id, entity, revision, _), R_agent_current(entity, id), R_agent_response(id, response_value).

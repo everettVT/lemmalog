@@ -1,0 +1,204 @@
+{
+  "passed": true,
+  "backend": "official DDlog / Differential Dataflow",
+  "provider": "actual external Modal endpoint",
+  "server_sha256": "3920135e89b973ac4b41dd153b60c006244ef51a65cdc9fa2055a1f07d2aba84",
+  "checks": [
+    "I1_exact_config_operation_program_instance_binding",
+    "I2_I3_independent_client_graph_responsive_claim_once_before_provider",
+    "I4_two_actual_responses_latest_visible_stale_retained",
+    "I5_duplicate_completion_idempotent_conflict_and_duplicate_claim_rejected",
+    "I6_ordinary_input_rederives_exact_text_without_third_provider_call",
+    "I8_one_native_graph_two_provider_calls_bounded_cleanup"
+  ],
+  "provider_calls": [
+    {
+      "ordinal": 1,
+      "payload": "{\"item\": \"synthetic delivery note\", \"revision\": 1, \"text\": \"Package A is awaiting review.\"}",
+      "started_at": "2026-09-05T23:24:16.889159+00:00",
+      "result": {
+        "content": "{\"revision\": 1, \"summary\": \"Synthetic delivery note: Package A is awaiting review.\"}",
+        "model": "zai-org/GLM-5.3-Flash",
+        "id": "c85a83a1af2d4efba53f7510a58f546b",
+        "usage": {
+          "prompt_tokens": 81,
+          "completion_tokens": 34,
+          "total_tokens": 115
+        },
+        "finish_reason": "stop",
+        "request_sha256": "23eae9743f436962eb878d813595c046fbe1d8ed067412b2996c4f556b88267e",
+        "response_sha256": "e971f41115cff7ed737decd1f02b22b17ec59d04de1d2f1d699f14df2439eaa7",
+        "config_sha256": "817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce"
+      },
+      "elapsed_seconds": 4.249
+    },
+    {
+      "ordinal": 2,
+      "payload": "{\"item\": \"synthetic delivery note\", \"revision\": 2, \"text\": \"Package A is approved for dispatch.\"}",
+      "started_at": "2026-09-05T23:24:21.144019+00:00",
+      "result": {
+        "content": "{\"revision\": 2, \"summary\": \"Synthetic delivery note stating that Package A is approved for dispatch.\"}",
+        "model": "zai-org/GLM-5.3-Flash",
+        "id": "421a4eef10ca40e880bacf30538bc8c8",
+        "usage": {
+          "prompt_tokens": 82,
+          "completion_tokens": 36,
+          "total_tokens": 118
+        },
+        "finish_reason": "stop",
+        "request_sha256": "31615e7bae609452b3832ab6eaf13641691947c0175602c397b4ae945fc06e44",
+        "response_sha256": "29d5c3e4b7cdebe593240483ca0bd07d5660abe4a4a18aece88a2edcdfdf7879",
+        "config_sha256": "817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce"
+      },
+      "elapsed_seconds": 0.852
+    }
+  ],
+  "implementation_sha256": {
+    "lemmalog_inference_worker.py": "f037ae70c7c0b22eb8470d1a9ef6dba3a016a138f58dbc80448bd51fd5072a98",
+    "inference_oracle.py": "03762f2ce9780fc63277bf0f22a372be54f71b80c3016da19761cbb422fafb11",
+    "test-registered-inference.py": "1b387e49544366bab6f09a42c9e05fead26567ecfed156fabce9f88ce8335c71"
+  },
+  "configuration": {
+    "format_version": 1,
+    "operation": "summarize",
+    "endpoint": "https://vangelis-tech--ep-glm-5-3-flash-server.us-west.modal.direct/v1/chat/completions",
+    "model": "zai-org/GLM-5.3-Flash",
+    "system_prompt": "Summarize the synthetic work item in the user message. Return one concise JSON object with revision and summary fields. This is a transport and revision-handling exercise, not a benchmark. Do not call tools.",
+    "max_tokens": 32768,
+    "temperature": 0.3,
+    "top_p": 0.9,
+    "reasoning_effort": "high",
+    "reasoning_enabled": true
+  },
+  "config_sha256": "817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce",
+  "operation": {
+    "name": "summarize",
+    "version": "sha256:817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce",
+    "description": "External inference model zai-org/GLM-5.3-Flash; public config sha256:817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce"
+  },
+  "definition": {
+    "operation": {
+      "name": "summarize",
+      "version": "sha256:817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce",
+      "description": "External inference model zai-org/GLM-5.3-Flash; public config sha256:817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce"
+    },
+    "rules": "reviewed(E,R,O) :- agent_result(E,R,O).\nrouted(E,R,O,T) :- agent_result(E,R,O), owner(E,T).",
+    "schemas": {
+      "owner": {
+        "input": true,
+        "fields": [
+          "string",
+          "string"
+        ]
+      },
+      "reviewed": {
+        "input": false,
+        "fields": [
+          "string",
+          "int",
+          "string"
+        ]
+      },
+      "routed": {
+        "input": false,
+        "fields": [
+          "string",
+          "int",
+          "string",
+          "string"
+        ]
+      }
+    },
+    "interface": {
+      "inputs": [
+        "owner"
+      ],
+      "outputs": [
+        "reviewed",
+        "routed"
+      ]
+    }
+  },
+  "processor": {
+    "processor_id": "processor_d3e3468e560a1135558ff06ca84ac674",
+    "version": "sha256:3e0d1d871f77d5cc66fc6c8439db025baf6eeb2001b40c459da7f4f80e34f29e"
+  },
+  "binding": {
+    "instance_id": "a25dfc7e99d7c5e20fb77cd11f19e48b",
+    "processor": {
+      "processor_id": "processor_d3e3468e560a1135558ff06ca84ac674",
+      "version": "sha256:3e0d1d871f77d5cc66fc6c8439db025baf6eeb2001b40c459da7f4f80e34f29e"
+    },
+    "operation": {
+      "name": "summarize",
+      "version": "sha256:817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce",
+      "description": "External inference model zai-org/GLM-5.3-Flash; public config sha256:817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce"
+    },
+    "config_sha256": "817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce"
+  },
+  "held_revision_1": {
+    "request_id": "[\"summarize\",\"sha256:817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce\",\"item\",1,\"{\\\"item\\\": \\\"synthetic delivery note\\\", \\\"revision\\\": 1, \\\"text\\\": \\\"Package A is awaiting review.\\\"}\"]",
+    "operation": "summarize",
+    "operation_version": "sha256:817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce",
+    "instance_id": "a25dfc7e99d7c5e20fb77cd11f19e48b",
+    "processor_id": "processor_d3e3468e560a1135558ff06ca84ac674",
+    "processor_version": "sha256:3e0d1d871f77d5cc66fc6c8439db025baf6eeb2001b40c459da7f4f80e34f29e",
+    "provider": {
+      "content": "{\"revision\": 1, \"summary\": \"Synthetic delivery note: Package A is awaiting review.\"}",
+      "model": "zai-org/GLM-5.3-Flash",
+      "id": "c85a83a1af2d4efba53f7510a58f546b",
+      "usage": {
+        "prompt_tokens": 81,
+        "completion_tokens": 34,
+        "total_tokens": 115
+      },
+      "finish_reason": "stop",
+      "request_sha256": "23eae9743f436962eb878d813595c046fbe1d8ed067412b2996c4f556b88267e",
+      "response_sha256": "e971f41115cff7ed737decd1f02b22b17ec59d04de1d2f1d699f14df2439eaa7",
+      "config_sha256": "817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce"
+    }
+  },
+  "revision_2": {
+    "request_id": "[\"summarize\",\"sha256:817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce\",\"item\",2,\"{\\\"item\\\": \\\"synthetic delivery note\\\", \\\"revision\\\": 2, \\\"text\\\": \\\"Package A is approved for dispatch.\\\"}\"]",
+    "operation": "summarize",
+    "operation_version": "sha256:817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce",
+    "instance_id": "a25dfc7e99d7c5e20fb77cd11f19e48b",
+    "processor_id": "processor_d3e3468e560a1135558ff06ca84ac674",
+    "processor_version": "sha256:3e0d1d871f77d5cc66fc6c8439db025baf6eeb2001b40c459da7f4f80e34f29e",
+    "provider": {
+      "content": "{\"revision\": 2, \"summary\": \"Synthetic delivery note stating that Package A is approved for dispatch.\"}",
+      "model": "zai-org/GLM-5.3-Flash",
+      "id": "421a4eef10ca40e880bacf30538bc8c8",
+      "usage": {
+        "prompt_tokens": 82,
+        "completion_tokens": 36,
+        "total_tokens": 118
+      },
+      "finish_reason": "stop",
+      "request_sha256": "31615e7bae609452b3832ab6eaf13641691947c0175602c397b4ae945fc06e44",
+      "response_sha256": "29d5c3e4b7cdebe593240483ca0bd07d5660abe4a4a18aece88a2edcdfdf7879",
+      "config_sha256": "817f0103e88886f09ca0603d4c11741c90a18e1c9d0db1e872d8ae6bb264cbce"
+    }
+  },
+  "cleanup_errors": [],
+  "build": {
+    "program.dl": {
+      "sha256": "d209158ed4627eaf366ad48d95575c28fd3c8c838ea44805743a12ce1e1220df",
+      "bytes": 1602
+    },
+    "program_cli": {
+      "sha256": "bf1071a24ab30b01d8d925e4306d2f68781b67f994bd4954942642784866385a",
+      "bytes": 231674512
+    },
+    "build.log": {
+      "sha256": "b894b8202c6692b163bdef8e8be4c11dcd90592ecb757f9efcbb6510da4849f1",
+      "bytes": 3486
+    }
+  },
+  "native_builds": 1,
+  "rpc_file": "rpc.jsonl",
+  "snapshot_file": "snapshots.jsonl",
+  "rpc_count": 40,
+  "snapshot_count": 7,
+  "raw_receipt_sha256": "357aeb8b76802ee210da82da2d8b814cf100ea52fa8e729b995431aebc79230d"
+}

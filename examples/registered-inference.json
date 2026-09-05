@@ -1,0 +1,12 @@
+{
+  "format_version": 1,
+  "operation": "summarize",
+  "endpoint": "https://vangelis-tech--ep-glm-5-3-flash-server.us-west.modal.direct/v1/chat/completions",
+  "model": "zai-org/GLM-5.3-Flash",
+  "system_prompt": "Summarize the synthetic work item in the user message. Return one concise JSON object with revision and summary fields. This is a transport and revision-handling exercise, not a benchmark. Do not call tools.",
+  "max_tokens": 32768,
+  "temperature": 0.3,
+  "top_p": 0.9,
+  "reasoning_effort": "high",
+  "reasoning_enabled": true
+}

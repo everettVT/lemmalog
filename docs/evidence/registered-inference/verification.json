@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "unit_tests": {
+    "passed": 22,
+    "worker": 19,
+    "independent_oracle": 3,
+    "provider_and_mcp": "controlled doubles"
+  },
+  "real": {
+    "native_compilations": 1,
+    "provider_calls": 2,
+    "output_snapshots": 7,
+    "tool_exchanges": 40,
+    "provider_finish_reasons": [
+      "stop",
+      "stop"
+    ],
+    "cleanup_errors": []
+  },
+  "tested_base": "849460f930b3856f5025b46bf75fdbf83464b947",
+  "rust_server_changes": false,
+  "implementation_sha256": {
+    "lemmalog_inference_worker.py": "f037ae70c7c0b22eb8470d1a9ef6dba3a016a138f58dbc80448bd51fd5072a98",
+    "inference_oracle.py": "03762f2ce9780fc63277bf0f22a372be54f71b80c3016da19761cbb422fafb11",
+    "test-registered-inference.py": "1b387e49544366bab6f09a42c9e05fead26567ecfed156fabce9f88ce8335c71"
+  },
+  "native_environment": "retained official DDlog v1.2.3 and offline Rust1.65.0, existing shared target, no dependency downloads",
+  "raw_receipt_sha256": "357aeb8b76802ee210da82da2d8b814cf100ea52fa8e729b995431aebc79230d",
+  "raw_build_log_sha256": "b894b8202c6692b163bdef8e8be4c11dcd90592ecb757f9efcbb6510da4849f1",
+  "sanitization": [
+    "incidental local filesystem roots replaced with descriptive placeholders",
+    "raw_directory omitted",
+    "color escapes and trailing whitespace removed from logs",
+    "synthetic input, exact content, endpoint/model/config, pins and all tool results retained",
+    "native executable retained locally, not published",
+    "credentials never extracted or recorded; provider reasoning transcript not retained"
+  ],
+  "published_files_sha256": {
+    "native-build.log": "f3d57d5dc91ca43a6e9fc92a34a4175b0c3949a02587567253095b4cb9345f62",
+    "program.dl": "d209158ed4627eaf366ad48d95575c28fd3c8c838ea44805743a12ce1e1220df",
+    "real-backend-receipt.json": "e92e77cf76e611db0f115bd25ffdd4a3d93e60dac0eb6f9cc4a1a174c1165036",
+    "real-run.log": "c6563c6b40ba3f76a2adb59675d3c9db808c06ba8f91c597f74137917ef9fd8e",
+    "rpc.jsonl": "ca78abe73a4aab26b68f8334542a8f889c60af059c6c01fd7182a308324b8bbd",
+    "snapshots.jsonl": "2791399b97a984103834b876eb53d54808d4c58e011e38df7a05db6b84a15798",
+    "unit-tests.log": "de36a57d50805a5cef21e139df2fdbcf654a17d4863de1d6ab2ae7a36ccdf8da"
+  },
+  "limits": [
+    "session-local requests and claims",
+    "no durable queue, leases, claimant authentication, or remote cancellation guarantee",
+    "no automatic inference scheduling or uncertain retries",
+    "no OS security sandbox",
+    "configured model name does not identify immutable weights",
+    "protocol test, not quality or throughput benchmark",
+    "no new Rust MCP tools or native operator; no Rust tests rerun and no CI workflow added"
+  ]
+}

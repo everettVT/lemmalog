@@ -1,0 +1,20 @@
+F
+======================================================================
+FAIL: test_cli_rejects_empty_successful_settlement_and_retains_prepared (test_inference_worker.WorkerTests.test_cli_rejects_empty_successful_settlement_and_retains_prepared)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PYTHON_RUNTIME>/lib/python3.14/asyncio/runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "<PYTHON_RUNTIME>/lib/python3.14/asyncio/base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "<SOURCE_WORKTREE>/tests/test_inference_worker.py", line 193, in test_cli_rejects_empty_successful_settlement_and_retains_prepared
+    self.assertFalse(receipt['passed'], 'An empty success payload does not establish settlement')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false : An empty success payload does not establish settlement
+
+----------------------------------------------------------------------
+Ran 1 test in 0.017s
+
+FAILED (failures=1)

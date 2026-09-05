@@ -1,0 +1,20 @@
+F
+======================================================================
+FAIL: test_cli_retains_paid_response_when_combined_completion_is_oversized (test_inference_worker.WorkerTests.test_cli_retains_paid_response_when_combined_completion_is_oversized)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PYTHON_RUNTIME>/lib/python3.14/asyncio/runners.py", line 128, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "<PYTHON_RUNTIME>/lib/python3.14/asyncio/base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "<SOURCE_WORKTREE>/tests/test_inference_worker.py", line 169, in test_cli_retains_paid_response_when_combined_completion_is_oversized
+    self.assertIn('prepared', result, 'Already-paid provider response must survive local completion rejection')
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'prepared' not found in {'request_id_sha256': 'ad80a4380966a773364b6b882056c578329ad81f6eb21ccd64fc4c87017369e3', 'error': 'Exact completion including its request identity exceeds the 1 MiB MCP frame limit; no completion sent, use a smaller future input/output budget', 'uncertain': True, 'completed': False} : Already-paid provider response must survive local completion rejection
+
+----------------------------------------------------------------------
+Ran 1 test in 0.028s
+
+FAILED (failures=1)
