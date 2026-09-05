@@ -64,7 +64,7 @@ No arguments still runs one isolated stdio-owned program, ending on stdin EOF.
 Standalone compiler/runtime children remain in the client process group so the
 existing relay can terminate that group. The original four tools are retained when no operation/processor registry is
 configured. Hosted mode adds `instance_info`; a configured processor registry
-adds the five processor tools below. MCP still advertises `2024-11-05` over stdio;
+adds the nine processor tools below. MCP still advertises `2024-11-05` over stdio;
 the internal Unix socket does not require custom transport support in clients.
 
 ## Processor identity and immutable definitions
@@ -77,7 +77,9 @@ creation timestamps, MCP request IDs, entity revisions, or DDlog install counter
 UUIDv7 is unnecessary here: ordering is metadata, while content identity must stay
 stable for the same exact definition.
 
-A definition contains `rules`, `schemas`, and optionally an operation binding:
+A program definition contains `rules`, `schemas`, optionally an explicit interface,
+and optionally an operation binding. A composition definition instead contains an
+exact-version manifest, described in [composition.md](composition.md):
 
 ```json
 {
@@ -110,6 +112,10 @@ not invoke Git or attest that a commit contains the definition.
 | `processor_publish` | `processor_id`, `expected_version`, `definition`, optional `git_provenance`; advances current only if the old version matches |
 | `processor_fork` | `processor_id`, exact `version`, optional `git_provenance`; creates a new identity whose lineage references that source version |
 | `processor_install` | `processor_id`, optional `version`; selects current once or an explicit version, compiles it, and pins a fresh instance |
+| `processor_list` | `limit`, `after`, `include_archived`; bounded discovery in stable-identity order |
+| `processor_search` | `query` plus list options; literal case-insensitive substring search |
+| `processor_archive` | `processor_id`, `expected_version`, `expected_revision`; preserves definitions while retiring the identity from active use |
+| `processor_restore` | Same lifecycle preconditions; restores active discovery and eligibility without compiling or running |
 
 `processor_install` means compile and activate the selected saved program in an
 instance; it does not install software. Creating or publishing a definition
@@ -229,3 +235,58 @@ through `CARGO_TARGET_DIR`. Do not run concurrent compilers against the same tar
 because the driver copies its resulting executable. No provider inference is
 needed. Native HTTP, per-client roles, graph crash recovery, and fact-state CAS
 are intentionally outside these accepted local-instance requirements.
+
+## Discover, archive and restore definitions
+
+`processor_list` returns saved definitions ordered by stable processor identity.
+`processor_search` uses a case-insensitive literal substring of the identity,
+current version, or compact authored definition JSON; an empty query is a list.
+There is no relevance ranking or separate search index.
+
+Both take `limit` (1–100, default 20), optional `after`, and optional
+`include_archived` (default false). Pass the returned `next_cursor` as `after` to
+continue with the same query and options. Results include identity, current
+version, content hash, version creation time, kind, lineage, and `status` (`active`
+or `archived`) plus `lifecycle_revision`; archived entries also carry their archive time. Pagination uses
+sorted identity keys, not offsets or a snapshot. Concurrent additions before the
+cursor may not appear, and concurrent publication/archive may change later pages.
+
+`processor_archive({processor_id, expected_version, expected_revision})` changes
+active to archived. `processor_restore` with the same argument shape changes
+archived to active. Neither compiles or runs a program. The initial lifecycle
+revision is 0; every actual transition increments it, independently of code
+publication. Both the expected current code version and lifecycle revision must
+match. Conflicts report expected/current state and direct the caller to inspect
+and reconsider the operation before submitting new preconditions.
+
+A same-state call with the current revision is a no-op: it preserves the revision
+and change time. Revision 0 has no lifecycle change time (`null`); later
+transitions record a timestamp. Code publication does not advance this clock.
+Repeating an earlier request with its old revision fails as
+stale, even if archive followed by restore returned to the same status and code
+version. No transport retry token is implied. Read the current summary before
+acting on an uncertain previous response. Committed lifecycle transitions are
+retained in separate immutable revision records with an atomic current lifecycle
+pointer; no source, version, lineage, or build artifact is deleted. Transition
+events retain the code version selected at that event. API lifecycle state pairs
+the last lifecycle revision/time with the current code version, so later code
+publication does not rewrite old event records.
+
+Archived identities disappear from default discovery. They remain visible with
+`include_archived: true`, and `processor_get` with an exact version remains
+readable. Current-version lookup, publication, new forks from that identity, and
+new direct installation are rejected. Installation checks active status when it
+selects a version; archival does not cancel an installation already admitted.
+Running instances and existing fork identities retain their pins and behavior.
+Restoring the identity makes current lookup and new use available again without
+changing its current code version, immutable history, or any running graph.
+
+An existing composition retains its exact archived dependencies and remains
+readable and installable. New composition publication and new forks of
+compositions require active dependencies. This keeps historical compositions
+usable while preventing new authored references to archived code. Archiving a
+composition itself prevents its new direct installation, while its running
+instances remain unchanged. Archival never acts as garbage collection.
+
+Programs can declare interfaces and compose exact saved versions using the same
+registry and lifecycle tools; see [composition.md](composition.md).

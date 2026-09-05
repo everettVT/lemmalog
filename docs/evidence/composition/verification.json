@@ -1,0 +1,52 @@
+{
+  "backend_executable_sha256": "5f0cd0d0d625a4df30a30ac394f9b0956b354c998ee96fc7b94cffee9ec69795",
+  "checks": [
+    {
+      "command": "cargo test --offline --features mcp",
+      "passed": true,
+      "tests_passed": 102,
+      "tests_failed": 0,
+      "scope": "Complete Rust suite on final production source, including 17 registry and 13 composition contracts."
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p test_composition_mcp.py -v",
+      "passed": true,
+      "tests_passed": 6,
+      "scope": "Real Rust server/stdio/socket interfaces with explicitly simulated runtime; not DDlog graph evaluation."
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p test_shared_host.py -v",
+      "passed": true,
+      "tests_passed": 13,
+      "scope": "Existing real-owner failure, framing, concurrency and cleanup contracts with simulated runtime."
+    },
+    {
+      "command": "python3 scripts/test-composition.py",
+      "passed": true,
+      "grouped_checks": 14,
+      "snapshots": 20,
+      "native_compilations": 5,
+      "successful_rerun_activation_mode": "Exact-source and executable-hash verified reuse of those five native programs after correcting a driver-only search assertion."
+    },
+    {
+      "check": "actual_two_agent_exchange",
+      "passed": true,
+      "reviewer_rpc_count": 5,
+      "native_compilations": 0,
+      "scope": "Author disconnect; independent reviewer query and three-input transaction; author reattach observes retained result; explicit stop removes host/native processes and endpoints."
+    }
+  ],
+  "known_driver_failure": {
+    "cause": "Search is a substring over authored definitions, so active programs referencing an archived ID also match. The driver incorrectly required an empty search page.",
+    "correction": "Assert absence of the archived identity within matching results; active referencing programs remain valid matches.",
+    "product_change_required": false,
+    "diagnostic_observation": "Returned identities/status plus the declared search semantics were enough to repair the assertion; no new diagnostic endpoint was needed."
+  },
+  "publication_audit": {
+    "synthetic_fixture_only": true,
+    "incidental_host_paths_removed_from_native_failure_log": true,
+    "raw_native_failure_log_sha256": "a97e3856735af38e25ace4a2e48105fc548ca8c95023e2f439f0f8ab9abacfef",
+    "native_failure_log_sanitized_sha256": "2137f192072f72ed0d905781c74d73f70075b65766c88541af6d8e10650ded75",
+    "raw_build_logs_and_native_executables_retained_outside_repository": true
+  }
+}
