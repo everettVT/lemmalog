@@ -103,3 +103,9 @@ independent set/join replay check across three entities, including a stale/fresh
 revision race and ownership updates. See [the authored run](evidence/registered-author/README.md).
 This uses current Codex reasoning, not an external inference endpoint or a mock
 classifier, and does not claim grammar-constrained decoding.
+
+An [external inference worker](registered-inference.md) now provides the finite
+provider execution path using these same tools. It binds explicit model/provider
+configuration to the operation version and keeps network work outside DDlog.
+Its [acceptance requirements](inference-requirements.md) distinguish controlled
+unit tests from the separate two-call real-provider exercise.

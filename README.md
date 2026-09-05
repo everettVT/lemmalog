@@ -110,6 +110,8 @@ immutable registry](docs/shared-instances.md), including discovery and archival,
 and [composition of exact processor versions in one graph](docs/composition.md).
 A typed [Large-Star/Small-Star operator](docs/large-small-star.md) maintains
 connected-component labels through edge additions and removals in that graph.
+An [external inference worker](docs/registered-inference.md) uses registered
+claims and responses to feed model text back into current, revision-aware rules.
 
 ## MCP server: use from Claude Code or Kimi CLI
 

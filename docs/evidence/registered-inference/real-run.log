@@ -1,0 +1,6 @@
+{"native_graph": "compiled_and_installed", "processor": {"processor_id": "processor_d3e3468e560a1135558ff06ca84ac674", "version": "sha256:3e0d1d871f77d5cc66fc6c8439db025baf6eeb2001b40c459da7f4f80e34f29e"}}
+{"provider_call": 1, "state": "started"}
+{"provider_call": 1, "state": "completed", "elapsed_seconds": 4.249}
+{"provider_call": 2, "state": "started"}
+{"provider_call": 2, "state": "completed", "elapsed_seconds": 0.852}
+{"passed": true, "checks": ["I1_exact_config_operation_program_instance_binding", "I2_I3_independent_client_graph_responsive_claim_once_before_provider", "I4_two_actual_responses_latest_visible_stale_retained", "I5_duplicate_completion_idempotent_conflict_and_duplicate_claim_rejected", "I6_ordinary_input_rederives_exact_text_without_third_provider_call", "I8_one_native_graph_two_provider_calls_bounded_cleanup"], "provider_calls": 2, "snapshots": 7, "receipt": "<EVIDENCE_WORKDIR>/real-run-1/real-backend-receipt.json"}
