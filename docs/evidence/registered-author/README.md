@@ -15,8 +15,9 @@ owner. Updating search ownership changed only its route.
 
 The root agent independently replayed the raw calls with a Python set/join
 oracle. It imports no Lemmalog/DDlog implementation and checks the reviewed task
-rule explicitly. Seventeen checks and four route snapshots passed; a separate
-negative probe injecting a stale payment route was rejected.
+rule explicitly. Eighteen checks, including direct-rule witnesses, and four route snapshots passed; a separate
+negative probe injecting a stale payment route was rejected. A second negative
+probe altering an explanation owner was also rejected.
 
 Run the independent check from the repository root:
 

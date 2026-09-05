@@ -1,7 +1,7 @@
 {
   "passed": true,
   "rpc_exchanges": 25,
-  "independent_checks": 17,
+  "independent_checks": 18,
   "stale_completions": 1,
   "duplicate_claim_rejections": 1,
   "expected_errors": 1,

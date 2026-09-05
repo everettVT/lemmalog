@@ -99,6 +99,27 @@ def verify(folder):
             actual=rows(data['rows'])
             assert actual==expected, f'Routing mismatch at RPC {request["id"]}: {actual} vs {expected}'
             snapshots.append({'rpc':request['id'],'rows':sorted(actual)});checks+=1
+        elif name=='lemmalog_why':
+            assert args['rule']==0, 'Oracle covers the authored routing rule only'
+            expected=set()
+            for e,identity in current.items():
+                if identity not in completed:continue
+                category=completed[identity];revision=intents[identity][1]
+                for entity,project in facts['project']:
+                    if entity!=e:continue
+                    for owner_project,owner_category,owner in facts['owner']:
+                        if owner_project!=project or owner_category!=category:continue
+                        for urgency_category,severity in facts['urgency']:
+                            if urgency_category==category and severity<=2:
+                                expected.add((category,e,owner,project,revision,severity))
+            actual=set()
+            for line in data['bindings'].splitlines():
+                assert line.startswith('Evidence0{') and line.endswith('}'), line
+                bindings=dict(re.findall(r'\.v_([CEOPRS]) = ("(?:[^"\\]|\\.)*"|-?\d+)',line))
+                assert set(bindings)==set('CEOPRS'), line
+                actual.add(tuple(json.loads(bindings[key]) for key in 'CEOPRS'))
+            assert actual==expected, f'Witness mismatch at RPC {request["id"]}'
+            checks+=1
         elif name=='agent_request_status':
             actual={item['request_id']:item for item in data['requests']}
             assert set(actual)==set(intents)
