@@ -1,0 +1,96 @@
+{
+  "server_sha256": "3920135e89b973ac4b41dd153b60c006244ef51a65cdc9fa2055a1f07d2aba84",
+  "rust_contracts": {
+    "lowering": 2,
+    "registry": 17,
+    "composition_registry": 13,
+    "star_registry": 5,
+    "mcp_unit": 4,
+    "total": 41,
+    "passed": true
+  },
+  "python_oracle_tests": {
+    "count": 10,
+    "passed": true
+  },
+  "simulated_runtime_compatibility": {
+    "shared_host": 13,
+    "composition_mcp": 6,
+    "passed": true
+  },
+  "real_native": {
+    "final_exit_code": 0,
+    "snapshot_count": 98,
+    "final_run_native_compilations": 1,
+    "earlier_native_compilations": 1,
+    "earlier_run_exit_code": 1,
+    "earlier_failure": "evidence-copy path after all graph assertions and cleanup",
+    "same_backend_binary_between_runs": true
+  },
+  "separate_agent_exercise": {
+    "passed": true,
+    "native_compilations": 0,
+    "cache_mode": "source-and-executable-sha256-verified-reuse",
+    "owner_and_native_processes_before_stop": 2,
+    "owner_and_native_processes_after_stop": 0
+  },
+  "security_boundary": {
+    "arbitrary_native_upload": false,
+    "os_native_code_sandbox_enforced": false,
+    "native_privileges": "host OS user"
+  },
+  "sanitization": {
+    "removed_agent_fields": [
+      "author_start.descriptor",
+      "author_start.host_pid"
+    ],
+    "replaced": "incidental local paths in logs/tracebacks",
+    "rows_and_program_content_changed": false,
+    "log_trailing_blank_lines_removed": true,
+    "log_ansi_color_codes_removed": true
+  },
+  "logs": {
+    "real-run.log": {
+      "raw_sha256": "6af9f7c693b7461d38e8d9c12bf128d8b1f7df5f655a8bafac5d561347eb5c13",
+      "published_sha256": "2eaa856131ec46685407fa62ec213c76ada18831bdca100d675c6638e828ac91"
+    },
+    "first-run.log": {
+      "raw_sha256": "539b571594dc27f896231d1f8f45e91d11bf85427f645e0a48cd794cdc4cdb84",
+      "published_sha256": "b4e7bedfb430940d3ae866ed4b77a414a9093f6047b74ceeec2c67db840a3b49"
+    },
+    "rust-contracts.log": {
+      "raw_sha256": "6dace1575893a915a4c40f0c6a52d033107c032deb8c774f21b6d5242bab0ce4",
+      "published_sha256": "0ff8118d6d847c469fa8e215ac644449f06cbff82e0bb0a513b6f48696645c4c"
+    },
+    "mcp-unit-tests.log": {
+      "raw_sha256": "1e292c96283cdec1502b0aa8a798d1312515075685ec2862c5fa089695661075",
+      "published_sha256": "035dbaaa02d3bf792624a04dfb28393cff838939e22a82c5f91f6d643d326910"
+    },
+    "oracle-tests.log": {
+      "raw_sha256": "02f1790b0d2970f3567e76423900f2cc3bc02171bccd7213c557e4ebdf1b1188",
+      "published_sha256": "02f1790b0d2970f3567e76423900f2cc3bc02171bccd7213c557e4ebdf1b1188"
+    },
+    "shared-host-tests.log": {
+      "raw_sha256": "fe69ce3c7d207abd9d65fb67a16291ecfcdbde0eed3c1fc8ebabf65910152912",
+      "published_sha256": "fe69ce3c7d207abd9d65fb67a16291ecfcdbde0eed3c1fc8ebabf65910152912"
+    },
+    "composition-mcp-tests.log": {
+      "raw_sha256": "f89d6d1c884ab5f190343be6ae4d0f98ad735ecb0b5305426dc542c8d5773b6a",
+      "published_sha256": "f89d6d1c884ab5f190343be6ae4d0f98ad735ecb0b5305426dc542c8d5773b6a"
+    },
+    "native-build.log": {
+      "raw_sha256": "c524165f81c91572446627a43f466d42ebb4b68a13ba0bb8fece368742f6b2a8",
+      "published_sha256": "3ff53007c8e29fb31aa5d7edb43da4385d0ae2fa4e55ce611f95e157cb0ace99"
+    }
+  },
+  "offline_lock_update": {
+    "original_sha256": "d43b755767fc3387d44995ea8d07fb9e7f2115db3162cab4cdde9a2b6333bf8b",
+    "amended_sha256": "6315b36aa9f3c909266ecc6ba1d1cfea036a073196bf6850e436386a5ec8ef27",
+    "workspace_packages_changed": [
+      "program",
+      "types",
+      "types__lemmalog_star"
+    ],
+    "third_party_packages_changed": []
+  }
+}

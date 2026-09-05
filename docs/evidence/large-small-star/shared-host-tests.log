@@ -1,0 +1,18 @@
+test_failed_candidate_preserves_live_program (test_shared_host.SharedHostFailures.test_failed_candidate_preserves_live_program) ... ok
+test_lost_response_commits_once_without_automatic_retry (test_shared_host.SharedHostFailures.test_lost_response_commits_once_without_automatic_retry) ... ok
+test_partial_oversize_and_invalid_json_preserve_other_client (test_shared_host.SharedHostFailures.test_partial_oversize_and_invalid_json_preserve_other_client) ... ok
+test_runtime_output_bound_invalidates_oversized_response (test_shared_host.SharedHostFailures.test_runtime_output_bound_invalidates_oversized_response) ... ok
+test_sigterm_cleans_runtime_and_endpoint (test_shared_host.SharedHostFailures.test_sigterm_cleans_runtime_and_endpoint) ... ok
+test_sigterm_immediately_after_ready_cleans_endpoint (test_shared_host.SharedHostFailures.test_sigterm_immediately_after_ready_cleans_endpoint) ... ok
+test_slow_reader_does_not_hold_semantic_owner (test_shared_host.SharedHostFailures.test_slow_reader_does_not_hold_semantic_owner) ... ok
+test_stale_descriptor_rejected_and_permissions_enforced (test_shared_host.SharedHostFailures.test_stale_descriptor_rejected_and_permissions_enforced) ... ok
+test_standalone_children_remain_in_client_process_group (test_shared_host.SharedHostFailures.test_standalone_children_remain_in_client_process_group) ... ok
+test_stop_admitted_with_sixty_four_idle_clients (test_shared_host.SharedHostFailures.test_stop_admitted_with_sixty_four_idle_clients) ... ok
+test_stop_interrupts_stalled_compiler_and_descendant (test_shared_host.SharedHostFailures.test_stop_interrupts_stalled_compiler_and_descendant) ... ok
+test_stop_interrupts_stalled_runtime (test_shared_host.SharedHostFailures.test_stop_interrupts_stalled_runtime) ... ok
+test_uncertain_runtime_failure_survives_reconnect_as_failed (test_shared_host.SharedHostFailures.test_uncertain_runtime_failure_survives_reconnect_as_failed) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 6.848s
+
+OK

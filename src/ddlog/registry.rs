@@ -46,6 +46,8 @@ pub struct ProgramDefinition {
     pub operation: Option<RegisteredOperationBinding>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub interface: Option<ProgramInterface>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub operators: Vec<super::star::Operator>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
@@ -744,6 +746,9 @@ impl ProcessorRegistry {
 fn validate_program(definition: &ProgramDefinition) -> Result<()> {
     super::composition::validate_interface(definition)?;
     if let Some(operation) = &definition.operation {
+        if !definition.operators.is_empty() {
+            return Err("Typed operators cannot be combined with a registered operation; put the operator in a separate pure program".into());
+        }
         super::operations::lower_registered_program(
             &operation.name,
             &operation.version,
@@ -754,7 +759,7 @@ fn validate_program(definition: &ProgramDefinition) -> Result<()> {
         let schemas: BTreeMap<String, super::Schema> =
             serde_json::from_value(definition.schemas.clone())
                 .map_err(|error| error.to_string())?;
-        super::lower(&definition.rules, &schemas)?;
+        super::lower_with_operators(&definition.rules, &schemas, &definition.operators)?;
     }
     Ok(())
 }

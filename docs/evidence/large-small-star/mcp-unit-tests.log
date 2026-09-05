@@ -1,0 +1,11 @@
+   Compiling lemmalog v0.2.0 (<LOCAL_PATH>
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.01s
+     Running unittests src/lib.rs (target/debug/deps/lemmalog-2f4a1dea2c1778e4)
+
+running 4 tests
+test ddlog::mcp::interface_tests::direct_registered_install_rejects_operators_before_build ... ok
+test ddlog::mcp::interface_tests::operator_arguments_are_typed_and_default_empty ... ok
+test ddlog::mcp::interface_tests::interface_filters_private_deltas_without_rewriting_values ... ok
+test ddlog::mcp::interface_tests::operator_schema_is_shared_by_direct_and_saved_programs ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

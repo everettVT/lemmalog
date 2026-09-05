@@ -1,0 +1,11 @@
+test_authoring_errors_preserve_cause_and_offer_correction (test_composition_mcp.CompositionAdmission.test_authoring_errors_preserve_cause_and_offer_correction) ... ok
+test_composed_program_is_usable_through_the_same_ports_and_lifecycle (test_composition_mcp.CompositionAdmission.test_composed_program_is_usable_through_the_same_ports_and_lifecycle) ... ok
+test_discovery_and_archive_preserve_exact_composition_references (test_composition_mcp.CompositionAdmission.test_discovery_and_archive_preserve_exact_composition_references) ... ok
+test_individual_interface_hides_private_relation (test_composition_mcp.CompositionAdmission.test_individual_interface_hides_private_relation) ... ok
+test_manifest_install_pins_and_enforces_public_ports (test_composition_mcp.CompositionAdmission.test_manifest_install_pins_and_enforces_public_ports) ... ok
+test_validation_errors_name_endpoints_and_do_not_publish (test_composition_mcp.CompositionAdmission.test_validation_errors_name_endpoints_and_do_not_publish) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 3.847s
+
+OK

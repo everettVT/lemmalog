@@ -7,7 +7,8 @@ pub mod mcp;
 mod operations;
 mod processes;
 pub mod registry;
-pub use lower::{lower, Schema};
+pub mod star;
+pub use lower::{lower, lower_with_operators, Schema};
 pub use operations::{AgentProgram, Operation};
 
 use serde_json::{json, Value};
@@ -120,9 +121,17 @@ impl Backend {
         }
     }
     pub fn install(&mut self, rules: &str, schemas: Value) -> Result<Value> {
+        self.install_with_operators(rules, schemas, &[])
+    }
+    pub fn install_with_operators(
+        &mut self,
+        rules: &str,
+        schemas: Value,
+        operators: &[star::Operator],
+    ) -> Result<Value> {
         let schema: BTreeMap<String, Schema> =
             serde_json::from_value(schemas).map_err(|e| e.to_string())?;
-        let source = lower(rules, &schema)?;
+        let source = lower_with_operators(rules, &schema, operators)?;
         self.install_source(source, schema)
     }
     fn install_source(
@@ -139,6 +148,9 @@ impl Backend {
         let source_path = dir.join("program.dl");
         let binary = dir.join("program_cli");
         std::fs::write(&source_path, &source).map_err(|e| e.to_string())?;
+        if source.contains("import lemmalog_star as lemmalog_star\n") {
+            star::write_library(&dir)?;
+        }
         let log = std::fs::File::create(dir.join("build.log")).map_err(|e| e.to_string())?;
         let mut command = Command::new(&self.driver);
         command
