@@ -13,7 +13,8 @@ Set `LEMMALOG_DDLOG_BUILD` to the absolute path of `scripts/build-ddlog.sh` and
 `LEMMALOG_DDLOG_WORKDIR` to a writable absolute build directory. Set `DDLOG_HOME`
 to the DDlog distribution. The build driver takes a source path and an output
 executable path; only the operator configures it. Start the built server as an
-MCP stdio process.
+MCP stdio process. For independently attached clients sharing one program, see
+[shared instances and processor versions](shared-instances.md).
 
 Tool calls use typed schema declarations. Example installation arguments:
 
@@ -65,8 +66,8 @@ all emitted mutation values. It does not support arbitrary CLI implementations.
 ## Remaining work
 
 See [the migration requirements](ddlog-requirements.md). This implementation is a
-backend foundation, not full AgentMemory integration. It has no durable session
-state, concurrent sessions sharing data, compilation/runtime timeouts, general
+backend foundation, not full AgentMemory integration. It has no durable graph
+state, per-operation compilation/runtime timeouts, general
 recursive explanations, mixed-value columns, negation, aggregates, temporal
 builtins, inline facts, or native LLM calls. Schemas cannot change while retained
 facts exist. Queries and witnesses currently return DDlog text. Compilation is

@@ -1,0 +1,53 @@
+{
+  "server_sha256": "76e4303375cdace89642d17be82ae19edd279733261c29d4f66aaf355f0d7306",
+  "results": [
+    {
+      "command": "cargo test --offline --features mcp",
+      "result": "passed",
+      "scope": "Complete Rust suite including existing long-horizon memory evaluation; later registration-validation changes additionally checked by focused suite."
+    },
+    {
+      "command": "cargo test --offline --features mcp --test processor_registry --test ddlog_lowering",
+      "result": "passed",
+      "registry_tests": 10,
+      "lowering_tests": 2,
+      "scope": "Final source; pure validation and durable registry, no DDlog activation."
+    },
+    {
+      "command": "python3 -m unittest discover -s tests -p 'test_*.py' -v",
+      "result": "46 passed, 1 existing deadline error",
+      "tests": 47,
+      "new_host_tests_passed": 13,
+      "error": "Existing test_records_real_transport_and_preserves_tool_error hit its 1-second fake-process response deadline while DDlog compilation ran. This is the observed timeout; resource contention is a possible cause, not established."
+    },
+    {
+      "command": "PYTHONPATH=tests python3 -m unittest test_ddlog_dogfood_relay.RelayTests.test_records_real_transport_and_preserves_tool_error -v",
+      "result": "passed",
+      "scope": "One targeted rerun after concrete timeout classification and after compilation finished; no harness edits."
+    },
+    {
+      "command": "python3 scripts/test-shared-instance.py",
+      "result": "passed",
+      "grouped_checks": 9,
+      "real_generated_programs": 3,
+      "scope": "Final frozen server; official DDlog compiler and generated Differential/Timely executables; no provider inference."
+    },
+    {
+      "command": "python3 scripts/test-ddlog-mcp.py",
+      "result": "passed",
+      "scope": "Final standalone server; actual DDlog join/deltas/witnesses/replace/replay/rejected input and candidate preservation."
+    },
+    {
+      "command": "python3 scripts/test-agent-requests.py",
+      "result": "passed",
+      "scope": "Final standalone server; actual DDlog request/claim/freshness behavior, explicitly mocked external worker."
+    },
+    {
+      "command": "targeted rustfmt --check for changed Rust files; git diff --check",
+      "result": "passed",
+      "scope": "Repository-wide cargo fmt --check reports pre-existing drift in untouched files; unrelated formatting was preserved."
+    }
+  ],
+  "accepted_requirements": "All covered by mapped executable oracles in docs/shared-instances.md; native HTTP, client roles, graph crash recovery, fact-state CAS, per-operation deadlines and diagnosis interface are deferred, not claimed.",
+  "publication_audit": "Published evidence contains synthetic programs/data and hashes. Host/user paths, local endpoint names, process IDs and environment configuration are omitted. No provider credentials or inference calls."
+}

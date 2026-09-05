@@ -14,7 +14,9 @@ Set `LEMMALOG_AGENT_OPERATIONS` to an operator-owned JSON file:
 The initial signature is string payload -> string result. The registry does not
 contain credentials and does not execute a provider. An external worker uses
 the claim and completion tools to invoke the selected provider. These tools are
-trusted within one MCP session, not a multi-tenant authorization system.
+trusted within one standalone session or an explicitly shared instance, not a
+multi-tenant authorization system. [Shared instances](shared-instances.md) let
+independent clients use the same live claims and pinned processor definition.
 
 With a registry configured the server additionally exposes:
 
@@ -71,7 +73,8 @@ after the entity advances; freshness protects result visibility, not the outside
 world. There is no automatic claim expiry, timeout retry, or replay of uncertain
 external actions.
 
-State and claims are session-local. A process restart does not recover them.
+State and claims belong to the live program owner. Shared-instance client
+disconnect does not destroy them; a host process restart does not recover them.
 Production recovery needs durable claims and provider reconciliation before
 resubmission; callers must not turn a restart into an unconditional retry. Runtime
 failure prevents successful new admission and requires reconciliation. Compiler
