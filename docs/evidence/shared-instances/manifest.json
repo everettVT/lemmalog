@@ -1,0 +1,11 @@
+{
+  "files": {
+    "README.md": "308456b8fa598d82423c249123b14420620287c5c92b998e7cf2f9660dfcb07b",
+    "agent-cleanup.json": "1390c1dde286cd995a925d719e67537f5302539ccdae3f5212931a464198903a",
+    "agent-exchanges.json": "30c435b283ec458bce6d1f354752d49422950e6513677a9a6a971ae4576b503b",
+    "agent-program.dl": "44a776e31f6148cfce4243231c74e63c2ee23b14f619f25066a8a7d87fda0634",
+    "agent-provenance.json": "827d756b122034d01134bf2acd27ce1e3ed3d344c9bfe2f75192eed4872afecb",
+    "real-backend-receipt.json": "fd15b9f32ca705195116fcce911d0770704a04e2f1d5089330f21aba24e01712",
+    "verification.json": "8c461dd29fa8baf0dedda42dabd275187119b58af75fb9ca89ac8d66ed2d6e5e"
+  }
+}

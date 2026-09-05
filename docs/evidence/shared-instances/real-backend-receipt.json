@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "independent_clients_same_instance",
+      "reused_initial_rpc_id": 1
+    },
+    {
+      "check": "reviewer_observes_authored_graph_and_witness"
+    },
+    {
+      "check": "large_fragmented_transaction_intact",
+      "request_bytes": 262302,
+      "request_sha256": "882b9ebe4599b1010d043f1991494b089f5185883e2e80a8ecff1aab5932499c"
+    },
+    {
+      "check": "disconnect_reconnect_retains_live_state"
+    },
+    {
+      "check": "concurrent_independent_writes_serialize"
+    },
+    {
+      "check": "conditional_registry_update_and_running_version_pin"
+    },
+    {
+      "check": "fork_lineage_and_instance_isolation"
+    },
+    {
+      "check": "shared_claim_survives_disconnect_and_stale_response_excluded"
+    },
+    {
+      "check": "explicit_shutdown_removes_all_endpoints"
+    }
+  ],
+  "generated_programs": [
+    {
+      "instance": "h1",
+      "source": "output relation R_echo(f0: string)\ninput relation R_source(f0: string)\noutput relation Evidence0(v_V: string)\nEvidence0(v_V) :- R_source(v_V).\nR_echo(v_V) :- Evidence0(v_V).\n",
+      "source_sha256": "44a776e31f6148cfce4243231c74e63c2ee23b14f619f25066a8a7d87fda0634",
+      "executable_sha256": "079af6aa5af081193ba5df8d2839f6c491c6d1bc9bbc82df5fde592fbb00f507"
+    },
+    {
+      "instance": "h2",
+      "source": "output relation R_echo(f0: string)\ninput relation R_source(f0: string)\noutput relation Evidence0(v_V: string)\nEvidence0(v_V) :- R_source(v_V).\nR_echo(v_V) :- Evidence0(v_V).\n",
+      "source_sha256": "44a776e31f6148cfce4243231c74e63c2ee23b14f619f25066a8a7d87fda0634",
+      "executable_sha256": "20adf3b39f9c0f6623c83be62cc74b12ad141465e0e48e7383aadf9b932ec5b6"
+    },
+    {
+      "instance": "h3",
+      "source": "input relation R_agent_claimed(f0: string)\ninput relation R_agent_current(f0: string, f1: string)\noutput relation R_agent_finished(f0: string)\ninput relation R_agent_intent(f0: string, f1: string, f2: signed<64>, f3: string)\noutput relation R_agent_pending(f0: string, f1: string, f2: signed<64>, f3: string)\ninput relation R_agent_response(f0: string, f1: string)\noutput relation R_agent_result(f0: string, f1: signed<64>, f2: string)\noutput relation R_agent_running(f0: string)\noutput relation R_reviewed(f0: string, f1: signed<64>, f2: string)\noutput relation Evidence0(v_E: string, v_O: string, v_R: signed<64>)\nEvidence0(v_E, v_O, v_R) :- R_agent_result(v_E, v_R, v_O).\nR_reviewed(v_E, v_R, v_O) :- Evidence0(v_E, v_O, v_R).\n\nR_agent_finished(id) :- R_agent_response(id, _).\nR_agent_pending(id, entity, revision, payload) :- R_agent_intent(id, entity, revision, payload), R_agent_current(entity, id), not R_agent_finished(id), not R_agent_claimed(id).\nR_agent_running(id) :- R_agent_claimed(id), R_agent_intent(id, entity, _, _), R_agent_current(entity, id), not R_agent_finished(id).\nR_agent_result(entity, revision, response_value) :- R_agent_intent(id, entity, revision, _), R_agent_current(entity, id), R_agent_response(id, response_value).\n",
+      "source_sha256": "a6d22de15688389e483f821398d25542a824f21e2fc914c60ea59b10538df8e9",
+      "executable_sha256": "41c6622b504b21e0b4c28aa9b97077b84e192eb76356d57aca5ef341e9f9f9e0"
+    }
+  ],
+  "backend_executable_sha256": "76e4303375cdace89642d17be82ae19edd279733261c29d4f66aaf355f0d7306",
+  "ddlog_compiler_sha256": "74558f51670b0fc44e17b74917a57f0188f295d26bd52b2288778b52f0f9e7f3",
+  "backend": "official DDlog-generated Differential/Timely",
+  "scope": "deterministic independent clients; no provider inference, durability, or LLM authorship claim"
+}

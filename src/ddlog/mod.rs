@@ -1,12 +1,17 @@
 //! Experimental DDlog backend. The existing memory evaluator remains independent.
+#[cfg(unix)]
+pub mod host;
 mod lower;
+pub mod mcp;
 mod operations;
+mod processes;
+pub mod registry;
 pub use lower::{lower, Schema};
 pub use operations::{AgentProgram, Operation};
 
 use serde_json::{json, Value};
 use std::collections::{BTreeMap, BTreeSet};
-use std::io::{BufRead, BufReader, Write};
+use std::io::{BufRead, BufReader, Read, Write};
 use std::path::{Path, PathBuf};
 use std::process::{Child, ChildStdin, ChildStdout, Command, Stdio};
 
@@ -17,20 +22,24 @@ struct Runtime {
     input: ChildStdin,
     output: BufReader<ChildStdout>,
     sequence: u64,
+    group: processes::Group,
 }
 impl Runtime {
-    fn start(binary: &Path) -> Result<Self> {
-        let mut child = Command::new(binary)
+    fn start(binary: &Path, control: &processes::ProcessControl) -> Result<Self> {
+        let mut command = Command::new(binary);
+        command
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
-            .stderr(Stdio::inherit())
-            .spawn()
-            .map_err(|e| e.to_string())?;
+            .stderr(Stdio::inherit());
+        processes::separate_group(&mut command, control);
+        let mut child = command.spawn().map_err(|e| e.to_string())?;
+        let group = control.track(child.id());
         Ok(Self {
             input: child.stdin.take().unwrap(),
             output: BufReader::new(child.stdout.take().unwrap()),
             child,
             sequence: 0,
+            group,
         })
     }
     fn exchange(&mut self, commands: &str) -> Result<String> {
@@ -44,11 +53,16 @@ impl Runtime {
             let mut line = String::new();
             if self
                 .output
+                .by_ref()
+                .take((4 * 1024 * 1024 - result.len() + 1) as u64)
                 .read_line(&mut line)
                 .map_err(|e| e.to_string())?
                 == 0
             {
                 return Err("DDlog exited before completing the request".into());
+            }
+            if result.len() + line.len() > 4 * 1024 * 1024 {
+                return Err("DDlog response exceeded 4 MiB; runtime state is uncertain".into());
             }
             if line.trim() == marker {
                 return Ok(result);
@@ -59,6 +73,7 @@ impl Runtime {
 }
 impl Drop for Runtime {
     fn drop(&mut self) {
+        self.group.kill();
         let _ = self.child.kill();
         let _ = self.child.wait();
     }
@@ -76,6 +91,8 @@ pub struct Backend {
     version: u64,
     attempt: u64,
     active_source: String,
+    failed: bool,
+    control: processes::ProcessControl,
 }
 impl Backend {
     pub fn new(root: PathBuf, driver: PathBuf) -> Self {
@@ -88,6 +105,17 @@ impl Backend {
             version: 0,
             attempt: 0,
             active_source: String::new(),
+            failed: false,
+            control: processes::ProcessControl::default(),
+        }
+    }
+    pub fn health(&self) -> &'static str {
+        if self.failed {
+            "failed"
+        } else if self.runtime.is_some() {
+            "ready"
+        } else {
+            "uninitialized"
         }
     }
     pub fn install(&mut self, rules: &str, schemas: Value) -> Result<Value> {
@@ -111,20 +139,24 @@ impl Backend {
         let binary = dir.join("program_cli");
         std::fs::write(&source_path, &source).map_err(|e| e.to_string())?;
         let log = std::fs::File::create(dir.join("build.log")).map_err(|e| e.to_string())?;
-        let status = Command::new(&self.driver)
+        let mut command = Command::new(&self.driver);
+        command
             .arg(&source_path)
             .arg(&binary)
             .stdout(log.try_clone().map_err(|e| e.to_string())?)
-            .stderr(log)
-            .status()
-            .map_err(|e| e.to_string())?;
+            .stderr(log);
+        processes::separate_group(&mut command, &self.control);
+        let mut child = command.spawn().map_err(|e| e.to_string())?;
+        let group = self.control.track(child.id());
+        let status = child.wait().map_err(|e| e.to_string())?;
+        drop(group);
         if !status.success() {
             return Err(format!(
                 "DDlog compilation failed; previous version retained. See {}",
                 dir.join("build.log").display()
             ));
         }
-        let mut runtime = Runtime::start(&binary)?;
+        let mut runtime = Runtime::start(&binary, &self.control)?;
         let mut replay = String::from("start;\n");
         for (_, fact) in &self.facts {
             replay.push_str(&format!("insert {fact};\n"));
@@ -132,6 +164,7 @@ impl Backend {
         replay.push_str("commit;");
         runtime.exchange(&replay)?;
         self.runtime = Some(runtime);
+        self.failed = false;
         self.schema = schema;
         self.active_source = source;
         self.version += 1;
@@ -194,8 +227,26 @@ impl Backend {
             }
             Err(error) => {
                 self.runtime = None;
+                self.failed = true;
                 Err(format!(
                     "Runtime unavailable; retained inputs have not advanced. Reconcile outstanding external claims before restarting: {error}"
+                ))
+            }
+        }
+    }
+    fn read_runtime(&mut self, command: &str) -> Result<String> {
+        match self
+            .runtime
+            .as_mut()
+            .ok_or("Install a program first")?
+            .exchange(command)
+        {
+            Ok(rows) => Ok(rows),
+            Err(error) => {
+                self.runtime = None;
+                self.failed = true;
+                Err(format!(
+                    "Runtime unavailable; reconcile outstanding work: {error}"
                 ))
             }
         }
@@ -207,11 +258,7 @@ impl Backend {
                 "Query accepts output relations; input fact inspection is not exposed yet".into(),
             );
         }
-        let rows = self
-            .runtime
-            .as_mut()
-            .ok_or("Install a program first")?
-            .exchange(&format!("dump R_{predicate};"))?;
+        let rows = self.read_runtime(&format!("dump R_{predicate};"))?;
         Ok(json!({"version":self.version,"rows":rows}))
     }
     pub fn why(&mut self, rule: usize) -> Result<Value> {
@@ -220,11 +267,7 @@ impl Backend {
         if !source.contains(&format!("output relation Evidence{rule}(")) {
             return Err("Unknown rule index".into());
         }
-        let rows = self
-            .runtime
-            .as_mut()
-            .ok_or("Install a program first")?
-            .exchange(&format!("dump Evidence{rule};"))?;
+        let rows = self.read_runtime(&format!("dump Evidence{rule};"))?;
         Ok(
             json!({"version":self.version,"rule":rule,"bindings":rows,"scope":"Direct rule variable bindings; not recursive proof trees or confidence provenance"}),
         )

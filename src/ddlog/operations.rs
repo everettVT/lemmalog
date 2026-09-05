@@ -40,6 +40,48 @@ fn schemas() -> BTreeMap<String, Schema> {
     }))
     .unwrap()
 }
+/// Pure syntax, type, and supported-lowering validation shared by registry
+/// publication and installation. This never builds or activates a runtime.
+pub(super) fn lower_registered_program(
+    name: &str,
+    version: &str,
+    rules: &str,
+    user_schemas: Value,
+) -> Result<(String, BTreeMap<String, Schema>)> {
+    super::lower::string_literal(name)?;
+    super::lower::string_literal(version)?;
+    if name.is_empty() || version.is_empty() {
+        return Err("Operation name/version must be nonempty".into());
+    }
+    let mut declared: BTreeMap<String, Schema> =
+        serde_json::from_value(user_schemas).map_err(|e| e.to_string())?;
+    if declared.keys().any(|key| key.starts_with("agent_")) {
+        return Err("agent_ relations are registered and cannot be redeclared".into());
+    }
+    // Only the public result relation can be read by authored rules.
+    for clause in crate::ast::parse_program(rules).map_err(|e| e.to_string())? {
+        if clause.head.pred.starts_with("agent_") {
+            return Err("Registered relations cannot be rule heads".into());
+        }
+        for lit in clause.body {
+            if let crate::ast::Lit::Pos(a) | crate::ast::Lit::Neg(a) = lit {
+                if a.pred.starts_with("agent_") && a.pred != "agent_result" {
+                    return Err(
+                        "Read agent_result; internal operation relations are private".into(),
+                    );
+                }
+            }
+        }
+    }
+    declared.extend(schemas());
+    let mut source = super::lower(rules, &declared)?;
+    source.push_str("\nR_agent_finished(id) :- R_agent_response(id, _).\n\
+R_agent_pending(id, entity, revision, payload) :- R_agent_intent(id, entity, revision, payload), R_agent_current(entity, id), not R_agent_finished(id), not R_agent_claimed(id).\n\
+R_agent_running(id) :- R_agent_claimed(id), R_agent_intent(id, entity, _, _), R_agent_current(entity, id), not R_agent_finished(id).\n\
+R_agent_result(entity, revision, response_value) :- R_agent_intent(id, entity, revision, _), R_agent_current(entity, id), R_agent_response(id, response_value).\n");
+    Ok((source, declared))
+}
+
 impl AgentProgram {
     pub fn install(
         backend: &mut Backend,
@@ -48,37 +90,8 @@ impl AgentProgram {
         rules: &str,
         user_schemas: Value,
     ) -> Result<(Self, Value)> {
-        super::lower::string_literal(name)?;
-        super::lower::string_literal(&definition.version)?;
-        if name.is_empty() || definition.version.is_empty() {
-            return Err("Operation name/version must be nonempty".into());
-        }
-        let mut declared: BTreeMap<String, Schema> =
-            serde_json::from_value(user_schemas).map_err(|e| e.to_string())?;
-        if declared.keys().any(|key| key.starts_with("agent_")) {
-            return Err("agent_ relations are registered and cannot be redeclared".into());
-        }
-        // Only the public result relation can be read by authored rules.
-        for clause in crate::ast::parse_program(rules).map_err(|e| e.to_string())? {
-            if clause.head.pred.starts_with("agent_") {
-                return Err("Registered relations cannot be rule heads".into());
-            }
-            for lit in clause.body {
-                if let crate::ast::Lit::Pos(a) | crate::ast::Lit::Neg(a) = lit {
-                    if a.pred.starts_with("agent_") && a.pred != "agent_result" {
-                        return Err(
-                            "Read agent_result; internal operation relations are private".into(),
-                        );
-                    }
-                }
-            }
-        }
-        declared.extend(schemas());
-        let mut source = super::lower(rules, &declared)?;
-        source.push_str("\nR_agent_finished(id) :- R_agent_response(id, _).\n\
-R_agent_pending(id, entity, revision, payload) :- R_agent_intent(id, entity, revision, payload), R_agent_current(entity, id), not R_agent_finished(id), not R_agent_claimed(id).\n\
-R_agent_running(id) :- R_agent_claimed(id), R_agent_intent(id, entity, _, _), R_agent_current(entity, id), not R_agent_finished(id).\n\
-R_agent_result(entity, revision, response_value) :- R_agent_intent(id, entity, revision, _), R_agent_current(entity, id), R_agent_response(id, response_value).\n");
+        let (source, declared) =
+            lower_registered_program(name, &definition.version, rules, user_schemas)?;
         if !backend.facts.is_empty() {
             return Err("Installing a registered operation requires an empty input session".into());
         }

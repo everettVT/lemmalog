@@ -1,0 +1,413 @@
+[
+  {
+    "actor": "author",
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "method": "initialize",
+      "params": {}
+    },
+    "response": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+        "capabilities": {
+          "tools": {}
+        },
+        "protocolVersion": "2024-11-05",
+        "serverInfo": {
+          "name": "lemmalog-ddlog",
+          "version": "0.2.0"
+        }
+      }
+    }
+  },
+  {
+    "actor": "author",
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "method": "tools/call",
+      "params": {
+        "name": "processor_create",
+        "arguments": {
+          "definition": {
+            "rules": "echo(V) :- .",
+            "schemas": {
+              "source": {
+                "input": true,
+                "fields": [
+                  "string"
+                ]
+              },
+              "echo": {
+                "input": false,
+                "fields": [
+                  "string"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "id": 2,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "parse error: expected term, found Some(Punct(\".\"))",
+            "type": "text"
+          }
+        ],
+        "isError": true
+      }
+    }
+  },
+  {
+    "actor": "author",
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "method": "tools/call",
+      "params": {
+        "name": "processor_create",
+        "arguments": {
+          "definition": {
+            "rules": "echo(V) :- source(V).",
+            "schemas": {
+              "source": {
+                "input": true,
+                "fields": [
+                  "string"
+                ]
+              },
+              "echo": {
+                "input": false,
+                "fields": [
+                  "string"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "id": 3,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"content_sha256\":\"74de88db0ed579211d8f95d3156f7b432857c8b2b1c702e9ee947d05e8991309\",\"created_at_unix_ms\":1788644801477,\"definition\":{\"operation\":null,\"rules\":\"echo(V) :- source(V).\",\"schemas\":{\"echo\":{\"fields\":[\"string\"],\"input\":false},\"source\":{\"fields\":[\"string\"],\"input\":true}}},\"format_version\":1,\"git_provenance\":null,\"lineage\":null,\"processor_id\":\"processor_b3f746ab23387586357ed8047bdd61ed\",\"validation\":{\"ddlog_compilation_performed\":false,\"supported_lowering_checked\":true,\"syntax_checked\":true,\"types_checked\":true},\"version\":\"sha256:74de88db0ed579211d8f95d3156f7b432857c8b2b1c702e9ee947d05e8991309\"}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "actor": "author",
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 4,
+      "method": "tools/call",
+      "params": {
+        "name": "processor_install",
+        "arguments": {
+          "processor_id": "processor_b3f746ab23387586357ed8047bdd61ed",
+          "version": "sha256:74de88db0ed579211d8f95d3156f7b432857c8b2b1c702e9ee947d05e8991309"
+        }
+      }
+    },
+    "response": {
+      "id": 4,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"backend\":\"ddlog/differential-dataflow\",\"processor\":{\"processor_id\":\"processor_b3f746ab23387586357ed8047bdd61ed\",\"version\":\"sha256:74de88db0ed579211d8f95d3156f7b432857c8b2b1c702e9ee947d05e8991309\"},\"replayed_facts\":0,\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "actor": "author",
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 5,
+      "method": "tools/call",
+      "params": {
+        "name": "apply_changes",
+        "arguments": {
+          "changes": [
+            {
+              "op": "insert",
+              "predicate": "source",
+              "values": [
+                "author_seed"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "response": {
+      "id": 5,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"deltas\":\"Evidence0:\\nEvidence0{.v_V = \\\"author_seed\\\"}: +1\\nR_echo:\\nR_echo{.f0 = \\\"author_seed\\\"}: +1\\n\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "actor": "author",
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 6,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "echo"
+        }
+      }
+    },
+    "response": {
+      "id": 6,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"R_echo{.f0 = \\\"author_seed\\\"}\\n\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "actor": "author",
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 7,
+      "method": "tools/call",
+      "params": {
+        "name": "instance_info",
+        "arguments": {}
+      }
+    },
+    "response": {
+      "id": 7,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"health\":\"ready\",\"instance_id\":\"7bddacb5fb56ffc266a703b5084bef29\",\"processor\":{\"processor_id\":\"processor_b3f746ab23387586357ed8047bdd61ed\",\"version\":\"sha256:74de88db0ed579211d8f95d3156f7b432857c8b2b1c702e9ee947d05e8991309\"}}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "actor": "reviewer",
+    "request": {
+      "method": "initialize",
+      "params": {},
+      "id": 1
+    },
+    "result": {
+      "capabilities": {
+        "tools": {}
+      },
+      "protocolVersion": "2024-11-05",
+      "serverInfo": {
+        "name": "lemmalog-ddlog",
+        "version": "0.2.0"
+      }
+    }
+  },
+  {
+    "actor": "reviewer",
+    "request": {
+      "method": "tools/call",
+      "params": {
+        "name": "instance_info",
+        "arguments": {}
+      },
+      "id": 2
+    },
+    "result": {
+      "content": [
+        {
+          "text": "{\"health\":\"ready\",\"instance_id\":\"7bddacb5fb56ffc266a703b5084bef29\",\"processor\":{\"processor_id\":\"processor_b3f746ab23387586357ed8047bdd61ed\",\"version\":\"sha256:74de88db0ed579211d8f95d3156f7b432857c8b2b1c702e9ee947d05e8991309\"}}",
+          "type": "text"
+        }
+      ],
+      "isError": false
+    }
+  },
+  {
+    "actor": "reviewer",
+    "request": {
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "echo"
+        }
+      },
+      "id": 3
+    },
+    "result": {
+      "content": [
+        {
+          "text": "{\"rows\":\"R_echo{.f0 = \\\"author_seed\\\"}\\n\",\"version\":1}",
+          "type": "text"
+        }
+      ],
+      "isError": false
+    }
+  },
+  {
+    "actor": "reviewer",
+    "request": {
+      "method": "tools/call",
+      "params": {
+        "name": "apply_changes",
+        "arguments": {
+          "changes": [
+            {
+              "op": "insert",
+              "predicate": "source",
+              "values": [
+                "reviewer_probe"
+              ]
+            }
+          ]
+        }
+      },
+      "id": 4
+    },
+    "result": {
+      "content": [
+        {
+          "text": "{\"deltas\":\"Evidence0:\\nEvidence0{.v_V = \\\"reviewer_probe\\\"}: +1\\nR_echo:\\nR_echo{.f0 = \\\"reviewer_probe\\\"}: +1\\n\",\"version\":1}",
+          "type": "text"
+        }
+      ],
+      "isError": false
+    }
+  },
+  {
+    "actor": "reviewer",
+    "request": {
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "echo"
+        }
+      },
+      "id": 5
+    },
+    "result": {
+      "content": [
+        {
+          "text": "{\"rows\":\"R_echo{.f0 = \\\"author_seed\\\"}\\nR_echo{.f0 = \\\"reviewer_probe\\\"}\\n\",\"version\":1}",
+          "type": "text"
+        }
+      ],
+      "isError": false
+    }
+  },
+  {
+    "actor": "author_reconnected",
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "method": "initialize",
+      "params": {}
+    },
+    "response": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+        "capabilities": {
+          "tools": {}
+        },
+        "protocolVersion": "2024-11-05",
+        "serverInfo": {
+          "name": "lemmalog-ddlog",
+          "version": "0.2.0"
+        }
+      }
+    }
+  },
+  {
+    "actor": "author_reconnected",
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "method": "tools/call",
+      "params": {
+        "name": "instance_info",
+        "arguments": {}
+      }
+    },
+    "response": {
+      "id": 2,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"health\":\"ready\",\"instance_id\":\"7bddacb5fb56ffc266a703b5084bef29\",\"processor\":{\"processor_id\":\"processor_b3f746ab23387586357ed8047bdd61ed\",\"version\":\"sha256:74de88db0ed579211d8f95d3156f7b432857c8b2b1c702e9ee947d05e8991309\"}}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "actor": "author_reconnected",
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "echo"
+        }
+      }
+    },
+    "response": {
+      "id": 3,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"R_echo{.f0 = \\\"author_seed\\\"}\\nR_echo{.f0 = \\\"reviewer_probe\\\"}\\n\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  }
+]

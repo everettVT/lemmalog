@@ -18,3 +18,7 @@ lme-ctx/
 
 # per-snapshot embedding caches (benchmark iteration)
 *.snap.embed.json
+
+# Python verification bytecode
+__pycache__/
+*.pyc

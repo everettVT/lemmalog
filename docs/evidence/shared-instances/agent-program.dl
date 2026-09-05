@@ -1,0 +1,5 @@
+output relation R_echo(f0: string)
+input relation R_source(f0: string)
+output relation Evidence0(v_V: string)
+Evidence0(v_V) :- R_source(v_V).
+R_echo(v_V) :- Evidence0(v_V).

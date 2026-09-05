@@ -9,6 +9,8 @@ license = "MIT"
 serde = { version = "1", features = ["derive"], optional = true }
 serde_json = { version = "1", optional = true }
 ureq = { version = "2", optional = true }
+sha2 = { version = "0.10", optional = true }
+libc = { version = "0.2", optional = true }
 
 [[bin]]
 name = "lemmalog-mcp"
@@ -39,8 +41,8 @@ required-features = ["llm"]
 # llama.cpp server, OpenAI, etc.). Enable with --features llm.
 llm = ["dep:ureq", "dep:serde_json"]
 # MCP server binary (Model Context Protocol over stdio) for agent CLIs
-# (Claude Code, Kimi CLI, ...). Needs only serde_json.
-mcp = ["dep:serde_json", "dep:serde"]
+# (Claude Code, Kimi CLI, ...), plus the local DDlog host/processor registry.
+mcp = ["dep:serde_json", "dep:serde", "dep:sha2", "dep:libc"]
 
 [[bin]]
 name = "lemmalog-ddlog-mcp"

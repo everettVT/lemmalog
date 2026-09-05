@@ -1,0 +1,21 @@
+{
+  "scope": "Separate final-server agent-issued author and reviewer MCP calls through independent pipes. This is a bounded shared-interface exercise, not an LLM authorship benchmark or external provider test.",
+  "mcp_binary_sha256": "76e4303375cdace89642d17be82ae19edd279733261c29d4f66aaf355f0d7306",
+  "generated_source_sha256": "44a776e31f6148cfce4243231c74e63c2ee23b14f619f25066a8a7d87fda0634",
+  "generated_executable_sha256": "d0eff70e881a3d660110190cb52f8884756af1ccb207bee6ca914b2c21a8fa55",
+  "graph_build": "Reused retained official-DDlog-compiled echo executable after operator driver checked exact generated-source bytes and source/executable SHA256. No fresh compilation in this actor exercise. The separate deterministic driver freshly generated three programs.",
+  "rpc_counts": {
+    "author_initial": 7,
+    "reviewer": 5,
+    "author_reconnected": 3
+  },
+  "deliberate_negative_request": "Author first submitted invalid syntax; automatic saving validation rejected it before valid create and activation.",
+  "shared_terminal_handles": false,
+  "author_disconnect_before_reviewer": true,
+  "instance_and_pin_matched": true,
+  "fixture_values": [
+    "author_seed",
+    "reviewer_probe"
+  ],
+  "sanitization": "Local descriptor/build paths and process IDs omitted. Synthetic program, requests, responses, IDs and versions preserved. Reviewer receipts contain decoded results rather than full raw envelopes."
+}
