@@ -1,6 +1,8 @@
 //! Experimental DDlog backend. The existing memory evaluator remains independent.
 mod lower;
+mod operations;
 pub use lower::{lower, Schema};
+pub use operations::{AgentProgram, Operation};
 
 use serde_json::{json, Value};
 use std::collections::{BTreeMap, BTreeSet};
@@ -92,6 +94,13 @@ impl Backend {
         let schema: BTreeMap<String, Schema> =
             serde_json::from_value(schemas).map_err(|e| e.to_string())?;
         let source = lower(rules, &schema)?;
+        self.install_source(source, schema)
+    }
+    fn install_source(
+        &mut self,
+        source: String,
+        schema: BTreeMap<String, Schema>,
+    ) -> Result<Value> {
         if !self.facts.is_empty() && schema != self.schema {
             return Err("Cannot change schemas with retained facts; start a new session".into());
         }
@@ -186,7 +195,7 @@ impl Backend {
             Err(error) => {
                 self.runtime = None;
                 Err(format!(
-                    "Runtime unavailable; reinstall to recover retained input: {error}"
+                    "Runtime unavailable; retained inputs have not advanced. Reconcile outstanding external claims before restarting: {error}"
                 ))
             }
         }

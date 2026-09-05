@@ -1,0 +1,1118 @@
+[
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "method": "initialize",
+      "params": {}
+    },
+    "response": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+        "capabilities": {
+          "tools": {}
+        },
+        "protocolVersion": "2024-11-05",
+        "serverInfo": {
+          "name": "lemmalog-ddlog",
+          "version": "0.1.0"
+        }
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "method": "tools/list",
+      "params": {}
+    },
+    "response": {
+      "id": 2,
+      "jsonrpc": "2.0",
+      "result": {
+        "tools": [
+          {
+            "description": "Compile and atomically replace this session's typed positive rule program; replay retained facts. Unsupported syntax is rejected.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "rules": {
+                  "type": "string"
+                },
+                "schemas": {
+                  "additionalProperties": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "fields": {
+                        "items": {
+                          "enum": [
+                            "int",
+                            "string"
+                          ]
+                        },
+                        "minItems": 1,
+                        "type": "array"
+                      },
+                      "input": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "input",
+                      "fields"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "object"
+                }
+              },
+              "required": [
+                "rules",
+                "schemas"
+              ],
+              "type": "object"
+            },
+            "name": "lemmalog_install_rules"
+          },
+          {
+            "description": "Transactionally insert or delete input facts with set semantics.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "changes": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "op": {
+                        "enum": [
+                          "insert",
+                          "delete"
+                        ]
+                      },
+                      "predicate": {
+                        "type": "string"
+                      },
+                      "values": {
+                        "items": {
+                          "type": [
+                            "integer",
+                            "string"
+                          ]
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "op",
+                      "predicate",
+                      "values"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "changes"
+              ],
+              "type": "object"
+            },
+            "name": "apply_changes"
+          },
+          {
+            "description": "Dump a declared output relation at the last completed transaction. Returns DDlog row text.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "predicate": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "predicate"
+              ],
+              "type": "object"
+            },
+            "name": "lemmalog_query"
+          },
+          {
+            "description": "Read direct variable-binding witnesses for a zero-based rule index. Not recursive provenance.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "rule": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "rule"
+              ],
+              "type": "object"
+            },
+            "name": "lemmalog_why"
+          },
+          {
+            "description": "Discover operator-registered operations. Each takes and returns a string; providers execute outside DDlog.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {},
+              "required": [],
+              "type": "object"
+            },
+            "name": "agent_operations"
+          },
+          {
+            "description": "Select a registered operation. Author rules consuming agent_result(entity:string, revision:int, output:string). The runtime generates private request/response relations and freshness joins.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "operation": {
+                  "type": "string"
+                },
+                "rules": {
+                  "type": "string"
+                },
+                "schemas": {
+                  "type": "object"
+                }
+              },
+              "required": [
+                "operation",
+                "rules",
+                "schemas"
+              ],
+              "type": "object"
+            },
+            "name": "install_agent_program"
+          },
+          {
+            "description": "Submit a versioned input; identity includes operation version, entity, revision and exact payload. Same revision cannot change payload.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "entity": {
+                  "type": "string"
+                },
+                "payload": {
+                  "type": "string"
+                },
+                "revision": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "entity",
+                "revision",
+                "payload"
+              ],
+              "type": "object"
+            },
+            "name": "submit_agent_input"
+          },
+          {
+            "description": "Admit external work once per session. Stale or already claimed requests are rejected. No automatic replay after uncertain outcomes.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "request_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "request_id"
+              ],
+              "type": "object"
+            },
+            "name": "claim_agent_request"
+          },
+          {
+            "description": "Record the external worker's response. Stale replies are retained but never join current outputs; conflicting responses are rejected.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "output": {
+                  "type": "string"
+                },
+                "request_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "request_id",
+                "output"
+              ],
+              "type": "object"
+            },
+            "name": "complete_agent_request"
+          },
+          {
+            "description": "Inspect per-request identity, status and freshness. State is session-local, not durable.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {},
+              "required": [],
+              "type": "object"
+            },
+            "name": "agent_request_status"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "method": "tools/call",
+      "params": {
+        "name": "agent_operations",
+        "arguments": {}
+      }
+    },
+    "response": {
+      "id": 3,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"operations\":[{\"description\":\"Review a text payload\",\"input\":\"string\",\"name\":\"review\",\"output\":\"string\",\"version\":\"v1\"}]}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 4,
+      "method": "tools/call",
+      "params": {
+        "name": "install_agent_program",
+        "arguments": {
+          "operation": "unregistered",
+          "rules": "reviewed(E,R,O) :- agent_result(E,R,O).",
+          "schemas": {
+            "reviewed": {
+              "input": false,
+              "fields": [
+                "string",
+                "int",
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "id": 4,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "Operation is not registered",
+            "type": "text"
+          }
+        ],
+        "isError": true
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 5,
+      "method": "tools/call",
+      "params": {
+        "name": "install_agent_program",
+        "arguments": {
+          "operation": "review",
+          "rules": "reviewed(E,R,O) :- agent_result(E,R,O).",
+          "schemas": {
+            "reviewed": {
+              "input": false,
+              "fields": [
+                "string",
+                "int",
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "id": 5,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"backend\":\"ddlog/differential-dataflow\",\"replayed_facts\":0,\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 6,
+      "method": "tools/call",
+      "params": {
+        "name": "submit_agent_input",
+        "arguments": {
+          "entity": "agent-a",
+          "revision": 1,
+          "payload": "old payload"
+        }
+      }
+    },
+    "response": {
+      "id": 6,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"operation\":\"review\",\"operation_version\":\"v1\",\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-a\\\",1,\\\"old payload\\\"]\",\"transaction\":{\"deltas\":\"R_agent_pending:\\nR_agent_pending{.f0 = \\\"[\\\\\\\"review\\\\\\\",\\\\\\\"v1\\\\\\\",\\\\\\\"agent-a\\\\\\\",1,\\\\\\\"old payload\\\\\\\"]\\\", .f1 = \\\"agent-a\\\", .f2 = 1, .f3 = \\\"old payload\\\"}: +1\\n\",\"version\":1}}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 7,
+      "method": "tools/call",
+      "params": {
+        "name": "submit_agent_input",
+        "arguments": {
+          "entity": "agent-a",
+          "revision": 1,
+          "payload": "old payload"
+        }
+      }
+    },
+    "response": {
+      "id": 7,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"operation\":\"review\",\"operation_version\":\"v1\",\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-a\\\",1,\\\"old payload\\\"]\",\"transaction\":{\"deltas\":\"\",\"version\":1}}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 8,
+      "method": "tools/call",
+      "params": {
+        "name": "submit_agent_input",
+        "arguments": {
+          "entity": "agent-a",
+          "revision": 1,
+          "payload": "conflict"
+        }
+      }
+    },
+    "response": {
+      "id": 8,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "Same revision has different input; advance revision",
+            "type": "text"
+          }
+        ],
+        "isError": true
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 9,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "agent_pending"
+        }
+      }
+    },
+    "response": {
+      "id": 9,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"R_agent_pending{.f0 = \\\"[\\\\\\\"review\\\\\\\",\\\\\\\"v1\\\\\\\",\\\\\\\"agent-a\\\\\\\",1,\\\\\\\"old payload\\\\\\\"]\\\", .f1 = \\\"agent-a\\\", .f2 = 1, .f3 = \\\"old payload\\\"}\\n\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 10,
+      "method": "tools/call",
+      "params": {
+        "name": "claim_agent_request",
+        "arguments": {
+          "request_id": "[\"review\",\"v1\",\"agent-a\",1,\"old payload\"]"
+        }
+      }
+    },
+    "response": {
+      "id": 10,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"entity\":\"agent-a\",\"operation\":\"review\",\"operation_version\":\"v1\",\"payload\":\"old payload\",\"recovery\":\"Session-local claim; uncertain outcomes require reconciliation, not automatic retries\",\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-a\\\",1,\\\"old payload\\\"]\",\"revision\":1,\"status\":\"claimed\"}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 11,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "agent_pending"
+        }
+      }
+    },
+    "response": {
+      "id": 11,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 12,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "agent_running"
+        }
+      }
+    },
+    "response": {
+      "id": 12,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"R_agent_running{.f0 = \\\"[\\\\\\\"review\\\\\\\",\\\\\\\"v1\\\\\\\",\\\\\\\"agent-a\\\\\\\",1,\\\\\\\"old payload\\\\\\\"]\\\"}\\n\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 13,
+      "method": "tools/call",
+      "params": {
+        "name": "claim_agent_request",
+        "arguments": {
+          "request_id": "[\"review\",\"v1\",\"agent-a\",1,\"old payload\"]"
+        }
+      }
+    },
+    "response": {
+      "id": 13,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "Already claimed or completed; no automatic replay",
+            "type": "text"
+          }
+        ],
+        "isError": true
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 14,
+      "method": "tools/call",
+      "params": {
+        "name": "submit_agent_input",
+        "arguments": {
+          "entity": "agent-a",
+          "revision": 2,
+          "payload": "new payload"
+        }
+      }
+    },
+    "response": {
+      "id": 14,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"operation\":\"review\",\"operation_version\":\"v1\",\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-a\\\",2,\\\"new payload\\\"]\",\"transaction\":{\"deltas\":\"R_agent_pending:\\nR_agent_pending{.f0 = \\\"[\\\\\\\"review\\\\\\\",\\\\\\\"v1\\\\\\\",\\\\\\\"agent-a\\\\\\\",2,\\\\\\\"new payload\\\\\\\"]\\\", .f1 = \\\"agent-a\\\", .f2 = 2, .f3 = \\\"new payload\\\"}: +1\\nR_agent_running:\\nR_agent_running{.f0 = \\\"[\\\\\\\"review\\\\\\\",\\\\\\\"v1\\\\\\\",\\\\\\\"agent-a\\\\\\\",1,\\\\\\\"old payload\\\\\\\"]\\\"}: -1\\n\",\"version\":1}}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 15,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "reviewed"
+        }
+      }
+    },
+    "response": {
+      "id": 15,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 16,
+      "method": "tools/call",
+      "params": {
+        "name": "complete_agent_request",
+        "arguments": {
+          "request_id": "[\"review\",\"v1\",\"agent-a\",1,\"old payload\"]",
+          "output": "mock-old"
+        }
+      }
+    },
+    "response": {
+      "id": 16,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"duplicate\":false,\"fresh\":false,\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-a\\\",1,\\\"old payload\\\"]\",\"transaction\":{\"deltas\":\"R_agent_finished:\\nR_agent_finished{.f0 = \\\"[\\\\\\\"review\\\\\\\",\\\\\\\"v1\\\\\\\",\\\\\\\"agent-a\\\\\\\",1,\\\\\\\"old payload\\\\\\\"]\\\"}: +1\\n\",\"version\":1}}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 17,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "reviewed"
+        }
+      }
+    },
+    "response": {
+      "id": 17,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 18,
+      "method": "tools/call",
+      "params": {
+        "name": "claim_agent_request",
+        "arguments": {
+          "request_id": "[\"review\",\"v1\",\"agent-a\",2,\"new payload\"]"
+        }
+      }
+    },
+    "response": {
+      "id": 18,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"entity\":\"agent-a\",\"operation\":\"review\",\"operation_version\":\"v1\",\"payload\":\"new payload\",\"recovery\":\"Session-local claim; uncertain outcomes require reconciliation, not automatic retries\",\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-a\\\",2,\\\"new payload\\\"]\",\"revision\":2,\"status\":\"claimed\"}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 19,
+      "method": "tools/call",
+      "params": {
+        "name": "complete_agent_request",
+        "arguments": {
+          "request_id": "[\"review\",\"v1\",\"agent-a\",2,\"new payload\"]",
+          "output": "mock-new"
+        }
+      }
+    },
+    "response": {
+      "id": 19,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"duplicate\":false,\"fresh\":true,\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-a\\\",2,\\\"new payload\\\"]\",\"transaction\":{\"deltas\":\"Evidence0:\\nEvidence0{.v_E = \\\"agent-a\\\", .v_O = \\\"mock-new\\\", .v_R = 2}: +1\\nR_agent_finished:\\nR_agent_finished{.f0 = \\\"[\\\\\\\"review\\\\\\\",\\\\\\\"v1\\\\\\\",\\\\\\\"agent-a\\\\\\\",2,\\\\\\\"new payload\\\\\\\"]\\\"}: +1\\nR_agent_result:\\nR_agent_result{.f0 = \\\"agent-a\\\", .f1 = 2, .f2 = \\\"mock-new\\\"}: +1\\nR_agent_running:\\nR_agent_running{.f0 = \\\"[\\\\\\\"review\\\\\\\",\\\\\\\"v1\\\\\\\",\\\\\\\"agent-a\\\\\\\",2,\\\\\\\"new payload\\\\\\\"]\\\"}: -1\\nR_reviewed:\\nR_reviewed{.f0 = \\\"agent-a\\\", .f1 = 2, .f2 = \\\"mock-new\\\"}: +1\\n\",\"version\":1}}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 20,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "reviewed"
+        }
+      }
+    },
+    "response": {
+      "id": 20,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"R_reviewed{.f0 = \\\"agent-a\\\", .f1 = 2, .f2 = \\\"mock-new\\\"}\\n\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 21,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "reviewed"
+        }
+      }
+    },
+    "response": {
+      "id": 21,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"R_reviewed{.f0 = \\\"agent-a\\\", .f1 = 2, .f2 = \\\"mock-new\\\"}\\n\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 22,
+      "method": "tools/call",
+      "params": {
+        "name": "complete_agent_request",
+        "arguments": {
+          "request_id": "[\"review\",\"v1\",\"agent-a\",2,\"new payload\"]",
+          "output": "mock-new"
+        }
+      }
+    },
+    "response": {
+      "id": 22,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"duplicate\":true,\"fresh\":true,\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-a\\\",2,\\\"new payload\\\"]\"}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 23,
+      "method": "tools/call",
+      "params": {
+        "name": "complete_agent_request",
+        "arguments": {
+          "request_id": "[\"review\",\"v1\",\"agent-a\",2,\"new payload\"]",
+          "output": "conflict"
+        }
+      }
+    },
+    "response": {
+      "id": 23,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "Conflicting completion for request",
+            "type": "text"
+          }
+        ],
+        "isError": true
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 24,
+      "method": "tools/call",
+      "params": {
+        "name": "apply_changes",
+        "arguments": {
+          "changes": [
+            {
+              "op": "insert",
+              "predicate": "agent_response",
+              "values": [
+                "[\"review\",\"v1\",\"agent-a\",2,\"new payload\"]",
+                "bypass"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "response": {
+      "id": 24,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "Registered operation relations must use the operation tools",
+            "type": "text"
+          }
+        ],
+        "isError": true
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 25,
+      "method": "tools/call",
+      "params": {
+        "name": "submit_agent_input",
+        "arguments": {
+          "entity": "agent-a",
+          "revision": 3,
+          "payload": "latest payload"
+        }
+      }
+    },
+    "response": {
+      "id": 25,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"operation\":\"review\",\"operation_version\":\"v1\",\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-a\\\",3,\\\"latest payload\\\"]\",\"transaction\":{\"deltas\":\"Evidence0:\\nEvidence0{.v_E = \\\"agent-a\\\", .v_O = \\\"mock-new\\\", .v_R = 2}: -1\\nR_agent_pending:\\nR_agent_pending{.f0 = \\\"[\\\\\\\"review\\\\\\\",\\\\\\\"v1\\\\\\\",\\\\\\\"agent-a\\\\\\\",3,\\\\\\\"latest payload\\\\\\\"]\\\", .f1 = \\\"agent-a\\\", .f2 = 3, .f3 = \\\"latest payload\\\"}: +1\\nR_agent_result:\\nR_agent_result{.f0 = \\\"agent-a\\\", .f1 = 2, .f2 = \\\"mock-new\\\"}: -1\\nR_reviewed:\\nR_reviewed{.f0 = \\\"agent-a\\\", .f1 = 2, .f2 = \\\"mock-new\\\"}: -1\\n\",\"version\":1}}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 26,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "reviewed"
+        }
+      }
+    },
+    "response": {
+      "id": 26,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 27,
+      "method": "tools/call",
+      "params": {
+        "name": "submit_agent_input",
+        "arguments": {
+          "entity": "agent-a",
+          "revision": 4,
+          "payload": "unclaimed replacement"
+        }
+      }
+    },
+    "response": {
+      "id": 27,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"operation\":\"review\",\"operation_version\":\"v1\",\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-a\\\",4,\\\"unclaimed replacement\\\"]\",\"transaction\":{\"deltas\":\"R_agent_pending:\\nR_agent_pending{.f0 = \\\"[\\\\\\\"review\\\\\\\",\\\\\\\"v1\\\\\\\",\\\\\\\"agent-a\\\\\\\",3,\\\\\\\"latest payload\\\\\\\"]\\\", .f1 = \\\"agent-a\\\", .f2 = 3, .f3 = \\\"latest payload\\\"}: -1\\nR_agent_pending{.f0 = \\\"[\\\\\\\"review\\\\\\\",\\\\\\\"v1\\\\\\\",\\\\\\\"agent-a\\\\\\\",4,\\\\\\\"unclaimed replacement\\\\\\\"]\\\", .f1 = \\\"agent-a\\\", .f2 = 4, .f3 = \\\"unclaimed replacement\\\"}: +1\\n\",\"version\":1}}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 28,
+      "method": "tools/call",
+      "params": {
+        "name": "claim_agent_request",
+        "arguments": {
+          "request_id": "[\"review\",\"v1\",\"agent-a\",3,\"latest payload\"]"
+        }
+      }
+    },
+    "response": {
+      "id": 28,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "Stale request cannot be admitted",
+            "type": "text"
+          }
+        ],
+        "isError": true
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 29,
+      "method": "tools/call",
+      "params": {
+        "name": "submit_agent_input",
+        "arguments": {
+          "entity": "agent-b",
+          "revision": 1,
+          "payload": "other payload"
+        }
+      }
+    },
+    "response": {
+      "id": 29,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"operation\":\"review\",\"operation_version\":\"v1\",\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-b\\\",1,\\\"other payload\\\"]\",\"transaction\":{\"deltas\":\"R_agent_pending:\\nR_agent_pending{.f0 = \\\"[\\\\\\\"review\\\\\\\",\\\\\\\"v1\\\\\\\",\\\\\\\"agent-b\\\\\\\",1,\\\\\\\"other payload\\\\\\\"]\\\", .f1 = \\\"agent-b\\\", .f2 = 1, .f3 = \\\"other payload\\\"}: +1\\n\",\"version\":1}}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 30,
+      "method": "tools/call",
+      "params": {
+        "name": "claim_agent_request",
+        "arguments": {
+          "request_id": "[\"review\",\"v1\",\"agent-b\",1,\"other payload\"]"
+        }
+      }
+    },
+    "response": {
+      "id": 30,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"entity\":\"agent-b\",\"operation\":\"review\",\"operation_version\":\"v1\",\"payload\":\"other payload\",\"recovery\":\"Session-local claim; uncertain outcomes require reconciliation, not automatic retries\",\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-b\\\",1,\\\"other payload\\\"]\",\"revision\":1,\"status\":\"claimed\"}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 31,
+      "method": "tools/call",
+      "params": {
+        "name": "complete_agent_request",
+        "arguments": {
+          "request_id": "[\"review\",\"v1\",\"agent-b\",1,\"other payload\"]",
+          "output": "mock-other"
+        }
+      }
+    },
+    "response": {
+      "id": 31,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"duplicate\":false,\"fresh\":true,\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-b\\\",1,\\\"other payload\\\"]\",\"transaction\":{\"deltas\":\"Evidence0:\\nEvidence0{.v_E = \\\"agent-b\\\", .v_O = \\\"mock-other\\\", .v_R = 1}: +1\\nR_agent_finished:\\nR_agent_finished{.f0 = \\\"[\\\\\\\"review\\\\\\\",\\\\\\\"v1\\\\\\\",\\\\\\\"agent-b\\\\\\\",1,\\\\\\\"other payload\\\\\\\"]\\\"}: +1\\nR_agent_result:\\nR_agent_result{.f0 = \\\"agent-b\\\", .f1 = 1, .f2 = \\\"mock-other\\\"}: +1\\nR_agent_running:\\nR_agent_running{.f0 = \\\"[\\\\\\\"review\\\\\\\",\\\\\\\"v1\\\\\\\",\\\\\\\"agent-b\\\\\\\",1,\\\\\\\"other payload\\\\\\\"]\\\"}: -1\\nR_reviewed:\\nR_reviewed{.f0 = \\\"agent-b\\\", .f1 = 1, .f2 = \\\"mock-other\\\"}: +1\\n\",\"version\":1}}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 32,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "reviewed"
+        }
+      }
+    },
+    "response": {
+      "id": 32,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"R_reviewed{.f0 = \\\"agent-b\\\", .f1 = 1, .f2 = \\\"mock-other\\\"}\\n\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 33,
+      "method": "tools/call",
+      "params": {
+        "name": "agent_request_status",
+        "arguments": {}
+      }
+    },
+    "response": {
+      "id": 33,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"durability\":\"session-local\",\"operation\":\"review\",\"operation_version\":\"v1\",\"requests\":[{\"entity\":\"agent-a\",\"fresh\":false,\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-a\\\",1,\\\"old payload\\\"]\",\"revision\":1,\"status\":\"completed\"},{\"entity\":\"agent-a\",\"fresh\":false,\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-a\\\",2,\\\"new payload\\\"]\",\"revision\":2,\"status\":\"completed\"},{\"entity\":\"agent-a\",\"fresh\":false,\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-a\\\",3,\\\"latest payload\\\"]\",\"revision\":3,\"status\":\"pending\"},{\"entity\":\"agent-a\",\"fresh\":true,\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-a\\\",4,\\\"unclaimed replacement\\\"]\",\"revision\":4,\"status\":\"pending\"},{\"entity\":\"agent-b\",\"fresh\":true,\"request_id\":\"[\\\"review\\\",\\\"v1\\\",\\\"agent-b\\\",1,\\\"other payload\\\"]\",\"revision\":1,\"status\":\"completed\"}]}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  }
+]
