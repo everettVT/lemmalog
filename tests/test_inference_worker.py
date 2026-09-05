@@ -66,7 +66,8 @@ class FakeMCP:
             if self.fail_settle:
                 raise worker.WorkerError('Settlement response lost; reconcile host state', uncertain=True)
             self.completed.append(arguments.copy())
-            return {'request_id': arguments['request_id'], 'duplicate': False, 'fresh': self.fresh}
+            return {'request_id': arguments['request_id'], 'duplicate': False, 'fresh': self.fresh,
+                    'transaction': {'version': 1, 'deltas': ''}}
         raise AssertionError(name)
 
     async def close(self):
@@ -146,6 +147,57 @@ class ConfigTests(unittest.TestCase):
 
 
 class WorkerTests(unittest.IsolatedAsyncioTestCase):
+    async def test_cli_retains_paid_response_when_combined_completion_is_oversized(self):
+        cfg = config()
+        client = FakeMCP(cfg)
+        provider = FakeProvider(cfg, content='r' * 100_000)
+        payload = 'p' * 950_000
+        identity = request_id(cfg, payload=payload)
+        self.assertLess(len(worker._frame(1, 'tools/call', {'name': 'claim_agent_request',
+                            'arguments': {'request_id': identity}})), worker.MCP_REQUEST_LIMIT)
+        self.assertLess(len(provider.content.encode()), worker.MCP_REQUEST_LIMIT)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'config.json'
+            path.write_text(json.dumps(cfg.public_dict()))
+            args = worker.build_parser().parse_args(['--config', str(path), '--descriptor', 'descriptor',
+                '--binary', 'server', '--request-id', identity, '--receipt', str(Path(directory) / 'receipt.json')])
+            with patch.object(worker.MCPPipe, 'connect', return_value=client), patch.object(worker, 'ProviderClient', return_value=provider):
+                receipt = await worker._cli(args)
+        self.assertFalse(receipt['passed'])
+        result = receipt['results'][0]
+        self.assertFalse(result['completed'])
+        self.assertIn('1 MiB', result['error'])
+        self.assertIn('prepared', result, 'Already-paid provider response must survive local completion rejection')
+        self.assertEqual(result['prepared']['request_id'], identity)
+        self.assertEqual(result['prepared']['provider']['content'], provider.content)
+        self.assertEqual(result['prepared']['provider']['response_sha256'], 'b' * 64)
+        self.assertEqual(provider.calls, [payload])
+        self.assertEqual(client.completed, [])
+
+    async def test_cli_rejects_empty_successful_settlement_and_retains_prepared(self):
+        cfg = config()
+        client, provider = FakeMCP(cfg), FakeProvider(cfg)
+        original_call = client.call
+        async def malformed(name, arguments=None):
+            if name == 'complete_agent_request':
+                return {}
+            return await original_call(name, arguments)
+        client.call = malformed
+        identity = request_id(cfg)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'config.json'
+            path.write_text(json.dumps(cfg.public_dict()))
+            args = worker.build_parser().parse_args(['--config', str(path), '--descriptor', 'descriptor',
+                '--binary', 'server', '--request-id', identity, '--receipt', str(Path(directory) / 'receipt.json')])
+            with patch.object(worker.MCPPipe, 'connect', return_value=client), patch.object(worker, 'ProviderClient', return_value=provider):
+                receipt = await worker._cli(args)
+        self.assertFalse(receipt['passed'], 'An empty success payload does not establish settlement')
+        result = receipt['results'][0]
+        self.assertFalse(result['completed'])
+        self.assertTrue(result['uncertain'])
+        self.assertEqual(result['prepared']['provider']['content'], provider.content)
+        self.assertEqual(provider.calls, ['hello'])
+
     async def test_bind_verifies_exact_pin_and_three_field_operation_before_provider(self):
         cfg = config()
         for mismatch in ('definition', 'host'):
@@ -312,6 +364,61 @@ def provider_response():
 
 
 class TransportTests(unittest.IsolatedAsyncioTestCase):
+    async def test_recorded_real_settlements_pass_current_validator_without_provider_calls(self):
+        evidence = ROOT / 'docs/evidence/registered-inference/rpc.jsonl'
+        completions = [row for line in evidence.read_text().splitlines()
+                       if (row := json.loads(line))['tool'] == 'complete_agent_request' and 'result' in row]
+        self.assertEqual(len(completions), 4)
+        self.assertEqual({row['result']['duplicate'] for row in completions}, {False, True})
+        self.assertEqual({row['result']['fresh'] for row in completions}, {False, True})
+        for row in completions:
+            envelope = {'jsonrpc': '2.0', 'id': 1, 'result': {
+                'isError': False, 'content': [{'type': 'text', 'text': json.dumps(row['result'])}]}}
+            process = Process(json.dumps(envelope).encode() + b'\n')
+            client = worker.MCPPipe(process)
+            self.assertEqual(await client.call('complete_agent_request', row['arguments']), row['result'])
+            await client.close()
+
+    async def test_malformed_successful_settlement_poisons_pipe_without_replay(self):
+        identity = request_id(config())
+        accepted = {'request_id': identity, 'fresh': True, 'duplicate': False,
+                    'transaction': {'version': 1, 'deltas': ''}}
+        malformed = [{}, [], dict(accepted, request_id='different'),
+                     {key: value for key, value in accepted.items() if key != 'fresh'},
+                     dict(accepted, fresh=1), dict(accepted, duplicate=0),
+                     {key: value for key, value in accepted.items() if key != 'transaction'},
+                     dict(accepted, transaction={}), dict(accepted, transaction={'version': True, 'deltas': ''}),
+                     dict(accepted, transaction={'version': 1, 'deltas': None}),
+                     dict(accepted, transaction={'version': 0, 'deltas': ''}),
+                     dict(accepted, duplicate=True)]
+        for value in malformed:
+            with self.subTest(value=value):
+                envelope = {'jsonrpc': '2.0', 'id': 1, 'result': {
+                    'isError': False, 'content': [{'type': 'text', 'text': json.dumps(value)}]}}
+                process = Process(json.dumps(envelope).encode() + b'\n')
+                client = worker.MCPPipe(process)
+                with self.assertRaises(worker.WorkerError) as raised:
+                    await client.call('complete_agent_request', {'request_id': identity, 'output': 'answer'})
+                self.assertTrue(raised.exception.uncertain)
+                previous = bytes(process.stdin.data)
+                with self.assertRaises(worker.WorkerError):
+                    await client.call('instance_info')
+                self.assertEqual(bytes(process.stdin.data), previous)
+                await client.close()
+
+    async def test_valid_new_and_duplicate_settlement_shapes_are_accepted(self):
+        identity = request_id(config())
+        for value in [{'request_id': identity, 'fresh': True, 'duplicate': False,
+                       'transaction': {'version': 1, 'deltas': ''}},
+                      {'request_id': identity, 'fresh': False, 'duplicate': True}]:
+            envelope = {'jsonrpc': '2.0', 'id': 1, 'result': {
+                'isError': False, 'content': [{'type': 'text', 'text': json.dumps(value)}]}}
+            process = Process(json.dumps(envelope).encode() + b'\n')
+            client = worker.MCPPipe(process)
+            self.assertEqual(await client.call('complete_agent_request',
+                             {'request_id': identity, 'output': 'answer'}), value)
+            await client.close()
+
     async def test_modal_cli_uses_stdin_profile_and_sanitized_result(self):
         cfg = config()
         raw = json.dumps(provider_response()).encode()

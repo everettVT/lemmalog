@@ -1,9 +1,27 @@
 # Registered inference evidence
 
-The real driver passed on the first run: one freshly compiled official
+The original real driver at commit `409419e` passed on the first run: one freshly compiled official
 DDlog/Differential graph, two actual GLM-5.3-Flash provider calls, 40 MCP tool
 exchanges and seven complete-output comparisons against the independent set/join
 oracle. The worker and server hashes were checked unchanged across the run.
+
+Subsequent adversarial review found two worker failure-path defects outside that
+original fixture. Both were reproduced before fixing them: a valid 950,000-byte
+payload plus a valid 100,000-byte model response exceeded the combined completion
+frame and lost the paid response; an empty successful settlement object was
+incorrectly reported as completed. The corrected worker constructs and retains
+the prepared response before local settlement checks, validates the exact request
+identity, required booleans and transaction shape, and invalidates a pipe whose
+completion acknowledgement is malformed. It does not retry the operation.
+
+The corrected worker now passes **27 tests** (24 worker, 3 oracle), including
+12 malformed acknowledgement cases and replay of all four acknowledgements from
+the original real run through the corrected pipe validator. No additional
+provider calls or native builds were performed for these fixes. The original
+live receipts below remain unchanged and identify the original worker hash;
+`review-verification.json` records the corrected source hash and test scope.
+Before-fix failure logs and the final passing `review-regression-after.log`
+preserve that distinction.
 
 Revision 1's provider response completed and was held outside the graph.
 Revision 2 then completed and was inserted first. Inserting revision 1 afterward
@@ -40,6 +58,7 @@ model weights or reasoning behavior.
 | `real-run.log` | Native install and two provider-call milestones with final pass |
 | `unit-tests.log` | 19 worker tests and 3 independent oracle tests, all passed |
 | `verification.json` | Test scopes, raw and published hashes, environment and limitations |
+| `review-verification.json`, `review-regression-*.log` | Reproduced review defects, corrected source/test hashes, 27 passing controlled tests and recorded-acknowledgement replay; no new live calls |
 
 The actual run invoked the worker library's `dispatch` and `settle` methods to
 control response ordering. The finite CLI's failure receipts and argument
@@ -54,7 +73,7 @@ in-memory response body, but only content, model/response identity, usage and
 finish reason are retained. Reasoning transcripts and credentials are not
 recorded. The intentionally configured endpoint/model remain public evidence.
 
-All adopted requirements for this increment passed. The [documented
+The original acceptance and corrected regression checks passed. The [documented
 boundaries](../../inference-requirements.md) remain: session-local state, trusted
 same-user clients, no durable delivery or automatic scheduling, no claimant
 authentication, no remote cancellation or exactly-once guarantee, no uncertain

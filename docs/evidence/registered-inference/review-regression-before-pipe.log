@@ -1,0 +1,95 @@
+FFFFFFFFFF
+======================================================================
+FAIL: test_malformed_successful_settlement_poisons_pipe_without_replay (test_inference_worker.TransportTests.test_malformed_successful_settlement_poisons_pipe_without_replay) (value={})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_WORKTREE>/tests/test_inference_worker.py", line 382, in test_malformed_successful_settlement_poisons_pipe_without_replay
+    with self.assertRaises(worker.WorkerError) as raised:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: WorkerError not raised
+
+======================================================================
+FAIL: test_malformed_successful_settlement_poisons_pipe_without_replay (test_inference_worker.TransportTests.test_malformed_successful_settlement_poisons_pipe_without_replay) (value=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_WORKTREE>/tests/test_inference_worker.py", line 382, in test_malformed_successful_settlement_poisons_pipe_without_replay
+    with self.assertRaises(worker.WorkerError) as raised:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: WorkerError not raised
+
+======================================================================
+FAIL: test_malformed_successful_settlement_poisons_pipe_without_replay (test_inference_worker.TransportTests.test_malformed_successful_settlement_poisons_pipe_without_replay) (value={'request_id': 'different', 'fresh': True, 'duplicate': False, 'transaction': {'version': 1, 'deltas': ''}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_WORKTREE>/tests/test_inference_worker.py", line 382, in test_malformed_successful_settlement_poisons_pipe_without_replay
+    with self.assertRaises(worker.WorkerError) as raised:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: WorkerError not raised
+
+======================================================================
+FAIL: test_malformed_successful_settlement_poisons_pipe_without_replay (test_inference_worker.TransportTests.test_malformed_successful_settlement_poisons_pipe_without_replay) (value={'request_id': '["review","sha256:8213aeb3f067f2808ea3b45cf324ad7620d73abb199de2f394afb4dcc1390c60","a",1,"hello"]', 'duplicate': False, 'transaction': {'version': 1, 'deltas': ''}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_WORKTREE>/tests/test_inference_worker.py", line 382, in test_malformed_successful_settlement_poisons_pipe_without_replay
+    with self.assertRaises(worker.WorkerError) as raised:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: WorkerError not raised
+
+======================================================================
+FAIL: test_malformed_successful_settlement_poisons_pipe_without_replay (test_inference_worker.TransportTests.test_malformed_successful_settlement_poisons_pipe_without_replay) (value={'request_id': '["review","sha256:8213aeb3f067f2808ea3b45cf324ad7620d73abb199de2f394afb4dcc1390c60","a",1,"hello"]', 'fresh': 1, 'duplicate': False, 'transaction': {'version': 1, 'deltas': ''}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_WORKTREE>/tests/test_inference_worker.py", line 382, in test_malformed_successful_settlement_poisons_pipe_without_replay
+    with self.assertRaises(worker.WorkerError) as raised:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: WorkerError not raised
+
+======================================================================
+FAIL: test_malformed_successful_settlement_poisons_pipe_without_replay (test_inference_worker.TransportTests.test_malformed_successful_settlement_poisons_pipe_without_replay) (value={'request_id': '["review","sha256:8213aeb3f067f2808ea3b45cf324ad7620d73abb199de2f394afb4dcc1390c60","a",1,"hello"]', 'fresh': True, 'duplicate': 0, 'transaction': {'version': 1, 'deltas': ''}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_WORKTREE>/tests/test_inference_worker.py", line 382, in test_malformed_successful_settlement_poisons_pipe_without_replay
+    with self.assertRaises(worker.WorkerError) as raised:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: WorkerError not raised
+
+======================================================================
+FAIL: test_malformed_successful_settlement_poisons_pipe_without_replay (test_inference_worker.TransportTests.test_malformed_successful_settlement_poisons_pipe_without_replay) (value={'request_id': '["review","sha256:8213aeb3f067f2808ea3b45cf324ad7620d73abb199de2f394afb4dcc1390c60","a",1,"hello"]', 'fresh': True, 'duplicate': False})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_WORKTREE>/tests/test_inference_worker.py", line 382, in test_malformed_successful_settlement_poisons_pipe_without_replay
+    with self.assertRaises(worker.WorkerError) as raised:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: WorkerError not raised
+
+======================================================================
+FAIL: test_malformed_successful_settlement_poisons_pipe_without_replay (test_inference_worker.TransportTests.test_malformed_successful_settlement_poisons_pipe_without_replay) (value={'request_id': '["review","sha256:8213aeb3f067f2808ea3b45cf324ad7620d73abb199de2f394afb4dcc1390c60","a",1,"hello"]', 'fresh': True, 'duplicate': False, 'transaction': {}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_WORKTREE>/tests/test_inference_worker.py", line 382, in test_malformed_successful_settlement_poisons_pipe_without_replay
+    with self.assertRaises(worker.WorkerError) as raised:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: WorkerError not raised
+
+======================================================================
+FAIL: test_malformed_successful_settlement_poisons_pipe_without_replay (test_inference_worker.TransportTests.test_malformed_successful_settlement_poisons_pipe_without_replay) (value={'request_id': '["review","sha256:8213aeb3f067f2808ea3b45cf324ad7620d73abb199de2f394afb4dcc1390c60","a",1,"hello"]', 'fresh': True, 'duplicate': False, 'transaction': {'version': True, 'deltas': ''}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_WORKTREE>/tests/test_inference_worker.py", line 382, in test_malformed_successful_settlement_poisons_pipe_without_replay
+    with self.assertRaises(worker.WorkerError) as raised:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: WorkerError not raised
+
+======================================================================
+FAIL: test_malformed_successful_settlement_poisons_pipe_without_replay (test_inference_worker.TransportTests.test_malformed_successful_settlement_poisons_pipe_without_replay) (value={'request_id': '["review","sha256:8213aeb3f067f2808ea3b45cf324ad7620d73abb199de2f394afb4dcc1390c60","a",1,"hello"]', 'fresh': True, 'duplicate': False, 'transaction': {'version': 1, 'deltas': None}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_WORKTREE>/tests/test_inference_worker.py", line 382, in test_malformed_successful_settlement_poisons_pipe_without_replay
+    with self.assertRaises(worker.WorkerError) as raised:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: WorkerError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (failures=10)

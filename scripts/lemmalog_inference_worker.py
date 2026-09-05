@@ -341,7 +341,14 @@ class MCPPipe:
                 raise ValueError('text')
             if result.get('isError', False):
                 raise WorkerError(text, uncertain='uncertain' in text.lower())
-            return json.loads(text)
+            value = json.loads(text)
+            if name == 'complete_agent_request':
+                try:
+                    _validate_settlement((arguments or {}).get('request_id'), value)
+                except WorkerError:
+                    self._broken = True
+                    raise
+            return value
         except (KeyError, IndexError, TypeError, ValueError) as error:
             self._broken = True
             raise WorkerError('MCP tool returned malformed content; outcome uncertain, inspect host state without replay', uncertain=True) from error
@@ -379,6 +386,30 @@ def _validate_completion(identity, output):
         raise WorkerError('Provider output cannot be encoded as the exact UTF-8 completion; inspect the response', uncertain=True) from error
     if len(frame) > MCP_REQUEST_LIMIT:
         raise WorkerError('Exact completion including its request identity exceeds the 1 MiB MCP frame limit; no completion sent, use a smaller future input/output budget', uncertain=True)
+
+
+def _validate_settlement(identity, result):
+    """A transport success alone does not establish completion of this request."""
+    cause = None
+    if not isinstance(result, dict):
+        cause = 'expected a completion object'
+    elif result.get('request_id') != identity or not isinstance(identity, str):
+        cause = 'request_id is missing or differs from the admitted request'
+    elif type(result.get('fresh')) is not bool or type(result.get('duplicate')) is not bool:
+        cause = 'fresh and duplicate must both be explicit booleans'
+    elif result['duplicate']:
+        if 'transaction' in result:
+            cause = 'duplicate acknowledgement must not claim a new transaction'
+    else:
+        transaction = result.get('transaction')
+        if (not isinstance(transaction, dict) or type(transaction.get('version')) is not int
+                or not 1 <= transaction['version'] <= 2**64 - 1
+                or not isinstance(transaction.get('deltas'), str)):
+            cause = 'new completion requires a transaction with a positive integer version and string deltas'
+    if cause:
+        raise WorkerError(f'Malformed completion acknowledgement: {cause}; settlement outcome uncertain. '
+                          'Inspect instance_info and agent_request_status and reconcile the retained prepared response '
+                          'before deciding on explicit settlement; do not automatically replay the request', uncertain=True)
 
 
 class InferenceWorker:
@@ -435,7 +466,8 @@ class InferenceWorker:
             result = await self.provider.infer(claim['payload'])
             if not isinstance(result, ProviderResult) or result.config_sha256 != self.config.config_sha256:
                 raise WorkerError('Provider result config identity differs from the admitted binding; no completion sent, reconcile the provider outcome', uncertain=True)
-            _validate_completion(request_id, result.content)
+            # Preserve the completed provider result before checking whether its
+            # exact text plus request identity can be submitted to the graph.
             return PreparedResult(request_id, self.config.operation, bound['operation']['version'], bound['instance_id'],
                                   bound['processor']['processor_id'], bound['processor']['version'], result)
 
@@ -446,7 +478,9 @@ class InferenceWorker:
                 or prepared.operation_version != bound['operation']['version'] or prepared.provider.config_sha256 != self.config.config_sha256):
             raise WorkerError('Prepared result belongs to a different bound instance/config; inspect the exact pin before explicit settlement', uncertain=True)
         _validate_completion(prepared.request_id, prepared.output)
-        return await self.client.call('complete_agent_request', {'request_id': prepared.request_id, 'output': prepared.output})
+        completion = await self.client.call('complete_agent_request', {'request_id': prepared.request_id, 'output': prepared.output})
+        _validate_settlement(prepared.request_id, completion)
+        return completion
 
     async def run(self, request_id):
         prepared = await self.dispatch(request_id)
@@ -496,7 +530,7 @@ async def _cli(arguments):
                 prepared = asdict(result['prepared'])
                 completion = result['completion']
                 entry.update(prepared=prepared, completed=True, settlement={
-                    'fresh': completion.get('fresh'), 'duplicate': completion.get('duplicate'),
+                    'fresh': completion['fresh'], 'duplicate': completion['duplicate'],
                     'transaction_version': completion.get('transaction', {}).get('version')})
             receipt['results'].append(entry)
         receipt['passed'] = all(entry['completed'] for entry in receipt['results'])

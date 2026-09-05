@@ -82,6 +82,11 @@ response IDs, usage and finish reason, without a reasoning transcript. Incomplet
 generations and unsupported response shapes are rejected. If the provider
 returned text but settlement fails, the receipt retains that exact prepared
 response for operator reconciliation; it does not automatically resubmit it.
+This includes a completed response that cannot fit the MCP frame together with
+its request identity. A successful transport envelope is insufficient: settlement
+must acknowledge that exact request, include boolean freshness/duplicate flags,
+and include a valid transaction for a new completion. Malformed acknowledgements
+invalidate the pipe and leave the retained result marked uncertain.
 Local timeout cleanup terminates the worker's Modal/curl process group, which
 does not establish cancellation at the remote provider.
 
@@ -105,6 +110,8 @@ holds revision 1 outside the graph, settles revision 2 first, inserts revision 1
 late, checks duplicate/conflicting settlement, and changes ordinary owner facts.
 Complete output relations are compared with an independent set/join oracle
 using the actual response text. It is not an inference quality benchmark.
-The [recorded real run](evidence/registered-inference/README.md) passed all seven
-output comparisons with two actual provider responses; 22 focused unit tests
-passed separately using controlled providers and MCP doubles where needed.
+The [original recorded real run](evidence/registered-inference/README.md) passed
+all seven output comparisons with two actual provider responses. After two
+adversarial failure-path fixes, 27 focused tests pass, including replay of the
+original real acknowledgements through the corrected validator. The corrected
+worker was not rerun against the provider; evidence records both source hashes.
