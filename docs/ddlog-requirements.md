@@ -177,6 +177,32 @@ are not implementation claims.
 67. Demonstrate at least one actual model-authored tool invocation end to end
     before claiming LLM constrained-generation integration.
 
+### Pre-registered agent-request operation
+
+The program author should select a supported agent/inference operation, rather
+than inventing the asynchronous protocol inside each generated program.
+
+- Register an operation signature, version, input/output schema, and execution
+  adapter before an agent can reference it in a program.
+- Provide a language/AST construct that lowers deterministically into request,
+  attempt/status, and response relations. This is an extension to implement,
+  not a claim that DDlog has native asynchronous function semantics.
+- Derive stable request identity from the operation version, exact inputs, and
+  domain/entity revision; keep attempts distinct from logical requests.
+- Admit external execution only from completed, eligible request state. Rule
+  reevaluation, duplicate tuples, or replay must not independently trigger calls.
+- Bind responses to the exact request and reject or mark stale results when the
+  relevant input or program version changes.
+- Specify retries, provider idempotency, cancellation, and uncertain outcomes;
+  retracting a request does not undo an external action.
+- Return outputs and factual execution evidence as data. Keep provider secrets
+  and process configuration outside model-authored programs.
+- Exercise duplicate derivations, retractions, delayed responses, revision
+  changes, and restart/replay through an actual adapter. Distinguish mock calls
+  from successful live model calls in the receipts.
+- Expose this registered construct in tool schemas/grammar so agents use the
+  supported lowering path. Reject undeclared operations before execution.
+
 ## I. Evidence and rollout
 
 68. Use the existing evaluator as an oracle on agreed semantics: memberships,
