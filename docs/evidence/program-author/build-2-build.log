@@ -1,0 +1,58 @@
+[92;1mFinished compiling "program.dl"[m in 0.20s
+   Compiling ddlog_profiler v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-2/program_ddlog/ddlog_profiler)
+   Compiling ddlog_derive v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-2/program_ddlog/ddlog_derive)
+   Compiling program v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-2/program_ddlog)
+   Compiling differential_datalog v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-2/program_ddlog/differential_datalog)
+warning: unused return value of `CString::from_raw` that must be used
+    --> differential_datalog/src/api/c_api.rs:1043:5
+     |
+1043 |     CString::from_raw(s);
+     |     ^^^^^^^^^^^^^^^^^^^^^
+     |
+     = note: `#[warn(unused_must_use)]` on by default
+     = note: call `drop(from_raw(ptr))` if you intend to drop the `CString`
+
+warning: unused return value of `Box::<T>::from_raw` that must be used
+    --> differential_datalog/src/api/c_api.rs:1137:9
+     |
+1137 |         Box::from_raw(delta);
+     |         ^^^^^^^^^^^^^^^^^^^^^
+     |
+     = note: call `drop(from_raw(ptr))` if you intend to drop the `Box`
+
+warning: unused return value of `Box::<T>::from_raw` that must be used
+    --> differential_datalog/src/record/mod.rs:1177:5
+     |
+1177 |     Box::from_raw(rec);
+     |     ^^^^^^^^^^^^^^^^^^^
+     |
+     = note: call `drop(from_raw(ptr))` if you intend to drop the `Box`
+
+   Compiling ddlog_rt v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-2/program_ddlog/types/ddlog_rt)
+   Compiling ddlog_log v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-2/program_ddlog/types/ddlog_log)
+   Compiling cmd_parser v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-2/program_ddlog/cmd_parser)
+   Compiling ddlog_bigint v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-2/program_ddlog/types/ddlog_bigint)
+warning: unused return value of `Box::<T>::from_raw` that must be used
+   --> types/ddlog_bigint/ddlog_bigint.rs:661:9
+    |
+661 |         Box::from_raw(x);
+    |         ^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(unused_must_use)]` on by default
+    = note: call `drop(from_raw(ptr))` if you intend to drop the `Box`
+
+warning: unused return value of `Box::<T>::from_raw` that must be used
+   --> types/ddlog_bigint/ddlog_bigint.rs:680:9
+    |
+680 |         Box::from_raw(x);
+    |         ^^^^^^^^^^^^^^^^^
+    |
+    = note: call `drop(from_raw(ptr))` if you intend to drop the `Box`
+
+   Compiling ddlog_std v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-2/program_ddlog/types/ddlog_std)
+warning: `ddlog_bigint` (lib) generated 2 warnings
+   Compiling internment v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-2/program_ddlog/types/internment)
+   Compiling debug v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-2/program_ddlog/types/debug)
+   Compiling types v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-2/program_ddlog/types)
+warning: `differential_datalog` (lib) generated 3 warnings
+    Finished dev [unoptimized] target(s) in 15.45s

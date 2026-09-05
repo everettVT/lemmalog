@@ -1,0 +1,25 @@
+{
+  "published_trace_sha256": "bb21ce241503f9a4da7c3897f089804c40680958ab399f090eedc87ec8811949",
+  "valid_trace_passed": true,
+  "negative_checks": [
+    {
+      "stage": "revision_change",
+      "sequence": 17,
+      "mutation": "inject stale revision row",
+      "rejected": true,
+      "errors": [
+        "actionable rows mismatch at revision_change"
+      ]
+    },
+    {
+      "stage": "withdraw_last_support",
+      "sequence": 12,
+      "mutation": "remove required output retraction",
+      "rejected": true,
+      "errors": [
+        "actionable delta mismatch at withdraw_last_support"
+      ]
+    }
+  ],
+  "scope": "Receipt-tampering checks on sanitized evidence; not extra runtime experiments."
+}
