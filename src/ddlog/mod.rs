@@ -1,4 +1,5 @@
 //! Experimental DDlog backend. The existing memory evaluator remains independent.
+pub mod composition;
 #[cfg(unix)]
 pub mod host;
 mod lower;

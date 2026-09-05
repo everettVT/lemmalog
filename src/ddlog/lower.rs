@@ -1,15 +1,15 @@
-use crate::ast::{parse_program, Atom, CmpOp, Expr, Lit};
+use crate::ast::{parse_program, Atom, Clause, CmpOp, Expr, Lit};
 use crate::intern::Term;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 
-#[derive(Clone, Debug, Deserialize, PartialEq, Eq)]
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
 pub struct Schema {
     pub input: bool,
     pub fields: Vec<String>,
 }
-fn ident(s: &str) -> bool {
+pub(super) fn ident(s: &str) -> bool {
     !s.is_empty()
         && s.bytes().all(|b| b.is_ascii_alphanumeric() || b == b'_')
         && s.as_bytes()[0].is_ascii_alphabetic()
@@ -52,25 +52,36 @@ fn check(
         .get(&a.pred)
         .ok_or_else(|| format!("Undeclared relation {}", a.pred))?;
     if a.args.len() != schema.fields.len() {
-        return Err("Arity mismatch".into());
+        return Err(format!(
+            "Arity mismatch for {}: expected {} fields {:?}, got {}",
+            a.pred,
+            schema.fields.len(),
+            schema.fields,
+            a.args.len()
+        ));
     }
-    for (t, kind) in a.args.iter().zip(&schema.fields) {
+    for (index, (t, kind)) in a.args.iter().zip(&schema.fields).enumerate() {
         match t {
             Term::Var(v) => {
                 if let Some(previous) = vars.get(v) {
                     if previous != kind {
-                        return Err(format!("Conflicting types for {v}"));
+                        return Err(format!("Conflicting types for {v} at {} field {index}: previously {previous}, requires {kind}", a.pred));
                     }
                 } else if bind {
                     vars.insert(v.clone(), kind.clone());
                 } else {
-                    return Err(format!("Unbound head variable {v}"));
+                    return Err(format!("Unbound head variable {v} in {}", a.pred));
                 }
             }
             Term::Int(_) if kind == "int" => {}
             Term::Sym(_) if kind == "string" => {}
             Term::Wildcard if bind => {}
-            _ => return Err("Unsupported or mismatched term".into()),
+            _ => {
+                return Err(format!(
+                    "Unsupported or mismatched term {t:?} at {} field {index}: requires {kind}",
+                    a.pred
+                ))
+            }
         }
     }
     Ok(())
@@ -79,6 +90,15 @@ fn check(
 /// Unsupported constructs fail before the installed program is touched.
 pub fn lower(rules: &str, schemas: &BTreeMap<String, Schema>) -> Result<String, String> {
     let clauses = parse_program(rules).map_err(|e| e.to_string())?;
+    lower_clauses(&clauses, schemas)
+}
+
+/// Composition renames predicates in the parsed AST without round-tripping
+/// authored terms or string literals through a second source parser.
+pub(super) fn lower_clauses(
+    clauses: &[Clause],
+    schemas: &BTreeMap<String, Schema>,
+) -> Result<String, String> {
     if clauses.is_empty() {
         return Err("Expected at least one rule".into());
     }
@@ -111,8 +131,15 @@ pub fn lower(rules: &str, schemas: &BTreeMap<String, Schema>) -> Result<String, 
         if c.is_fact {
             return Err("Facts must be submitted through apply_changes".into());
         }
-        if schemas.get(&c.head.pred).ok_or("Undeclared head")?.input {
-            return Err("Rule head must be an output relation".into());
+        if schemas
+            .get(&c.head.pred)
+            .ok_or_else(|| format!("Undeclared head relation {}", c.head.pred))?
+            .input
+        {
+            return Err(format!(
+                "Rule head {} must be an output relation",
+                c.head.pred
+            ));
         }
         let mut vars = BTreeMap::new();
         for lit in &c.body {

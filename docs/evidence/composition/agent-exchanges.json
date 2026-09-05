@@ -1,0 +1,1243 @@
+{
+  "scope": "Actual two-agent author/reviewer exchange, separate fresh pipe bridges with no shared terminal or exec handle. Reuses the verified native graph artifact; no extra native compilation.",
+  "author_start": {
+    "processor": {
+      "processor_id": "processor_fd5d8de60ad4d9cdd05ba09fa1081fb3",
+      "version": "sha256:44c9e1c8581d1e64977b88afe2bce974e823622d9fb4e4b372a8c79661e4804b"
+    },
+    "expected_rows": [
+      [
+        1,
+        103
+      ],
+      [
+        2,
+        201
+      ]
+    ],
+    "raw_rows": "R_actionable{.f0 = 1, .f1 = 103}\nR_actionable{.f0 = 2, .f1 = 201}\n",
+    "author_bridge_disconnected": true,
+    "activation": {
+      "backend": "ddlog/differential-dataflow",
+      "composition": {
+        "dependencies": {
+          "pipeline": {
+            "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+            "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+          },
+          "pipeline.current": {
+            "processor_id": "processor_63922542489c02c132a92ea6c3de6299",
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "pipeline.eligibility": {
+            "processor_id": "processor_79a9e155c740ff4babd566d5dc639974",
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "pipeline.supported": {
+            "processor_id": "processor_14f6e3aa80aba1e147fe086497fe8ce0",
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          }
+        },
+        "generated_source_sha256": "04b2222b202f50c8fa4003aedd6c2cd6e62471fb0b818c0de81ed85925275fcb",
+        "inputs": {
+          "evidence": "Input_evidence",
+          "findings": "Input_findings",
+          "revisions": "Input_revisions"
+        },
+        "nodes": {
+          "pipeline": {
+            "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+            "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+          }
+        },
+        "outputs": {
+          "actionable": "Output_actionable"
+        },
+        "relations": {
+          "Composite0_Input_evidence": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "evidence",
+            "kind": "external_input",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline"
+          },
+          "Composite0_Input_findings": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "findings",
+            "kind": "external_input",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline"
+          },
+          "Composite0_Input_revisions": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "input": "revisions",
+            "kind": "external_input",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline"
+          },
+          "Composite0_Output_actionable": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "from": {
+              "node": "pipeline.supported",
+              "relation": "actionable"
+            },
+            "kind": "external_output",
+            "output": "actionable",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline"
+          },
+          "Input_evidence": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "evidence",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Input_findings": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "findings",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Input_revisions": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "input": "revisions",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Module1_current": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_63922542489c02c132a92ea6c3de6299",
+            "relation": "current",
+            "schema": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module1_eligible": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_63922542489c02c132a92ea6c3de6299",
+            "relation": "eligible",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module1_scratch": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_63922542489c02c132a92ea6c3de6299",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module1_selected": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_63922542489c02c132a92ea6c3de6299",
+            "relation": "selected",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module2_eligible": {
+            "kind": "processor_relation",
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_79a9e155c740ff4babd566d5dc639974",
+            "relation": "eligible",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "Module2_finding": {
+            "kind": "processor_relation",
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_79a9e155c740ff4babd566d5dc639974",
+            "relation": "finding",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "Module2_scratch": {
+            "kind": "processor_relation",
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_79a9e155c740ff4babd566d5dc639974",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "Module3_actionable": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_14f6e3aa80aba1e147fe086497fe8ce0",
+            "relation": "actionable",
+            "schema": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module3_scratch": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_14f6e3aa80aba1e147fe086497fe8ce0",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module3_selected": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_14f6e3aa80aba1e147fe086497fe8ce0",
+            "relation": "selected",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module3_support": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_14f6e3aa80aba1e147fe086497fe8ce0",
+            "relation": "support",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Output_actionable": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "from": {
+              "node": "pipeline",
+              "relation": "actionable"
+            },
+            "kind": "external_output",
+            "output": "actionable",
+            "owner": null,
+            "scope": ""
+          }
+        },
+        "rules": [
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.current",
+            "processor_id": "processor_63922542489c02c132a92ea6c3de6299",
+            "rule": 0,
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          {
+            "head": "selected",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.current",
+            "processor_id": "processor_63922542489c02c132a92ea6c3de6299",
+            "rule": 1,
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_79a9e155c740ff4babd566d5dc639974",
+            "rule": 0,
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          {
+            "head": "eligible",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_79a9e155c740ff4babd566d5dc639974",
+            "rule": 1,
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.supported",
+            "processor_id": "processor_14f6e3aa80aba1e147fe086497fe8ce0",
+            "rule": 0,
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          {
+            "head": "actionable",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.supported",
+            "processor_id": "processor_14f6e3aa80aba1e147fe086497fe8ce0",
+            "rule": 1,
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          {
+            "input": "evidence",
+            "kind": "input_binding",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.supported",
+              "relation": "support"
+            }
+          },
+          {
+            "input": "findings",
+            "kind": "input_binding",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.eligibility",
+              "relation": "finding"
+            }
+          },
+          {
+            "input": "revisions",
+            "kind": "input_binding",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.current",
+              "relation": "current"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline.eligibility",
+              "relation": "eligible"
+            },
+            "kind": "processor_binding",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.current",
+              "relation": "eligible"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline.current",
+              "relation": "selected"
+            },
+            "kind": "processor_binding",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.supported",
+              "relation": "selected"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline.supported",
+              "relation": "actionable"
+            },
+            "kind": "output_binding",
+            "output": "actionable",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline"
+          },
+          {
+            "input": "evidence",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "pipeline",
+              "relation": "evidence"
+            }
+          },
+          {
+            "input": "findings",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "pipeline",
+              "relation": "findings"
+            }
+          },
+          {
+            "input": "revisions",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "pipeline",
+              "relation": "revisions"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline",
+              "relation": "actionable"
+            },
+            "kind": "output_binding",
+            "output": "actionable",
+            "owner": null,
+            "scope": ""
+          }
+        ]
+      },
+      "processor": {
+        "processor_id": "processor_fd5d8de60ad4d9cdd05ba09fa1081fb3",
+        "version": "sha256:44c9e1c8581d1e64977b88afe2bce974e823622d9fb4e4b372a8c79661e4804b"
+      },
+      "replayed_facts": 0,
+      "version": 1
+    },
+    "instance_info": {
+      "composition": {
+        "dependencies": {
+          "pipeline": {
+            "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+            "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+          },
+          "pipeline.current": {
+            "processor_id": "processor_63922542489c02c132a92ea6c3de6299",
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "pipeline.eligibility": {
+            "processor_id": "processor_79a9e155c740ff4babd566d5dc639974",
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "pipeline.supported": {
+            "processor_id": "processor_14f6e3aa80aba1e147fe086497fe8ce0",
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          }
+        },
+        "generated_source_sha256": "04b2222b202f50c8fa4003aedd6c2cd6e62471fb0b818c0de81ed85925275fcb",
+        "inputs": {
+          "evidence": "Input_evidence",
+          "findings": "Input_findings",
+          "revisions": "Input_revisions"
+        },
+        "nodes": {
+          "pipeline": {
+            "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+            "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+          }
+        },
+        "outputs": {
+          "actionable": "Output_actionable"
+        },
+        "relations": {
+          "Composite0_Input_evidence": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "evidence",
+            "kind": "external_input",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline"
+          },
+          "Composite0_Input_findings": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "findings",
+            "kind": "external_input",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline"
+          },
+          "Composite0_Input_revisions": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "input": "revisions",
+            "kind": "external_input",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline"
+          },
+          "Composite0_Output_actionable": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "from": {
+              "node": "pipeline.supported",
+              "relation": "actionable"
+            },
+            "kind": "external_output",
+            "output": "actionable",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline"
+          },
+          "Input_evidence": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "evidence",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Input_findings": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "findings",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Input_revisions": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "input": "revisions",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Module1_current": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_63922542489c02c132a92ea6c3de6299",
+            "relation": "current",
+            "schema": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module1_eligible": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_63922542489c02c132a92ea6c3de6299",
+            "relation": "eligible",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module1_scratch": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_63922542489c02c132a92ea6c3de6299",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module1_selected": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_63922542489c02c132a92ea6c3de6299",
+            "relation": "selected",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module2_eligible": {
+            "kind": "processor_relation",
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_79a9e155c740ff4babd566d5dc639974",
+            "relation": "eligible",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "Module2_finding": {
+            "kind": "processor_relation",
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_79a9e155c740ff4babd566d5dc639974",
+            "relation": "finding",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "Module2_scratch": {
+            "kind": "processor_relation",
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_79a9e155c740ff4babd566d5dc639974",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "Module3_actionable": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_14f6e3aa80aba1e147fe086497fe8ce0",
+            "relation": "actionable",
+            "schema": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module3_scratch": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_14f6e3aa80aba1e147fe086497fe8ce0",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module3_selected": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_14f6e3aa80aba1e147fe086497fe8ce0",
+            "relation": "selected",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module3_support": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_14f6e3aa80aba1e147fe086497fe8ce0",
+            "relation": "support",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Output_actionable": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "from": {
+              "node": "pipeline",
+              "relation": "actionable"
+            },
+            "kind": "external_output",
+            "output": "actionable",
+            "owner": null,
+            "scope": ""
+          }
+        },
+        "rules": [
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.current",
+            "processor_id": "processor_63922542489c02c132a92ea6c3de6299",
+            "rule": 0,
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          {
+            "head": "selected",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.current",
+            "processor_id": "processor_63922542489c02c132a92ea6c3de6299",
+            "rule": 1,
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_79a9e155c740ff4babd566d5dc639974",
+            "rule": 0,
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          {
+            "head": "eligible",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_79a9e155c740ff4babd566d5dc639974",
+            "rule": 1,
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.supported",
+            "processor_id": "processor_14f6e3aa80aba1e147fe086497fe8ce0",
+            "rule": 0,
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          {
+            "head": "actionable",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.supported",
+            "processor_id": "processor_14f6e3aa80aba1e147fe086497fe8ce0",
+            "rule": 1,
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          {
+            "input": "evidence",
+            "kind": "input_binding",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.supported",
+              "relation": "support"
+            }
+          },
+          {
+            "input": "findings",
+            "kind": "input_binding",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.eligibility",
+              "relation": "finding"
+            }
+          },
+          {
+            "input": "revisions",
+            "kind": "input_binding",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.current",
+              "relation": "current"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline.eligibility",
+              "relation": "eligible"
+            },
+            "kind": "processor_binding",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.current",
+              "relation": "eligible"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline.current",
+              "relation": "selected"
+            },
+            "kind": "processor_binding",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.supported",
+              "relation": "selected"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline.supported",
+              "relation": "actionable"
+            },
+            "kind": "output_binding",
+            "output": "actionable",
+            "owner": {
+              "processor_id": "processor_260235b29bc45949815e894849cd53ac",
+              "version": "sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306"
+            },
+            "scope": "pipeline"
+          },
+          {
+            "input": "evidence",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "pipeline",
+              "relation": "evidence"
+            }
+          },
+          {
+            "input": "findings",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "pipeline",
+              "relation": "findings"
+            }
+          },
+          {
+            "input": "revisions",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "pipeline",
+              "relation": "revisions"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline",
+              "relation": "actionable"
+            },
+            "kind": "output_binding",
+            "output": "actionable",
+            "owner": null,
+            "scope": ""
+          }
+        ]
+      },
+      "health": "ready",
+      "instance_id": "7b49100d4259fb1dbd84e7dd421e574a",
+      "processor": {
+        "processor_id": "processor_fd5d8de60ad4d9cdd05ba09fa1081fb3",
+        "version": "sha256:44c9e1c8581d1e64977b88afe2bce974e823622d9fb4e4b372a8c79661e4804b"
+      }
+    },
+    "server_sha256": "5f0cd0d0d625a4df30a30ac394f9b0956b354c998ee96fc7b94cffee9ec69795",
+    "native_compilation": false,
+    "source_sha256": "04b2222b202f50c8fa4003aedd6c2cd6e62471fb0b818c0de81ed85925275fcb",
+    "executable_sha256": "98b03dc0c9f78d4979b684c8c97e2ebd8d266003ce86539a64b004b78e7af327"
+  },
+  "reviewer": {
+    "passed": true,
+    "scope": "Actual independent reviewer agent RPCs over a fresh pipe bridge; no author exec handle or terminal used. Graph uses a source/executable-hash verified native artifact.",
+    "backend_executable_sha256": "5f0cd0d0d625a4df30a30ac394f9b0956b354c998ee96fc7b94cffee9ec69795",
+    "instance_id": "7b49100d4259fb1dbd84e7dd421e574a",
+    "processor": {
+      "processor_id": "processor_fd5d8de60ad4d9cdd05ba09fa1081fb3",
+      "version": "sha256:44c9e1c8581d1e64977b88afe2bce974e823622d9fb4e4b372a8c79661e4804b"
+    },
+    "calls": [
+      {
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "method": "initialize",
+          "params": {}
+        },
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "result": {
+            "capabilities": {
+              "tools": {}
+            },
+            "protocolVersion": "2024-11-05",
+            "serverInfo": {
+              "name": "lemmalog-ddlog",
+              "version": "0.2.0"
+            }
+          }
+        },
+        "request_bytes": 59,
+        "request_sha256": "c51808b7afb9291474737d8b0d3732c35aac1935224ed925706a0469eb21fc64"
+      },
+      {
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "method": "tools/call",
+          "params": {
+            "name": "instance_info",
+            "arguments": {}
+          }
+        },
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "result": {
+            "content": [
+              {
+                "text": "{\"composition\":{\"dependencies\":{\"pipeline\":{\"processor_id\":\"processor_260235b29bc45949815e894849cd53ac\",\"version\":\"sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306\"},\"pipeline.current\":{\"processor_id\":\"processor_63922542489c02c132a92ea6c3de6299\",\"version\":\"sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84\"},\"pipeline.eligibility\":{\"processor_id\":\"processor_79a9e155c740ff4babd566d5dc639974\",\"version\":\"sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58\"},\"pipeline.supported\":{\"processor_id\":\"processor_14f6e3aa80aba1e147fe086497fe8ce0\",\"version\":\"sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1\"}},\"generated_source_sha256\":\"04b2222b202f50c8fa4003aedd6c2cd6e62471fb0b818c0de81ed85925275fcb\",\"inputs\":{\"evidence\":\"Input_evidence\",\"findings\":\"Input_findings\",\"revisions\":\"Input_revisions\"},\"nodes\":{\"pipeline\":{\"processor_id\":\"processor_260235b29bc45949815e894849cd53ac\",\"version\":\"sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306\"}},\"outputs\":{\"actionable\":\"Output_actionable\"},\"relations\":{\"Composite0_Input_evidence\":{\"fields\":[\"int\",\"int\",\"int\",\"int\"],\"input\":\"evidence\",\"kind\":\"external_input\",\"owner\":{\"processor_id\":\"processor_260235b29bc45949815e894849cd53ac\",\"version\":\"sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306\"},\"scope\":\"pipeline\"},\"Composite0_Input_findings\":{\"fields\":[\"int\",\"int\",\"int\",\"int\"],\"input\":\"findings\",\"kind\":\"external_input\",\"owner\":{\"processor_id\":\"processor_260235b29bc45949815e894849cd53ac\",\"version\":\"sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306\"},\"scope\":\"pipeline\"},\"Composite0_Input_revisions\":{\"fields\":[\"int\",\"int\"],\"input\":\"revisions\",\"kind\":\"external_input\",\"owner\":{\"processor_id\":\"processor_260235b29bc45949815e894849cd53ac\",\"version\":\"sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306\"},\"scope\":\"pipeline\"},\"Composite0_Output_actionable\":{\"fields\":[\"int\",\"int\"],\"from\":{\"node\":\"pipeline.supported\",\"relation\":\"actionable\"},\"kind\":\"external_output\",\"output\":\"actionable\",\"owner\":{\"processor_id\":\"processor_260235b29bc45949815e894849cd53ac\",\"version\":\"sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306\"},\"scope\":\"pipeline\"},\"Input_evidence\":{\"fields\":[\"int\",\"int\",\"int\",\"int\"],\"input\":\"evidence\",\"kind\":\"external_input\",\"owner\":null,\"scope\":\"\"},\"Input_findings\":{\"fields\":[\"int\",\"int\",\"int\",\"int\"],\"input\":\"findings\",\"kind\":\"external_input\",\"owner\":null,\"scope\":\"\"},\"Input_revisions\":{\"fields\":[\"int\",\"int\"],\"input\":\"revisions\",\"kind\":\"external_input\",\"owner\":null,\"scope\":\"\"},\"Module1_current\":{\"kind\":\"processor_relation\",\"node\":\"pipeline.current\",\"processor_id\":\"processor_63922542489c02c132a92ea6c3de6299\",\"relation\":\"current\",\"schema\":{\"fields\":[\"int\",\"int\"],\"input\":true},\"version\":\"sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84\"},\"Module1_eligible\":{\"kind\":\"processor_relation\",\"node\":\"pipeline.current\",\"processor_id\":\"processor_63922542489c02c132a92ea6c3de6299\",\"relation\":\"eligible\",\"schema\":{\"fields\":[\"int\",\"int\",\"int\"],\"input\":true},\"version\":\"sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84\"},\"Module1_scratch\":{\"kind\":\"processor_relation\",\"node\":\"pipeline.current\",\"processor_id\":\"processor_63922542489c02c132a92ea6c3de6299\",\"relation\":\"scratch\",\"schema\":{\"fields\":[\"int\",\"int\",\"int\"],\"input\":false},\"version\":\"sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84\"},\"Module1_selected\":{\"kind\":\"processor_relation\",\"node\":\"pipeline.current\",\"processor_id\":\"processor_63922542489c02c132a92ea6c3de6299\",\"relation\":\"selected\",\"schema\":{\"fields\":[\"int\",\"int\",\"int\"],\"input\":false},\"version\":\"sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84\"},\"Module2_eligible\":{\"kind\":\"processor_relation\",\"node\":\"pipeline.eligibility\",\"processor_id\":\"processor_79a9e155c740ff4babd566d5dc639974\",\"relation\":\"eligible\",\"schema\":{\"fields\":[\"int\",\"int\",\"int\"],\"input\":false},\"version\":\"sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58\"},\"Module2_finding\":{\"kind\":\"processor_relation\",\"node\":\"pipeline.eligibility\",\"processor_id\":\"processor_79a9e155c740ff4babd566d5dc639974\",\"relation\":\"finding\",\"schema\":{\"fields\":[\"int\",\"int\",\"int\",\"int\"],\"input\":true},\"version\":\"sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58\"},\"Module2_scratch\":{\"kind\":\"processor_relation\",\"node\":\"pipeline.eligibility\",\"processor_id\":\"processor_79a9e155c740ff4babd566d5dc639974\",\"relation\":\"scratch\",\"schema\":{\"fields\":[\"int\",\"int\",\"int\"],\"input\":false},\"version\":\"sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58\"},\"Module3_actionable\":{\"kind\":\"processor_relation\",\"node\":\"pipeline.supported\",\"processor_id\":\"processor_14f6e3aa80aba1e147fe086497fe8ce0\",\"relation\":\"actionable\",\"schema\":{\"fields\":[\"int\",\"int\"],\"input\":false},\"version\":\"sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1\"},\"Module3_scratch\":{\"kind\":\"processor_relation\",\"node\":\"pipeline.supported\",\"processor_id\":\"processor_14f6e3aa80aba1e147fe086497fe8ce0\",\"relation\":\"scratch\",\"schema\":{\"fields\":[\"int\",\"int\",\"int\"],\"input\":false},\"version\":\"sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1\"},\"Module3_selected\":{\"kind\":\"processor_relation\",\"node\":\"pipeline.supported\",\"processor_id\":\"processor_14f6e3aa80aba1e147fe086497fe8ce0\",\"relation\":\"selected\",\"schema\":{\"fields\":[\"int\",\"int\",\"int\"],\"input\":true},\"version\":\"sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1\"},\"Module3_support\":{\"kind\":\"processor_relation\",\"node\":\"pipeline.supported\",\"processor_id\":\"processor_14f6e3aa80aba1e147fe086497fe8ce0\",\"relation\":\"support\",\"schema\":{\"fields\":[\"int\",\"int\",\"int\",\"int\"],\"input\":true},\"version\":\"sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1\"},\"Output_actionable\":{\"fields\":[\"int\",\"int\"],\"from\":{\"node\":\"pipeline\",\"relation\":\"actionable\"},\"kind\":\"external_output\",\"output\":\"actionable\",\"owner\":null,\"scope\":\"\"}},\"rules\":[{\"head\":\"scratch\",\"kind\":\"processor_rule\",\"name\":null,\"node\":\"pipeline.current\",\"processor_id\":\"processor_63922542489c02c132a92ea6c3de6299\",\"rule\":0,\"version\":\"sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84\"},{\"head\":\"selected\",\"kind\":\"processor_rule\",\"name\":null,\"node\":\"pipeline.current\",\"processor_id\":\"processor_63922542489c02c132a92ea6c3de6299\",\"rule\":1,\"version\":\"sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84\"},{\"head\":\"scratch\",\"kind\":\"processor_rule\",\"name\":null,\"node\":\"pipeline.eligibility\",\"processor_id\":\"processor_79a9e155c740ff4babd566d5dc639974\",\"rule\":0,\"version\":\"sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58\"},{\"head\":\"eligible\",\"kind\":\"processor_rule\",\"name\":null,\"node\":\"pipeline.eligibility\",\"processor_id\":\"processor_79a9e155c740ff4babd566d5dc639974\",\"rule\":1,\"version\":\"sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58\"},{\"head\":\"scratch\",\"kind\":\"processor_rule\",\"name\":null,\"node\":\"pipeline.supported\",\"processor_id\":\"processor_14f6e3aa80aba1e147fe086497fe8ce0\",\"rule\":0,\"version\":\"sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1\"},{\"head\":\"actionable\",\"kind\":\"processor_rule\",\"name\":null,\"node\":\"pipeline.supported\",\"processor_id\":\"processor_14f6e3aa80aba1e147fe086497fe8ce0\",\"rule\":1,\"version\":\"sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1\"},{\"input\":\"evidence\",\"kind\":\"input_binding\",\"owner\":{\"processor_id\":\"processor_260235b29bc45949815e894849cd53ac\",\"version\":\"sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306\"},\"scope\":\"pipeline\",\"to\":{\"node\":\"pipeline.supported\",\"relation\":\"support\"}},{\"input\":\"findings\",\"kind\":\"input_binding\",\"owner\":{\"processor_id\":\"processor_260235b29bc45949815e894849cd53ac\",\"version\":\"sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306\"},\"scope\":\"pipeline\",\"to\":{\"node\":\"pipeline.eligibility\",\"relation\":\"finding\"}},{\"input\":\"revisions\",\"kind\":\"input_binding\",\"owner\":{\"processor_id\":\"processor_260235b29bc45949815e894849cd53ac\",\"version\":\"sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306\"},\"scope\":\"pipeline\",\"to\":{\"node\":\"pipeline.current\",\"relation\":\"current\"}},{\"from\":{\"node\":\"pipeline.eligibility\",\"relation\":\"eligible\"},\"kind\":\"processor_binding\",\"owner\":{\"processor_id\":\"processor_260235b29bc45949815e894849cd53ac\",\"version\":\"sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306\"},\"scope\":\"pipeline\",\"to\":{\"node\":\"pipeline.current\",\"relation\":\"eligible\"}},{\"from\":{\"node\":\"pipeline.current\",\"relation\":\"selected\"},\"kind\":\"processor_binding\",\"owner\":{\"processor_id\":\"processor_260235b29bc45949815e894849cd53ac\",\"version\":\"sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306\"},\"scope\":\"pipeline\",\"to\":{\"node\":\"pipeline.supported\",\"relation\":\"selected\"}},{\"from\":{\"node\":\"pipeline.supported\",\"relation\":\"actionable\"},\"kind\":\"output_binding\",\"output\":\"actionable\",\"owner\":{\"processor_id\":\"processor_260235b29bc45949815e894849cd53ac\",\"version\":\"sha256:017e8423ff6dda0f03fb1d2bd5f5d1581d342125f4b35d11665c278806c17306\"},\"scope\":\"pipeline\"},{\"input\":\"evidence\",\"kind\":\"input_binding\",\"owner\":null,\"scope\":\"\",\"to\":{\"node\":\"pipeline\",\"relation\":\"evidence\"}},{\"input\":\"findings\",\"kind\":\"input_binding\",\"owner\":null,\"scope\":\"\",\"to\":{\"node\":\"pipeline\",\"relation\":\"findings\"}},{\"input\":\"revisions\",\"kind\":\"input_binding\",\"owner\":null,\"scope\":\"\",\"to\":{\"node\":\"pipeline\",\"relation\":\"revisions\"}},{\"from\":{\"node\":\"pipeline\",\"relation\":\"actionable\"},\"kind\":\"output_binding\",\"output\":\"actionable\",\"owner\":null,\"scope\":\"\"}]},\"health\":\"ready\",\"instance_id\":\"7b49100d4259fb1dbd84e7dd421e574a\",\"processor\":{\"processor_id\":\"processor_fd5d8de60ad4d9cdd05ba09fa1081fb3\",\"version\":\"sha256:44c9e1c8581d1e64977b88afe2bce974e823622d9fb4e4b372a8c79661e4804b\"}}",
+                "type": "text"
+              }
+            ],
+            "isError": false
+          }
+        },
+        "request_bytes": 96,
+        "request_sha256": "3981bce2eb282225c5d107d3883ce4558004680416a8d5b983f32d2bd23b8f89"
+      },
+      {
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "method": "tools/call",
+          "params": {
+            "name": "lemmalog_query",
+            "arguments": {
+              "predicate": "actionable"
+            }
+          }
+        },
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "result": {
+            "content": [
+              {
+                "text": "{\"rows\":\"R_actionable{.f0 = 1, .f1 = 103}\\nR_actionable{.f0 = 2, .f1 = 201}\\n\",\"version\":1}",
+                "type": "text"
+              }
+            ],
+            "isError": false
+          }
+        },
+        "request_bytes": 121,
+        "request_sha256": "94f27188c597824b6a2e61100c1e4c8f6401ed754d17b530d726700d4d530aa9"
+      },
+      {
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 4,
+          "method": "tools/call",
+          "params": {
+            "name": "apply_changes",
+            "arguments": {
+              "changes": [
+                {
+                  "op": "insert",
+                  "predicate": "findings",
+                  "values": [
+                    900,
+                    1,
+                    900,
+                    1
+                  ]
+                },
+                {
+                  "op": "insert",
+                  "predicate": "revisions",
+                  "values": [
+                    900,
+                    1
+                  ]
+                },
+                {
+                  "op": "insert",
+                  "predicate": "evidence",
+                  "values": [
+                    900,
+                    1,
+                    900,
+                    1
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 4,
+          "result": {
+            "content": [
+              {
+                "text": "{\"deltas\":\"R_actionable:\\nR_actionable{.f0 = 900, .f1 = 900}: +1\\n\",\"version\":1}",
+                "type": "text"
+              }
+            ],
+            "isError": false
+          }
+        },
+        "request_bytes": 288,
+        "request_sha256": "83538a680078430da5a3225142df9c9fe86c44e8212062d7346a6829583cbad9"
+      },
+      {
+        "request": {
+          "jsonrpc": "2.0",
+          "id": 5,
+          "method": "tools/call",
+          "params": {
+            "name": "lemmalog_query",
+            "arguments": {
+              "predicate": "actionable"
+            }
+          }
+        },
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 5,
+          "result": {
+            "content": [
+              {
+                "text": "{\"rows\":\"R_actionable{.f0 = 1, .f1 = 103}\\nR_actionable{.f0 = 2, .f1 = 201}\\nR_actionable{.f0 = 900, .f1 = 900}\\n\",\"version\":1}",
+                "type": "text"
+              }
+            ],
+            "isError": false
+          }
+        },
+        "request_bytes": 121,
+        "request_sha256": "def6eddb8d3539157531e3d6bef21ab6d0009beffe512bac832dc13a5c0462c5"
+      }
+    ],
+    "bridge_exit_code": 0
+  },
+  "author_finish": {
+    "passed": true,
+    "scope": "Author agent independently reconnects after reviewer agent disconnect; observes retained mutation and explicitly stops its host.",
+    "processor": {
+      "processor_id": "processor_fd5d8de60ad4d9cdd05ba09fa1081fb3",
+      "version": "sha256:44c9e1c8581d1e64977b88afe2bce974e823622d9fb4e4b372a8c79661e4804b"
+    },
+    "instance_id": "7b49100d4259fb1dbd84e7dd421e574a",
+    "expected_rows": [
+      [
+        1,
+        103
+      ],
+      [
+        2,
+        201
+      ],
+      [
+        900,
+        900
+      ]
+    ],
+    "observed_rows": [
+      [
+        1,
+        103
+      ],
+      [
+        2,
+        201
+      ],
+      [
+        900,
+        900
+      ]
+    ],
+    "raw_rows": "R_actionable{.f0 = 1, .f1 = 103}\nR_actionable{.f0 = 2, .f1 = 201}\nR_actionable{.f0 = 900, .f1 = 900}\n",
+    "author_bridge_closed": true,
+    "stop_exit_code": 0,
+    "host_and_native_process_count_before_stop": 2,
+    "host_and_native_process_count_after_stop": 0,
+    "descriptor_removed": true,
+    "socket_removed": true,
+    "server_sha256": "5f0cd0d0d625a4df30a30ac394f9b0956b354c998ee96fc7b94cffee9ec69795"
+  }
+}

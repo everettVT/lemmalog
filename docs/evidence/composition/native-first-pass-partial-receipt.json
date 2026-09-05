@@ -1,0 +1,4009 @@
+{
+  "passed": false,
+  "checks": [
+    {
+      "check": "three_processors_run_independently",
+      "actionable": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ]
+    },
+    {
+      "check": "combined_graph_matches_independent_pipeline",
+      "distinct_private_scratch_relations": 3,
+      "nested_program": true,
+      "exact_dependencies": {
+        "pipeline": {
+          "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+          "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+        },
+        "pipeline.current": {
+          "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+          "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+        },
+        "pipeline.eligibility": {
+          "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+          "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+        },
+        "pipeline.supported": {
+          "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+          "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+        }
+      }
+    },
+    {
+      "check": "private_relations_are_not_public_ports"
+    },
+    {
+      "check": "duplicate",
+      "rows": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ]
+    },
+    {
+      "check": "remove_one_support",
+      "rows": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ]
+    },
+    {
+      "check": "remove_last_support",
+      "rows": [
+        [
+          2,
+          201
+        ]
+      ]
+    },
+    {
+      "check": "restore_support",
+      "rows": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ]
+    },
+    {
+      "check": "advance_revision",
+      "rows": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ]
+    },
+    {
+      "check": "retract_upstream",
+      "rows": [
+        [
+          2,
+          201
+        ]
+      ]
+    },
+    {
+      "check": "restore_upstream",
+      "rows": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ]
+    },
+    {
+      "check": "independent_reviewer_bridge_mutates_shared_program",
+      "independent_stdio_processes": true,
+      "retained_after_reviewer_disconnect": true,
+      "mutation": [
+        {
+          "op": "delete",
+          "predicate": "evidence",
+          "values": [
+            1,
+            2,
+            103,
+            504
+          ]
+        }
+      ]
+    },
+    {
+      "check": "dependency_and_composition_versions_remain_pinned",
+      "old_rows": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "new_rows": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          2,
+          201
+        ]
+      ]
+    }
+  ],
+  "processors": {
+    "eligibility_v1": {
+      "content_sha256": "57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58",
+      "created_at_unix_ms": 1788647630260,
+      "definition": {
+        "interface": {
+          "inputs": [
+            "finding"
+          ],
+          "outputs": [
+            "eligible"
+          ]
+        },
+        "operation": null,
+        "rules": "scratch(P,R,F) :- finding(P,R,F,S), S =< 2.\neligible(P,R,F) :- scratch(P,R,F).",
+        "schemas": {
+          "eligible": {
+            "fields": [
+              "int",
+              "int",
+              "int"
+            ],
+            "input": false
+          },
+          "finding": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": true
+          },
+          "scratch": {
+            "fields": [
+              "int",
+              "int",
+              "int"
+            ],
+            "input": false
+          }
+        }
+      },
+      "format_version": 1,
+      "git_provenance": null,
+      "lineage": null,
+      "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+      "validation": {
+        "ddlog_compilation_performed": false,
+        "supported_lowering_checked": true,
+        "syntax_checked": true,
+        "types_checked": true
+      },
+      "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+    },
+    "current": {
+      "content_sha256": "3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84",
+      "created_at_unix_ms": 1788647652908,
+      "definition": {
+        "interface": {
+          "inputs": [
+            "eligible",
+            "current"
+          ],
+          "outputs": [
+            "selected"
+          ]
+        },
+        "operation": null,
+        "rules": "scratch(P,R,F) :- eligible(P,R,F), current(P,R).\nselected(P,R,F) :- scratch(P,R,F).",
+        "schemas": {
+          "current": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "input": true
+          },
+          "eligible": {
+            "fields": [
+              "int",
+              "int",
+              "int"
+            ],
+            "input": true
+          },
+          "scratch": {
+            "fields": [
+              "int",
+              "int",
+              "int"
+            ],
+            "input": false
+          },
+          "selected": {
+            "fields": [
+              "int",
+              "int",
+              "int"
+            ],
+            "input": false
+          }
+        }
+      },
+      "format_version": 1,
+      "git_provenance": null,
+      "lineage": null,
+      "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+      "validation": {
+        "ddlog_compilation_performed": false,
+        "supported_lowering_checked": true,
+        "syntax_checked": true,
+        "types_checked": true
+      },
+      "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+    },
+    "supported": {
+      "content_sha256": "8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1",
+      "created_at_unix_ms": 1788647681468,
+      "definition": {
+        "interface": {
+          "inputs": [
+            "selected",
+            "support"
+          ],
+          "outputs": [
+            "actionable"
+          ]
+        },
+        "operation": null,
+        "rules": "scratch(P,R,F) :- selected(P,R,F), support(P,R,F,W).\nactionable(P,F) :- scratch(P,R,F).",
+        "schemas": {
+          "actionable": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "input": false
+          },
+          "scratch": {
+            "fields": [
+              "int",
+              "int",
+              "int"
+            ],
+            "input": false
+          },
+          "selected": {
+            "fields": [
+              "int",
+              "int",
+              "int"
+            ],
+            "input": true
+          },
+          "support": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": true
+          }
+        }
+      },
+      "format_version": 1,
+      "git_provenance": null,
+      "lineage": null,
+      "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+      "validation": {
+        "ddlog_compilation_performed": false,
+        "supported_lowering_checked": true,
+        "syntax_checked": true,
+        "types_checked": true
+      },
+      "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+    },
+    "inner_v1": {
+      "composition": {
+        "dependencies": {
+          "current": {
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "eligibility": {
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "supported": {
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          }
+        },
+        "generated_source_sha256": "c691e3726f07762401f8274cd46c7092bbcd5c96a57e91253204a1a8cf159317",
+        "inputs": {
+          "evidence": "Input_evidence",
+          "findings": "Input_findings",
+          "revisions": "Input_revisions"
+        },
+        "nodes": {
+          "current": {
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "eligibility": {
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "supported": {
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          }
+        },
+        "outputs": {
+          "actionable": "Output_actionable"
+        },
+        "relations": {
+          "Input_evidence": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "evidence",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Input_findings": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "findings",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Input_revisions": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "input": "revisions",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Module0_current": {
+            "kind": "processor_relation",
+            "node": "current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "current",
+            "schema": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module0_eligible": {
+            "kind": "processor_relation",
+            "node": "current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "eligible",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module0_scratch": {
+            "kind": "processor_relation",
+            "node": "current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module0_selected": {
+            "kind": "processor_relation",
+            "node": "current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "selected",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module1_eligible": {
+            "kind": "processor_relation",
+            "node": "eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "relation": "eligible",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "Module1_finding": {
+            "kind": "processor_relation",
+            "node": "eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "relation": "finding",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "Module1_scratch": {
+            "kind": "processor_relation",
+            "node": "eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "Module2_actionable": {
+            "kind": "processor_relation",
+            "node": "supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "actionable",
+            "schema": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module2_scratch": {
+            "kind": "processor_relation",
+            "node": "supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module2_selected": {
+            "kind": "processor_relation",
+            "node": "supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "selected",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module2_support": {
+            "kind": "processor_relation",
+            "node": "supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "support",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Output_actionable": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "from": {
+              "node": "supported",
+              "relation": "actionable"
+            },
+            "kind": "external_output",
+            "output": "actionable",
+            "owner": null,
+            "scope": ""
+          }
+        },
+        "rules": [
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "rule": 0,
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          {
+            "head": "selected",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "rule": 1,
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "rule": 0,
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          {
+            "head": "eligible",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "rule": 1,
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "rule": 0,
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          {
+            "head": "actionable",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "rule": 1,
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          {
+            "input": "evidence",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "supported",
+              "relation": "support"
+            }
+          },
+          {
+            "input": "findings",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "eligibility",
+              "relation": "finding"
+            }
+          },
+          {
+            "input": "revisions",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "current",
+              "relation": "current"
+            }
+          },
+          {
+            "from": {
+              "node": "eligibility",
+              "relation": "eligible"
+            },
+            "kind": "processor_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "current",
+              "relation": "eligible"
+            }
+          },
+          {
+            "from": {
+              "node": "current",
+              "relation": "selected"
+            },
+            "kind": "processor_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "supported",
+              "relation": "selected"
+            }
+          },
+          {
+            "from": {
+              "node": "supported",
+              "relation": "actionable"
+            },
+            "kind": "output_binding",
+            "output": "actionable",
+            "owner": null,
+            "scope": ""
+          }
+        ]
+      },
+      "content_sha256": "567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d",
+      "created_at_unix_ms": 1788647706260,
+      "definition": {
+        "composition": {
+          "bindings": [
+            {
+              "from": {
+                "node": "eligibility",
+                "relation": "eligible"
+              },
+              "to": {
+                "node": "current",
+                "relation": "eligible"
+              }
+            },
+            {
+              "from": {
+                "node": "current",
+                "relation": "selected"
+              },
+              "to": {
+                "node": "supported",
+                "relation": "selected"
+              }
+            }
+          ],
+          "inputs": {
+            "evidence": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "targets": [
+                {
+                  "node": "supported",
+                  "relation": "support"
+                }
+              ]
+            },
+            "findings": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "targets": [
+                {
+                  "node": "eligibility",
+                  "relation": "finding"
+                }
+              ]
+            },
+            "revisions": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "targets": [
+                {
+                  "node": "current",
+                  "relation": "current"
+                }
+              ]
+            }
+          },
+          "nodes": {
+            "current": {
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            "eligibility": {
+              "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+              "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+            },
+            "supported": {
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            }
+          },
+          "outputs": {
+            "actionable": {
+              "node": "supported",
+              "relation": "actionable"
+            }
+          }
+        }
+      },
+      "format_version": 1,
+      "git_provenance": null,
+      "lineage": null,
+      "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+      "validation": {
+        "ddlog_compilation_performed": false,
+        "supported_lowering_checked": true,
+        "syntax_checked": true,
+        "types_checked": true
+      },
+      "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+    },
+    "outer_v1": {
+      "composition": {
+        "dependencies": {
+          "pipeline": {
+            "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+            "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+          },
+          "pipeline.current": {
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "pipeline.eligibility": {
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "pipeline.supported": {
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          }
+        },
+        "generated_source_sha256": "04b2222b202f50c8fa4003aedd6c2cd6e62471fb0b818c0de81ed85925275fcb",
+        "inputs": {
+          "evidence": "Input_evidence",
+          "findings": "Input_findings",
+          "revisions": "Input_revisions"
+        },
+        "nodes": {
+          "pipeline": {
+            "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+            "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+          }
+        },
+        "outputs": {
+          "actionable": "Output_actionable"
+        },
+        "relations": {
+          "Composite0_Input_evidence": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "evidence",
+            "kind": "external_input",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+            },
+            "scope": "pipeline"
+          },
+          "Composite0_Input_findings": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "findings",
+            "kind": "external_input",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+            },
+            "scope": "pipeline"
+          },
+          "Composite0_Input_revisions": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "input": "revisions",
+            "kind": "external_input",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+            },
+            "scope": "pipeline"
+          },
+          "Composite0_Output_actionable": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "from": {
+              "node": "pipeline.supported",
+              "relation": "actionable"
+            },
+            "kind": "external_output",
+            "output": "actionable",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+            },
+            "scope": "pipeline"
+          },
+          "Input_evidence": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "evidence",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Input_findings": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "findings",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Input_revisions": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "input": "revisions",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Module1_current": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "current",
+            "schema": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module1_eligible": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "eligible",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module1_scratch": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module1_selected": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "selected",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module2_eligible": {
+            "kind": "processor_relation",
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "relation": "eligible",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "Module2_finding": {
+            "kind": "processor_relation",
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "relation": "finding",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "Module2_scratch": {
+            "kind": "processor_relation",
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          "Module3_actionable": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "actionable",
+            "schema": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module3_scratch": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module3_selected": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "selected",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module3_support": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "support",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Output_actionable": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "from": {
+              "node": "pipeline",
+              "relation": "actionable"
+            },
+            "kind": "external_output",
+            "output": "actionable",
+            "owner": null,
+            "scope": ""
+          }
+        },
+        "rules": [
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "rule": 0,
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          {
+            "head": "selected",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "rule": 1,
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "rule": 0,
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          {
+            "head": "eligible",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "rule": 1,
+            "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+          },
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "rule": 0,
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          {
+            "head": "actionable",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "rule": 1,
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          {
+            "input": "evidence",
+            "kind": "input_binding",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.supported",
+              "relation": "support"
+            }
+          },
+          {
+            "input": "findings",
+            "kind": "input_binding",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.eligibility",
+              "relation": "finding"
+            }
+          },
+          {
+            "input": "revisions",
+            "kind": "input_binding",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.current",
+              "relation": "current"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline.eligibility",
+              "relation": "eligible"
+            },
+            "kind": "processor_binding",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.current",
+              "relation": "eligible"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline.current",
+              "relation": "selected"
+            },
+            "kind": "processor_binding",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.supported",
+              "relation": "selected"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline.supported",
+              "relation": "actionable"
+            },
+            "kind": "output_binding",
+            "output": "actionable",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+            },
+            "scope": "pipeline"
+          },
+          {
+            "input": "evidence",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "pipeline",
+              "relation": "evidence"
+            }
+          },
+          {
+            "input": "findings",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "pipeline",
+              "relation": "findings"
+            }
+          },
+          {
+            "input": "revisions",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "pipeline",
+              "relation": "revisions"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline",
+              "relation": "actionable"
+            },
+            "kind": "output_binding",
+            "output": "actionable",
+            "owner": null,
+            "scope": ""
+          }
+        ]
+      },
+      "content_sha256": "11e7ee6d797fb694caa621c104aa626557a1860f4fc38fb763756565b3bc9ec6",
+      "created_at_unix_ms": 1788647706339,
+      "definition": {
+        "composition": {
+          "bindings": [],
+          "inputs": {
+            "evidence": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "targets": [
+                {
+                  "node": "pipeline",
+                  "relation": "evidence"
+                }
+              ]
+            },
+            "findings": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "targets": [
+                {
+                  "node": "pipeline",
+                  "relation": "findings"
+                }
+              ]
+            },
+            "revisions": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "targets": [
+                {
+                  "node": "pipeline",
+                  "relation": "revisions"
+                }
+              ]
+            }
+          },
+          "nodes": {
+            "pipeline": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+            }
+          },
+          "outputs": {
+            "actionable": {
+              "node": "pipeline",
+              "relation": "actionable"
+            }
+          }
+        }
+      },
+      "format_version": 1,
+      "git_provenance": null,
+      "lineage": null,
+      "processor_id": "processor_6f0ad30aace6a55aa1fe9f9ff3d0fbdb",
+      "validation": {
+        "ddlog_compilation_performed": false,
+        "supported_lowering_checked": true,
+        "syntax_checked": true,
+        "types_checked": true
+      },
+      "version": "sha256:11e7ee6d797fb694caa621c104aa626557a1860f4fc38fb763756565b3bc9ec6"
+    },
+    "eligibility_v2": {
+      "content_sha256": "90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e",
+      "created_at_unix_ms": 1788647734788,
+      "definition": {
+        "interface": {
+          "inputs": [
+            "finding"
+          ],
+          "outputs": [
+            "eligible"
+          ]
+        },
+        "operation": null,
+        "rules": "scratch(P,R,F) :- finding(P,R,F,S), S =< 3.\neligible(P,R,F) :- scratch(P,R,F).",
+        "schemas": {
+          "eligible": {
+            "fields": [
+              "int",
+              "int",
+              "int"
+            ],
+            "input": false
+          },
+          "finding": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": true
+          },
+          "scratch": {
+            "fields": [
+              "int",
+              "int",
+              "int"
+            ],
+            "input": false
+          }
+        }
+      },
+      "format_version": 1,
+      "git_provenance": null,
+      "lineage": null,
+      "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+      "validation": {
+        "ddlog_compilation_performed": false,
+        "supported_lowering_checked": true,
+        "syntax_checked": true,
+        "types_checked": true
+      },
+      "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+    },
+    "inner_v2": {
+      "composition": {
+        "dependencies": {
+          "current": {
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "eligibility": {
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+          },
+          "supported": {
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          }
+        },
+        "generated_source_sha256": "6b0f1fe67d88a34168d22ae9a4e84867b1aa071cfef58a15fe31567a2188a1d0",
+        "inputs": {
+          "evidence": "Input_evidence",
+          "findings": "Input_findings",
+          "revisions": "Input_revisions"
+        },
+        "nodes": {
+          "current": {
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "eligibility": {
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+          },
+          "supported": {
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          }
+        },
+        "outputs": {
+          "actionable": "Output_actionable"
+        },
+        "relations": {
+          "Input_evidence": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "evidence",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Input_findings": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "findings",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Input_revisions": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "input": "revisions",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Module0_current": {
+            "kind": "processor_relation",
+            "node": "current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "current",
+            "schema": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module0_eligible": {
+            "kind": "processor_relation",
+            "node": "current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "eligible",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module0_scratch": {
+            "kind": "processor_relation",
+            "node": "current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module0_selected": {
+            "kind": "processor_relation",
+            "node": "current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "selected",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module1_eligible": {
+            "kind": "processor_relation",
+            "node": "eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "relation": "eligible",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+          },
+          "Module1_finding": {
+            "kind": "processor_relation",
+            "node": "eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "relation": "finding",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+          },
+          "Module1_scratch": {
+            "kind": "processor_relation",
+            "node": "eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+          },
+          "Module2_actionable": {
+            "kind": "processor_relation",
+            "node": "supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "actionable",
+            "schema": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module2_scratch": {
+            "kind": "processor_relation",
+            "node": "supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module2_selected": {
+            "kind": "processor_relation",
+            "node": "supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "selected",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module2_support": {
+            "kind": "processor_relation",
+            "node": "supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "support",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Output_actionable": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "from": {
+              "node": "supported",
+              "relation": "actionable"
+            },
+            "kind": "external_output",
+            "output": "actionable",
+            "owner": null,
+            "scope": ""
+          }
+        },
+        "rules": [
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "rule": 0,
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          {
+            "head": "selected",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "rule": 1,
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "rule": 0,
+            "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+          },
+          {
+            "head": "eligible",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "rule": 1,
+            "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+          },
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "rule": 0,
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          {
+            "head": "actionable",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "rule": 1,
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          {
+            "input": "evidence",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "supported",
+              "relation": "support"
+            }
+          },
+          {
+            "input": "findings",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "eligibility",
+              "relation": "finding"
+            }
+          },
+          {
+            "input": "revisions",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "current",
+              "relation": "current"
+            }
+          },
+          {
+            "from": {
+              "node": "eligibility",
+              "relation": "eligible"
+            },
+            "kind": "processor_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "current",
+              "relation": "eligible"
+            }
+          },
+          {
+            "from": {
+              "node": "current",
+              "relation": "selected"
+            },
+            "kind": "processor_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "supported",
+              "relation": "selected"
+            }
+          },
+          {
+            "from": {
+              "node": "supported",
+              "relation": "actionable"
+            },
+            "kind": "output_binding",
+            "output": "actionable",
+            "owner": null,
+            "scope": ""
+          }
+        ]
+      },
+      "content_sha256": "44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e",
+      "created_at_unix_ms": 1788647734895,
+      "definition": {
+        "composition": {
+          "bindings": [
+            {
+              "from": {
+                "node": "eligibility",
+                "relation": "eligible"
+              },
+              "to": {
+                "node": "current",
+                "relation": "eligible"
+              }
+            },
+            {
+              "from": {
+                "node": "current",
+                "relation": "selected"
+              },
+              "to": {
+                "node": "supported",
+                "relation": "selected"
+              }
+            }
+          ],
+          "inputs": {
+            "evidence": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "targets": [
+                {
+                  "node": "supported",
+                  "relation": "support"
+                }
+              ]
+            },
+            "findings": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "targets": [
+                {
+                  "node": "eligibility",
+                  "relation": "finding"
+                }
+              ]
+            },
+            "revisions": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "targets": [
+                {
+                  "node": "current",
+                  "relation": "current"
+                }
+              ]
+            }
+          },
+          "nodes": {
+            "current": {
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            "eligibility": {
+              "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+              "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+            },
+            "supported": {
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            }
+          },
+          "outputs": {
+            "actionable": {
+              "node": "supported",
+              "relation": "actionable"
+            }
+          }
+        }
+      },
+      "format_version": 1,
+      "git_provenance": null,
+      "lineage": null,
+      "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+      "validation": {
+        "ddlog_compilation_performed": false,
+        "supported_lowering_checked": true,
+        "syntax_checked": true,
+        "types_checked": true
+      },
+      "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+    },
+    "outer_v2": {
+      "composition": {
+        "dependencies": {
+          "pipeline": {
+            "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+            "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+          },
+          "pipeline.current": {
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "pipeline.eligibility": {
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+          },
+          "pipeline.supported": {
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          }
+        },
+        "generated_source_sha256": "b2193e7d250bce6a06594649c810c4909f9a606ef02bcc3993d71a1a2c07ff46",
+        "inputs": {
+          "evidence": "Input_evidence",
+          "findings": "Input_findings",
+          "revisions": "Input_revisions"
+        },
+        "nodes": {
+          "pipeline": {
+            "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+            "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+          }
+        },
+        "outputs": {
+          "actionable": "Output_actionable"
+        },
+        "relations": {
+          "Composite0_Input_evidence": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "evidence",
+            "kind": "external_input",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+            },
+            "scope": "pipeline"
+          },
+          "Composite0_Input_findings": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "findings",
+            "kind": "external_input",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+            },
+            "scope": "pipeline"
+          },
+          "Composite0_Input_revisions": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "input": "revisions",
+            "kind": "external_input",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+            },
+            "scope": "pipeline"
+          },
+          "Composite0_Output_actionable": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "from": {
+              "node": "pipeline.supported",
+              "relation": "actionable"
+            },
+            "kind": "external_output",
+            "output": "actionable",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+            },
+            "scope": "pipeline"
+          },
+          "Input_evidence": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "evidence",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Input_findings": {
+            "fields": [
+              "int",
+              "int",
+              "int",
+              "int"
+            ],
+            "input": "findings",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Input_revisions": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "input": "revisions",
+            "kind": "external_input",
+            "owner": null,
+            "scope": ""
+          },
+          "Module1_current": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "current",
+            "schema": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module1_eligible": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "eligible",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module1_scratch": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module1_selected": {
+            "kind": "processor_relation",
+            "node": "pipeline.current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "relation": "selected",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          "Module2_eligible": {
+            "kind": "processor_relation",
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "relation": "eligible",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+          },
+          "Module2_finding": {
+            "kind": "processor_relation",
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "relation": "finding",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+          },
+          "Module2_scratch": {
+            "kind": "processor_relation",
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+          },
+          "Module3_actionable": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "actionable",
+            "schema": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module3_scratch": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "scratch",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": false
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module3_selected": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "selected",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Module3_support": {
+            "kind": "processor_relation",
+            "node": "pipeline.supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "relation": "support",
+            "schema": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": true
+            },
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          "Output_actionable": {
+            "fields": [
+              "int",
+              "int"
+            ],
+            "from": {
+              "node": "pipeline",
+              "relation": "actionable"
+            },
+            "kind": "external_output",
+            "output": "actionable",
+            "owner": null,
+            "scope": ""
+          }
+        },
+        "rules": [
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "rule": 0,
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          {
+            "head": "selected",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.current",
+            "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+            "rule": 1,
+            "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+          },
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "rule": 0,
+            "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+          },
+          {
+            "head": "eligible",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.eligibility",
+            "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+            "rule": 1,
+            "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+          },
+          {
+            "head": "scratch",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "rule": 0,
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          {
+            "head": "actionable",
+            "kind": "processor_rule",
+            "name": null,
+            "node": "pipeline.supported",
+            "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+            "rule": 1,
+            "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+          },
+          {
+            "input": "evidence",
+            "kind": "input_binding",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.supported",
+              "relation": "support"
+            }
+          },
+          {
+            "input": "findings",
+            "kind": "input_binding",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.eligibility",
+              "relation": "finding"
+            }
+          },
+          {
+            "input": "revisions",
+            "kind": "input_binding",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.current",
+              "relation": "current"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline.eligibility",
+              "relation": "eligible"
+            },
+            "kind": "processor_binding",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.current",
+              "relation": "eligible"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline.current",
+              "relation": "selected"
+            },
+            "kind": "processor_binding",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+            },
+            "scope": "pipeline",
+            "to": {
+              "node": "pipeline.supported",
+              "relation": "selected"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline.supported",
+              "relation": "actionable"
+            },
+            "kind": "output_binding",
+            "output": "actionable",
+            "owner": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+            },
+            "scope": "pipeline"
+          },
+          {
+            "input": "evidence",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "pipeline",
+              "relation": "evidence"
+            }
+          },
+          {
+            "input": "findings",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "pipeline",
+              "relation": "findings"
+            }
+          },
+          {
+            "input": "revisions",
+            "kind": "input_binding",
+            "owner": null,
+            "scope": "",
+            "to": {
+              "node": "pipeline",
+              "relation": "revisions"
+            }
+          },
+          {
+            "from": {
+              "node": "pipeline",
+              "relation": "actionable"
+            },
+            "kind": "output_binding",
+            "output": "actionable",
+            "owner": null,
+            "scope": ""
+          }
+        ]
+      },
+      "content_sha256": "184d915bf69c69cf3e871a12a43fa442493a6723b2c742fb2c51981700289f9d",
+      "created_at_unix_ms": 1788647735014,
+      "definition": {
+        "composition": {
+          "bindings": [],
+          "inputs": {
+            "evidence": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "targets": [
+                {
+                  "node": "pipeline",
+                  "relation": "evidence"
+                }
+              ]
+            },
+            "findings": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "targets": [
+                {
+                  "node": "pipeline",
+                  "relation": "findings"
+                }
+              ]
+            },
+            "revisions": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "targets": [
+                {
+                  "node": "pipeline",
+                  "relation": "revisions"
+                }
+              ]
+            }
+          },
+          "nodes": {
+            "pipeline": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+            }
+          },
+          "outputs": {
+            "actionable": {
+              "node": "pipeline",
+              "relation": "actionable"
+            }
+          }
+        }
+      },
+      "format_version": 1,
+      "git_provenance": null,
+      "lineage": null,
+      "processor_id": "processor_6f0ad30aace6a55aa1fe9f9ff3d0fbdb",
+      "validation": {
+        "ddlog_compilation_performed": false,
+        "supported_lowering_checked": true,
+        "syntax_checked": true,
+        "types_checked": true
+      },
+      "version": "sha256:184d915bf69c69cf3e871a12a43fa442493a6723b2c742fb2c51981700289f9d"
+    }
+  },
+  "activations": [
+    {
+      "program": "eligibility_v1",
+      "processor": {
+        "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+        "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+      },
+      "response": {
+        "backend": "ddlog/differential-dataflow",
+        "processor": {
+          "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+          "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+        },
+        "replayed_facts": 0,
+        "version": 1
+      }
+    },
+    {
+      "program": "current",
+      "processor": {
+        "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+        "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+      },
+      "response": {
+        "backend": "ddlog/differential-dataflow",
+        "processor": {
+          "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+          "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+        },
+        "replayed_facts": 0,
+        "version": 1
+      }
+    },
+    {
+      "program": "supported",
+      "processor": {
+        "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+        "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+      },
+      "response": {
+        "backend": "ddlog/differential-dataflow",
+        "processor": {
+          "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+          "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+        },
+        "replayed_facts": 0,
+        "version": 1
+      }
+    },
+    {
+      "program": "outer_v1",
+      "processor": {
+        "processor_id": "processor_6f0ad30aace6a55aa1fe9f9ff3d0fbdb",
+        "version": "sha256:11e7ee6d797fb694caa621c104aa626557a1860f4fc38fb763756565b3bc9ec6"
+      },
+      "response": {
+        "backend": "ddlog/differential-dataflow",
+        "composition": {
+          "dependencies": {
+            "pipeline": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+            },
+            "pipeline.current": {
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            "pipeline.eligibility": {
+              "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+              "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+            },
+            "pipeline.supported": {
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            }
+          },
+          "generated_source_sha256": "04b2222b202f50c8fa4003aedd6c2cd6e62471fb0b818c0de81ed85925275fcb",
+          "inputs": {
+            "evidence": "Input_evidence",
+            "findings": "Input_findings",
+            "revisions": "Input_revisions"
+          },
+          "nodes": {
+            "pipeline": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+            }
+          },
+          "outputs": {
+            "actionable": "Output_actionable"
+          },
+          "relations": {
+            "Composite0_Input_evidence": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": "evidence",
+              "kind": "external_input",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+              },
+              "scope": "pipeline"
+            },
+            "Composite0_Input_findings": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": "findings",
+              "kind": "external_input",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+              },
+              "scope": "pipeline"
+            },
+            "Composite0_Input_revisions": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": "revisions",
+              "kind": "external_input",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+              },
+              "scope": "pipeline"
+            },
+            "Composite0_Output_actionable": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "from": {
+                "node": "pipeline.supported",
+                "relation": "actionable"
+              },
+              "kind": "external_output",
+              "output": "actionable",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+              },
+              "scope": "pipeline"
+            },
+            "Input_evidence": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": "evidence",
+              "kind": "external_input",
+              "owner": null,
+              "scope": ""
+            },
+            "Input_findings": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": "findings",
+              "kind": "external_input",
+              "owner": null,
+              "scope": ""
+            },
+            "Input_revisions": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": "revisions",
+              "kind": "external_input",
+              "owner": null,
+              "scope": ""
+            },
+            "Module1_current": {
+              "kind": "processor_relation",
+              "node": "pipeline.current",
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "relation": "current",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int"
+                ],
+                "input": true
+              },
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            "Module1_eligible": {
+              "kind": "processor_relation",
+              "node": "pipeline.current",
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "relation": "eligible",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": true
+              },
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            "Module1_scratch": {
+              "kind": "processor_relation",
+              "node": "pipeline.current",
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "relation": "scratch",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": false
+              },
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            "Module1_selected": {
+              "kind": "processor_relation",
+              "node": "pipeline.current",
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "relation": "selected",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": false
+              },
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            "Module2_eligible": {
+              "kind": "processor_relation",
+              "node": "pipeline.eligibility",
+              "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+              "relation": "eligible",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": false
+              },
+              "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+            },
+            "Module2_finding": {
+              "kind": "processor_relation",
+              "node": "pipeline.eligibility",
+              "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+              "relation": "finding",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": true
+              },
+              "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+            },
+            "Module2_scratch": {
+              "kind": "processor_relation",
+              "node": "pipeline.eligibility",
+              "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+              "relation": "scratch",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": false
+              },
+              "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+            },
+            "Module3_actionable": {
+              "kind": "processor_relation",
+              "node": "pipeline.supported",
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "relation": "actionable",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int"
+                ],
+                "input": false
+              },
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            },
+            "Module3_scratch": {
+              "kind": "processor_relation",
+              "node": "pipeline.supported",
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "relation": "scratch",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": false
+              },
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            },
+            "Module3_selected": {
+              "kind": "processor_relation",
+              "node": "pipeline.supported",
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "relation": "selected",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": true
+              },
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            },
+            "Module3_support": {
+              "kind": "processor_relation",
+              "node": "pipeline.supported",
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "relation": "support",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": true
+              },
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            },
+            "Output_actionable": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "from": {
+                "node": "pipeline",
+                "relation": "actionable"
+              },
+              "kind": "external_output",
+              "output": "actionable",
+              "owner": null,
+              "scope": ""
+            }
+          },
+          "rules": [
+            {
+              "head": "scratch",
+              "kind": "processor_rule",
+              "name": null,
+              "node": "pipeline.current",
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "rule": 0,
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            {
+              "head": "selected",
+              "kind": "processor_rule",
+              "name": null,
+              "node": "pipeline.current",
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "rule": 1,
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            {
+              "head": "scratch",
+              "kind": "processor_rule",
+              "name": null,
+              "node": "pipeline.eligibility",
+              "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+              "rule": 0,
+              "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+            },
+            {
+              "head": "eligible",
+              "kind": "processor_rule",
+              "name": null,
+              "node": "pipeline.eligibility",
+              "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+              "rule": 1,
+              "version": "sha256:57e0636e97110bcca0eb998ef36c9070414a7643d0f00bfe17d9a4a530802b58"
+            },
+            {
+              "head": "scratch",
+              "kind": "processor_rule",
+              "name": null,
+              "node": "pipeline.supported",
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "rule": 0,
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            },
+            {
+              "head": "actionable",
+              "kind": "processor_rule",
+              "name": null,
+              "node": "pipeline.supported",
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "rule": 1,
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            },
+            {
+              "input": "evidence",
+              "kind": "input_binding",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+              },
+              "scope": "pipeline",
+              "to": {
+                "node": "pipeline.supported",
+                "relation": "support"
+              }
+            },
+            {
+              "input": "findings",
+              "kind": "input_binding",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+              },
+              "scope": "pipeline",
+              "to": {
+                "node": "pipeline.eligibility",
+                "relation": "finding"
+              }
+            },
+            {
+              "input": "revisions",
+              "kind": "input_binding",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+              },
+              "scope": "pipeline",
+              "to": {
+                "node": "pipeline.current",
+                "relation": "current"
+              }
+            },
+            {
+              "from": {
+                "node": "pipeline.eligibility",
+                "relation": "eligible"
+              },
+              "kind": "processor_binding",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+              },
+              "scope": "pipeline",
+              "to": {
+                "node": "pipeline.current",
+                "relation": "eligible"
+              }
+            },
+            {
+              "from": {
+                "node": "pipeline.current",
+                "relation": "selected"
+              },
+              "kind": "processor_binding",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+              },
+              "scope": "pipeline",
+              "to": {
+                "node": "pipeline.supported",
+                "relation": "selected"
+              }
+            },
+            {
+              "from": {
+                "node": "pipeline.supported",
+                "relation": "actionable"
+              },
+              "kind": "output_binding",
+              "output": "actionable",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:567af6f59b82bcb080a7f37e86017c7adb933da78e45d2e28b6a4adda8136d6d"
+              },
+              "scope": "pipeline"
+            },
+            {
+              "input": "evidence",
+              "kind": "input_binding",
+              "owner": null,
+              "scope": "",
+              "to": {
+                "node": "pipeline",
+                "relation": "evidence"
+              }
+            },
+            {
+              "input": "findings",
+              "kind": "input_binding",
+              "owner": null,
+              "scope": "",
+              "to": {
+                "node": "pipeline",
+                "relation": "findings"
+              }
+            },
+            {
+              "input": "revisions",
+              "kind": "input_binding",
+              "owner": null,
+              "scope": "",
+              "to": {
+                "node": "pipeline",
+                "relation": "revisions"
+              }
+            },
+            {
+              "from": {
+                "node": "pipeline",
+                "relation": "actionable"
+              },
+              "kind": "output_binding",
+              "output": "actionable",
+              "owner": null,
+              "scope": ""
+            }
+          ]
+        },
+        "processor": {
+          "processor_id": "processor_6f0ad30aace6a55aa1fe9f9ff3d0fbdb",
+          "version": "sha256:11e7ee6d797fb694caa621c104aa626557a1860f4fc38fb763756565b3bc9ec6"
+        },
+        "replayed_facts": 0,
+        "version": 1
+      }
+    },
+    {
+      "program": "outer_v2",
+      "processor": {
+        "processor_id": "processor_6f0ad30aace6a55aa1fe9f9ff3d0fbdb",
+        "version": "sha256:184d915bf69c69cf3e871a12a43fa442493a6723b2c742fb2c51981700289f9d"
+      },
+      "response": {
+        "backend": "ddlog/differential-dataflow",
+        "composition": {
+          "dependencies": {
+            "pipeline": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+            },
+            "pipeline.current": {
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            "pipeline.eligibility": {
+              "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+              "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+            },
+            "pipeline.supported": {
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            }
+          },
+          "generated_source_sha256": "b2193e7d250bce6a06594649c810c4909f9a606ef02bcc3993d71a1a2c07ff46",
+          "inputs": {
+            "evidence": "Input_evidence",
+            "findings": "Input_findings",
+            "revisions": "Input_revisions"
+          },
+          "nodes": {
+            "pipeline": {
+              "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+              "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+            }
+          },
+          "outputs": {
+            "actionable": "Output_actionable"
+          },
+          "relations": {
+            "Composite0_Input_evidence": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": "evidence",
+              "kind": "external_input",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+              },
+              "scope": "pipeline"
+            },
+            "Composite0_Input_findings": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": "findings",
+              "kind": "external_input",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+              },
+              "scope": "pipeline"
+            },
+            "Composite0_Input_revisions": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": "revisions",
+              "kind": "external_input",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+              },
+              "scope": "pipeline"
+            },
+            "Composite0_Output_actionable": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "from": {
+                "node": "pipeline.supported",
+                "relation": "actionable"
+              },
+              "kind": "external_output",
+              "output": "actionable",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+              },
+              "scope": "pipeline"
+            },
+            "Input_evidence": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": "evidence",
+              "kind": "external_input",
+              "owner": null,
+              "scope": ""
+            },
+            "Input_findings": {
+              "fields": [
+                "int",
+                "int",
+                "int",
+                "int"
+              ],
+              "input": "findings",
+              "kind": "external_input",
+              "owner": null,
+              "scope": ""
+            },
+            "Input_revisions": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "input": "revisions",
+              "kind": "external_input",
+              "owner": null,
+              "scope": ""
+            },
+            "Module1_current": {
+              "kind": "processor_relation",
+              "node": "pipeline.current",
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "relation": "current",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int"
+                ],
+                "input": true
+              },
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            "Module1_eligible": {
+              "kind": "processor_relation",
+              "node": "pipeline.current",
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "relation": "eligible",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": true
+              },
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            "Module1_scratch": {
+              "kind": "processor_relation",
+              "node": "pipeline.current",
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "relation": "scratch",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": false
+              },
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            "Module1_selected": {
+              "kind": "processor_relation",
+              "node": "pipeline.current",
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "relation": "selected",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": false
+              },
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            "Module2_eligible": {
+              "kind": "processor_relation",
+              "node": "pipeline.eligibility",
+              "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+              "relation": "eligible",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": false
+              },
+              "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+            },
+            "Module2_finding": {
+              "kind": "processor_relation",
+              "node": "pipeline.eligibility",
+              "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+              "relation": "finding",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": true
+              },
+              "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+            },
+            "Module2_scratch": {
+              "kind": "processor_relation",
+              "node": "pipeline.eligibility",
+              "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+              "relation": "scratch",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": false
+              },
+              "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+            },
+            "Module3_actionable": {
+              "kind": "processor_relation",
+              "node": "pipeline.supported",
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "relation": "actionable",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int"
+                ],
+                "input": false
+              },
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            },
+            "Module3_scratch": {
+              "kind": "processor_relation",
+              "node": "pipeline.supported",
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "relation": "scratch",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": false
+              },
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            },
+            "Module3_selected": {
+              "kind": "processor_relation",
+              "node": "pipeline.supported",
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "relation": "selected",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": true
+              },
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            },
+            "Module3_support": {
+              "kind": "processor_relation",
+              "node": "pipeline.supported",
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "relation": "support",
+              "schema": {
+                "fields": [
+                  "int",
+                  "int",
+                  "int",
+                  "int"
+                ],
+                "input": true
+              },
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            },
+            "Output_actionable": {
+              "fields": [
+                "int",
+                "int"
+              ],
+              "from": {
+                "node": "pipeline",
+                "relation": "actionable"
+              },
+              "kind": "external_output",
+              "output": "actionable",
+              "owner": null,
+              "scope": ""
+            }
+          },
+          "rules": [
+            {
+              "head": "scratch",
+              "kind": "processor_rule",
+              "name": null,
+              "node": "pipeline.current",
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "rule": 0,
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            {
+              "head": "selected",
+              "kind": "processor_rule",
+              "name": null,
+              "node": "pipeline.current",
+              "processor_id": "processor_2b387dc45c00383c9a9dcaf17e8d5b74",
+              "rule": 1,
+              "version": "sha256:3d7cb2860cc8bd82a77d822940df1575f06980fd1599120164213b0931e31c84"
+            },
+            {
+              "head": "scratch",
+              "kind": "processor_rule",
+              "name": null,
+              "node": "pipeline.eligibility",
+              "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+              "rule": 0,
+              "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+            },
+            {
+              "head": "eligible",
+              "kind": "processor_rule",
+              "name": null,
+              "node": "pipeline.eligibility",
+              "processor_id": "processor_c1b3ea990b292bfe61738343d609b957",
+              "rule": 1,
+              "version": "sha256:90505fdf583bd6a614b6b60ae3db417e0d79fbde301e788c360700c424d9955e"
+            },
+            {
+              "head": "scratch",
+              "kind": "processor_rule",
+              "name": null,
+              "node": "pipeline.supported",
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "rule": 0,
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            },
+            {
+              "head": "actionable",
+              "kind": "processor_rule",
+              "name": null,
+              "node": "pipeline.supported",
+              "processor_id": "processor_107f4f079ba88dd2d5479d875048f74c",
+              "rule": 1,
+              "version": "sha256:8274c1a8a33fdfc0acaec0b0310a1cd9b844308d355101774c582b54c10438d1"
+            },
+            {
+              "input": "evidence",
+              "kind": "input_binding",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+              },
+              "scope": "pipeline",
+              "to": {
+                "node": "pipeline.supported",
+                "relation": "support"
+              }
+            },
+            {
+              "input": "findings",
+              "kind": "input_binding",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+              },
+              "scope": "pipeline",
+              "to": {
+                "node": "pipeline.eligibility",
+                "relation": "finding"
+              }
+            },
+            {
+              "input": "revisions",
+              "kind": "input_binding",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+              },
+              "scope": "pipeline",
+              "to": {
+                "node": "pipeline.current",
+                "relation": "current"
+              }
+            },
+            {
+              "from": {
+                "node": "pipeline.eligibility",
+                "relation": "eligible"
+              },
+              "kind": "processor_binding",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+              },
+              "scope": "pipeline",
+              "to": {
+                "node": "pipeline.current",
+                "relation": "eligible"
+              }
+            },
+            {
+              "from": {
+                "node": "pipeline.current",
+                "relation": "selected"
+              },
+              "kind": "processor_binding",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+              },
+              "scope": "pipeline",
+              "to": {
+                "node": "pipeline.supported",
+                "relation": "selected"
+              }
+            },
+            {
+              "from": {
+                "node": "pipeline.supported",
+                "relation": "actionable"
+              },
+              "kind": "output_binding",
+              "output": "actionable",
+              "owner": {
+                "processor_id": "processor_e26ce8b68b665e280c4c87ea46723108",
+                "version": "sha256:44e5071ac95f8724304b5eebf4570a9bb6414b0e15d78a9d7dabe4f7ac89931e"
+              },
+              "scope": "pipeline"
+            },
+            {
+              "input": "evidence",
+              "kind": "input_binding",
+              "owner": null,
+              "scope": "",
+              "to": {
+                "node": "pipeline",
+                "relation": "evidence"
+              }
+            },
+            {
+              "input": "findings",
+              "kind": "input_binding",
+              "owner": null,
+              "scope": "",
+              "to": {
+                "node": "pipeline",
+                "relation": "findings"
+              }
+            },
+            {
+              "input": "revisions",
+              "kind": "input_binding",
+              "owner": null,
+              "scope": "",
+              "to": {
+                "node": "pipeline",
+                "relation": "revisions"
+              }
+            },
+            {
+              "from": {
+                "node": "pipeline",
+                "relation": "actionable"
+              },
+              "kind": "output_binding",
+              "output": "actionable",
+              "owner": null,
+              "scope": ""
+            }
+          ]
+        },
+        "processor": {
+          "processor_id": "processor_6f0ad30aace6a55aa1fe9f9ff3d0fbdb",
+          "version": "sha256:184d915bf69c69cf3e871a12a43fa442493a6723b2c742fb2c51981700289f9d"
+        },
+        "replayed_facts": 0,
+        "version": 1
+      }
+    }
+  ],
+  "snapshots": [
+    {
+      "snapshot": "individual_eligibility",
+      "relation": "eligible",
+      "expected": [
+        [
+          1,
+          1,
+          101
+        ],
+        [
+          1,
+          2,
+          103
+        ],
+        [
+          2,
+          1,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          1,
+          1,
+          101
+        ],
+        [
+          1,
+          2,
+          103
+        ],
+        [
+          2,
+          1,
+          201
+        ]
+      ],
+      "raw_rows": "R_eligible{.f0 = 1, .f1 = 1, .f2 = 101}\nR_eligible{.f0 = 1, .f1 = 2, .f2 = 103}\nR_eligible{.f0 = 2, .f1 = 1, .f2 = 201}\n"
+    },
+    {
+      "snapshot": "individual_current",
+      "relation": "selected",
+      "expected": [
+        [
+          1,
+          1,
+          101
+        ],
+        [
+          2,
+          1,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          1,
+          1,
+          101
+        ],
+        [
+          2,
+          1,
+          201
+        ]
+      ],
+      "raw_rows": "R_selected{.f0 = 1, .f1 = 1, .f2 = 101}\nR_selected{.f0 = 2, .f1 = 1, .f2 = 201}\n"
+    },
+    {
+      "snapshot": "individual_supported",
+      "relation": "actionable",
+      "expected": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 1, .f1 = 101}\nR_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "nested_pipeline_initial",
+      "relation": "actionable",
+      "expected": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 1, .f1 = 101}\nR_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "duplicate",
+      "relation": "actionable",
+      "expected": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 1, .f1 = 101}\nR_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "remove_one_support",
+      "relation": "actionable",
+      "expected": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 1, .f1 = 101}\nR_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "remove_last_support",
+      "relation": "actionable",
+      "expected": [
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "restore_support",
+      "relation": "actionable",
+      "expected": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 1, .f1 = 101}\nR_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "advance_revision",
+      "relation": "actionable",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 1, .f1 = 103}\nR_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "retract_upstream",
+      "relation": "actionable",
+      "expected": [
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "restore_upstream",
+      "relation": "actionable",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 1, .f1 = 103}\nR_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "independent_reviewer_before",
+      "relation": "actionable",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 1, .f1 = 103}\nR_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "independent_reviewer_after_mutation",
+      "relation": "actionable",
+      "expected": [
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "reviewer_disconnect_retains_mutation",
+      "relation": "actionable",
+      "expected": [
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "reviewer_fixture_restored",
+      "relation": "actionable",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 1, .f1 = 103}\nR_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "old_nested_pin_after_leaf_publish",
+      "relation": "actionable",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 1, .f1 = 103}\nR_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "new_nested_version",
+      "relation": "actionable",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 1, .f1 = 103}\nR_actionable{.f0 = 1, .f1 = 104}\nR_actionable{.f0 = 2, .f1 = 201}\n"
+    },
+    {
+      "snapshot": "old_nested_version_still_pinned",
+      "relation": "actionable",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "raw_rows": "R_actionable{.f0 = 1, .f1 = 103}\nR_actionable{.f0 = 2, .f1 = 201}\n"
+    }
+  ],
+  "generated_programs": [],
+  "toolchain_start": {
+    "server_sha256": "5f0cd0d0d625a4df30a30ac394f9b0956b354c998ee96fc7b94cffee9ec69795",
+    "compiler_sha256": "74558f51670b0fc44e17b74917a57f0188f295d26bd52b2288778b52f0f9e7f3",
+    "build_driver_sha256": "0adf16674665ad51ccb4cf7449ccc4407ed4a58fad5a409b2e44d2111ab4dd02",
+    "native_rustc_sha256": "4f2e3c89ab10110c29ba283cb842d688416f78146b78b0fb3e2b05d131bbb8b3",
+    "native_cargo_sha256": "62a3922e02a750e10af1134934b60d616fe51c48b59633667cd94cd589f89a2d"
+  },
+  "toolchain_end": {},
+  "server_sha256": "5f0cd0d0d625a4df30a30ac394f9b0956b354c998ee96fc7b94cffee9ec69795",
+  "scope": "deterministic native DDlog acceptance; independent finite-set oracle; nested ordinary programs; fresh reviewer pipe bridge; no provider or model-authorship claim"
+}

@@ -14,7 +14,8 @@ Set `LEMMALOG_DDLOG_BUILD` to the absolute path of `scripts/build-ddlog.sh` and
 to the DDlog distribution. The build driver takes a source path and an output
 executable path; only the operator configures it. Start the built server as an
 MCP stdio process. For independently attached clients sharing one program, see
-[shared instances and processor versions](shared-instances.md).
+[shared instances and processor versions](shared-instances.md). Explicit typed
+[composition](composition.md) connects exact saved versions in one graph.
 
 Tool calls use typed schema declarations. Example installation arguments:
 

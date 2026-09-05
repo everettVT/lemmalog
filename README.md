@@ -104,6 +104,11 @@ mkdir -p ~/.claude/skills && cp -r skills/lemmalog ~/.claude/skills/
 
 Task prompts then stay domain-specific and reference the skill in one line.
 
+A separate experimental [DDlog MCP backend](docs/ddlog.md) compiles typed positive
+rules to Differential Dataflow. It supports [shared program instances and an
+immutable registry](docs/shared-instances.md), including discovery and archival,
+and [composition of exact processor versions in one graph](docs/composition.md).
+
 ## MCP server: use from Claude Code or Kimi CLI
 
 ```sh
