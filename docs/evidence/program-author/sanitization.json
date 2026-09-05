@@ -1,0 +1,20 @@
+{
+  "source_trace_sha256": "6f68b389c4d518dfb41fd856d45e57ba0305a1093e7a5ab40ef7cfbbe770ba39",
+  "published_trace_sha256": "bb21ce241503f9a4da7c3897f089804c40680958ab399f090eedc87ec8811949",
+  "removed_metadata": [
+    "temporary host paths replaced by path variables",
+    "build session directory names replaced by session-example",
+    "server PID removed",
+    "agent task references and terminal session handles replaced by role labels"
+  ],
+  "preserved": [
+    "program and schema arguments",
+    "fixture mutations",
+    "rows and deltas",
+    "versions and fact replay counts",
+    "error meaning",
+    "timestamps and elapsed times",
+    "backend and generated binary hashes"
+  ],
+  "original_receipts_retained_locally": true
+}

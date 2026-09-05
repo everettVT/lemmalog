@@ -1,0 +1,11 @@
+output relation R_actionable(f0: signed<64>, f1: signed<64>)
+output relation R_eligible(f0: signed<64>, f1: signed<64>, f2: signed<64>)
+input relation R_finding(f0: signed<64>, f1: signed<64>, f2: signed<64>, f3: signed<64>)
+input relation R_revision(f0: signed<64>, f1: signed<64>)
+input relation R_support(f0: signed<64>, f1: signed<64>, f2: signed<64>, f3: signed<64>)
+output relation Evidence0(v_F: signed<64>, v_P: signed<64>, v_R: signed<64>, v_S: signed<64>)
+Evidence0(v_F, v_P, v_R, v_S) :- R_finding(v_P, v_R, v_F, v_S), v_S <= 3.
+R_eligible(v_P, v_R, v_F) :- Evidence0(v_F, v_P, v_R, v_S).
+output relation Evidence1(v_F: signed<64>, v_P: signed<64>, v_R: signed<64>, v_U: signed<64>)
+Evidence1(v_F, v_P, v_R, v_U) :- R_eligible(v_P, v_R, v_F), R_revision(v_P, v_R), R_support(v_P, v_R, v_F, v_U).
+R_actionable(v_P, v_F) :- Evidence1(v_F, v_P, v_R, v_U).

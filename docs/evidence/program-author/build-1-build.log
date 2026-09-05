@@ -1,0 +1,170 @@
+[92;1mFinished compiling "program.dl"[m in 0.38s
+   Compiling proc-macro2 v1.0.33
+   Compiling unicode-xid v0.2.2
+   Compiling syn v1.0.82
+   Compiling autocfg v1.0.1
+   Compiling cfg-if v1.0.0
+   Compiling libc v0.2.112
+   Compiling serde_derive v1.0.131
+   Compiling serde v1.0.131
+   Compiling lazy_static v1.4.0
+   Compiling crossbeam-utils v0.8.5
+   Compiling proc-macro-hack v0.5.19
+   Compiling unicode-width v0.1.9
+   Compiling futures-core v0.3.18
+   Compiling futures-task v0.3.18
+   Compiling num-traits v0.2.14
+   Compiling futures-util v0.3.18
+   Compiling getopts v0.2.21
+   Compiling abomonation v0.7.3
+   Compiling pin-utils v0.1.0
+   Compiling crossbeam-channel v0.5.1
+   Compiling timely_logging v0.12.0 (https://github.com/ddlog-dev/timely-dataflow?branch=ddlog-4#5b999d00)
+   Compiling memchr v2.4.1
+   Compiling slab v0.4.5
+   Compiling pin-project-lite v0.2.7
+   Compiling timely_bytes v0.12.0 (https://github.com/ddlog-dev/timely-dataflow?branch=ddlog-4#5b999d00)
+   Compiling memoffset v0.6.5
+   Compiling num-integer v0.1.44
+   Compiling getrandom v0.2.3
+   Compiling version_check v0.9.3
+   Compiling quote v1.0.10
+   Compiling fnv v1.0.7
+   Compiling bytecheck v0.5.2
+   Compiling rand_core v0.6.3
+   Compiling num-bigint v0.3.3
+   Compiling ppv-lite86 v0.2.15
+   Compiling rkyv v0.6.7
+   Compiling simdutf8 v0.1.3
+   Compiling standback v0.2.17
+   Compiling num-rational v0.3.2
+   Compiling num-iter v0.1.42
+   Compiling serde_json v1.0.73
+   Compiling regex-automata v0.1.10
+   Compiling ryu v1.0.9
+   Compiling tinyvec_macros v0.1.0
+   Compiling seahash v4.1.0
+   Compiling tinyvec v1.5.1
+   Compiling rand_chacha v0.3.1
+   Compiling csv-core v0.1.10
+   Compiling once_cell v1.8.0
+   Compiling erased-serde v0.3.16
+   Compiling rand v0.8.4
+   Compiling itoa v1.0.1
+   Compiling itoa v0.4.8
+   Compiling byteorder v1.4.3
+   Compiling sequence_trie v0.3.6
+   Compiling stable_deref_trait v1.2.0
+   Compiling const_fn v0.4.12
+   Compiling time v0.2.27
+   Compiling crunchy v0.2.2
+   Compiling dyn-clone v1.0.4
+   Compiling tiny-keccak v2.0.2
+   Compiling static_assertions v1.1.0
+   Compiling parking_lot_core v0.8.5
+   Compiling instant v0.1.12
+   Compiling smallvec v1.7.0
+   Compiling scopeguard v1.1.0
+   Compiling num_cpus v1.13.0
+   Compiling lock_api v0.4.5
+   Compiling siphasher v0.3.7
+   Compiling ahash v0.4.7
+   Compiling version_check v0.1.5
+   Compiling dashmap v4.0.2
+   Compiling phf_shared v0.10.0
+   Compiling twox-hash v1.6.3
+   Compiling hashbrown v0.9.1
+   Compiling bitflags v0.4.0
+   Compiling nom v4.2.3
+   Compiling nix v0.5.1
+   Compiling phf_generator v0.10.0
+   Compiling encode_unicode v0.1.3
+   Compiling libtool v0.1.1
+   Compiling rustop v1.1.2
+   Compiling const-random-macro v0.1.13
+   Compiling program v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-1/program_ddlog)
+   Compiling parking_lot v0.11.2
+   Compiling const-random v0.1.13
+   Compiling rustyline v1.0.0
+   Compiling ahash v0.3.8
+   Compiling internment v0.5.4
+   Compiling synstructure v0.12.6
+   Compiling abomonation_derive v0.5.0
+   Compiling futures-macro v0.3.18
+   Compiling ptr_meta_derive v0.1.4
+   Compiling bytecheck_derive v0.5.2
+   Compiling rkyv_derive v0.6.7
+   Compiling time-macros-impl v0.1.2
+   Compiling ddlog_derive v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-1/program_ddlog/ddlog_derive)
+   Compiling phf_macros v0.10.0
+   Compiling enum-primitive-derive v0.2.2
+   Compiling ptr_meta v0.1.4
+   Compiling time-macros v0.1.1
+   Compiling phf v0.10.1
+   Compiling timely_communication v0.12.0 (https://github.com/ddlog-dev/timely-dataflow?branch=ddlog-4#5b999d00)
+   Compiling bstr v0.2.17
+   Compiling num-complex v0.3.1
+   Compiling triomphe v0.1.3
+   Compiling ordered-float v2.8.0
+   Compiling csv v1.1.6
+   Compiling timely v0.12.0 (https://github.com/ddlog-dev/timely-dataflow?branch=ddlog-4#5b999d00)
+   Compiling num v0.3.1
+   Compiling differential-dataflow v0.12.0 (https://github.com/ddlog-dev/differential-dataflow?branch=ddlog-4#f225896b)
+   Compiling ddshow-types v0.1.1 (https://github.com/ddlog-dev/ddshow?branch=ddlog-4#376e0c80)
+   Compiling dogsdogsdogs v0.1.0 (https://github.com/ddlog-dev/differential-dataflow?branch=ddlog-4#f225896b)
+   Compiling ddlog_profiler v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-1/program_ddlog/ddlog_profiler)
+   Compiling ddshow-sink v0.1.1 (https://github.com/ddlog-dev/ddshow?branch=ddlog-4#376e0c80)
+   Compiling differential_datalog v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-1/program_ddlog/differential_datalog)
+warning: unused return value of `CString::from_raw` that must be used
+    --> differential_datalog/src/api/c_api.rs:1043:5
+     |
+1043 |     CString::from_raw(s);
+     |     ^^^^^^^^^^^^^^^^^^^^^
+     |
+     = note: `#[warn(unused_must_use)]` on by default
+     = note: call `drop(from_raw(ptr))` if you intend to drop the `CString`
+
+warning: unused return value of `Box::<T>::from_raw` that must be used
+    --> differential_datalog/src/api/c_api.rs:1137:9
+     |
+1137 |         Box::from_raw(delta);
+     |         ^^^^^^^^^^^^^^^^^^^^^
+     |
+     = note: call `drop(from_raw(ptr))` if you intend to drop the `Box`
+
+warning: unused return value of `Box::<T>::from_raw` that must be used
+    --> differential_datalog/src/record/mod.rs:1177:5
+     |
+1177 |     Box::from_raw(rec);
+     |     ^^^^^^^^^^^^^^^^^^^
+     |
+     = note: call `drop(from_raw(ptr))` if you intend to drop the `Box`
+
+   Compiling ddlog_rt v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-1/program_ddlog/types/ddlog_rt)
+   Compiling ddlog_log v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-1/program_ddlog/types/ddlog_log)
+   Compiling cmd_parser v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-1/program_ddlog/cmd_parser)
+   Compiling ddlog_bigint v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-1/program_ddlog/types/ddlog_bigint)
+warning: unused return value of `Box::<T>::from_raw` that must be used
+   --> types/ddlog_bigint/ddlog_bigint.rs:661:9
+    |
+661 |         Box::from_raw(x);
+    |         ^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(unused_must_use)]` on by default
+    = note: call `drop(from_raw(ptr))` if you intend to drop the `Box`
+
+warning: unused return value of `Box::<T>::from_raw` that must be used
+   --> types/ddlog_bigint/ddlog_bigint.rs:680:9
+    |
+680 |         Box::from_raw(x);
+    |         ^^^^^^^^^^^^^^^^^
+    |
+    = note: call `drop(from_raw(ptr))` if you intend to drop the `Box`
+
+   Compiling ddlog_std v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-1/program_ddlog/types/ddlog_std)
+warning: `ddlog_bigint` (lib) generated 2 warnings
+   Compiling debug v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-1/program_ddlog/types/debug)
+   Compiling internment v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-1/program_ddlog/types/internment)
+   Compiling types v0.1.0 (${RUNTIME_DIR}/builds/session-example/build-1/program_ddlog/types)
+warning: `differential_datalog` (lib) generated 3 warnings
+    Finished dev [unoptimized] target(s) in 30.96s

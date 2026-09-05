@@ -1,0 +1,53 @@
+{
+  "backend_source_commit": "0317f0a4e5ae3adc05b40b89b3369d22bdd2f1d6",
+  "source_binding": "Peer verified retained binary hash, build after final source edits, clean committed tree; not an independently rebuilt server.",
+  "oracle_commit": "e0586d4",
+  "offline_generated_compiler": "DDlog1.2.3 + Rust1.65",
+  "files": {
+    "${RUNTIME_DIR}/bin/lemmalog-ddlog-mcp": "e8dceab1fb34bc7d09a58d86a08639e56f5586abacc643e3cfa6aa81969115ff",
+    "${RUNTIME_DIR}/build.sh": "9791065c0c525da06c1005857b7701d5231a80801901ae801f288ce6f919270b",
+    "${RUNTIME_DIR}/run.sh": "ad30c61adedaf73fbe51f540996c1e5b1881a3f928cfc5d1a31663910e5b34d7",
+    "${PREPARED_BUILD_DIR}/Cargo.lock": "d43b755767fc3387d44995ea8d07fb9e7f2115db3162cab4cdde9a2b6333bf8b",
+    "${TOOLCHAIN_DIR}/review_ddlog/.cargo/config.toml": "58206f363a41c3e6f3554cabac26579281bd2e4674b053216959d9089e293107",
+    "${CHECKOUT_DIR}/docs/dogfood-task.md": "5575fde49ce2cfd6df427c2e76164c066f80a57b66390dd98e1660f6731c5449",
+    "${CHECKOUT_DIR}/docs/dogfood-scenario.json": "8a68e731fd5640cbd0edcb03acc2e491dce5ae7fa816f05cec4b77324992cd10",
+    "${CHECKOUT_DIR}/scripts/ddlog_dogfood.py": "9faae23fb4b533342ec9bc759f9969427ba6550ee98cd7ff37c981ad41c532a3",
+    "${CHECKOUT_DIR}/scripts/ddlog_dogfood_oracle.py": "c9d44a1373ad5f56d74c5f1242665ec51f4f51cc9a00f313d28e289d6c55c977",
+    "${CHECKOUT_DIR}/tests/test_ddlog_dogfood_relay.py": "7635aacfe9a5ea6a2c45038d18f543f29dabf5a6d0b9140a88d8c00b0919fe89",
+    "${CHECKOUT_DIR}/tests/test_ddlog_dogfood_oracle.py": "ce87e78c727dbec70fd7796e838d461714ef2e609ac2b9fc9cfc58636307fb2e"
+  },
+  "model_usage": "Host agent usage unavailable; no separate provider API used.",
+  "runner_commit": "f88c890",
+  "relay_review": {
+    "reviewer": "independent-verifier",
+    "accepted": true,
+    "relay_sha256": "9faae23fb4b533342ec9bc759f9969427ba6550ee98cd7ff37c981ad41c532a3",
+    "tests_sha256": "7635aacfe9a5ea6a2c45038d18f543f29dabf5a6d0b9140a88d8c00b0919fe89",
+    "scope": "transport timeout and cleanup repair; no independent test rerun"
+  },
+  "author_task": "program-author",
+  "preflight_tests": {
+    "command": "python3 -m unittest discover -s tests -p 'test_ddlog_dogfood*.py' -v",
+    "tests": 20,
+    "passed": true,
+    "elapsed_seconds": 18.209,
+    "source": "Codex exec session90393 result"
+  },
+  "external_inference_api_calls": 0,
+  "supervisor_task_note": "Original author task covers exchanges1\u201330. Additional supervisor-authored fixture calls delegated to same agent because exec sessions are agent-scoped. Actor label unchanged; supervisor_* stages and task trace distinguish origin.",
+  "generated_executables": {
+    "${RUNTIME_DIR}/builds/session-example/build-1/program_cli": "2f69db2882cb6147c223c0fc5240581545757123a389112ce6cc5629f249655e",
+    "${RUNTIME_DIR}/builds/session-example/build-2/program_cli": "b0ec8d1bbe6a69bf0654e930a99105d19d13634e23e3d08118e5428d3dd7eda1"
+  },
+  "oracle_negative_check_note": "Root independent replay script first had a syntax typo, corrected before execution. It made no runtime calls and is not a program-author failure.",
+  "trace_evaluator_commit": "f31effd",
+  "author_exchange_count": 30,
+  "supervisor_exchange_count": 6,
+  "registered_scenario_separate_pr": "https://github.com/everettVT/lemmalog/pull/2",
+  "final_test_run": {
+    "tests": 34,
+    "passed": true,
+    "command": "python3 -m unittest discover -s tests -p 'test_ddlog_dogfood*.py' -v",
+    "receipt": "test-output.txt"
+  }
+}

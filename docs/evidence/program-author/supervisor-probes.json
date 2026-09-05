@@ -1,0 +1,328 @@
+{
+  "purpose": "Supervisor-authored held-out data checks; these are not authored by the program agent and do not count toward its task coverage.",
+  "phases": [
+    {
+      "id": "supervisor_join_probe",
+      "changes": [
+        {
+          "op": "insert",
+          "predicate": "revision",
+          "values": [
+            91,
+            8
+          ]
+        },
+        {
+          "op": "insert",
+          "predicate": "revision",
+          "values": [
+            91,
+            9
+          ]
+        },
+        {
+          "op": "insert",
+          "predicate": "revision",
+          "values": [
+            92,
+            9
+          ]
+        },
+        {
+          "op": "insert",
+          "predicate": "finding",
+          "values": [
+            91,
+            8,
+            901,
+            -4
+          ]
+        },
+        {
+          "op": "insert",
+          "predicate": "support",
+          "values": [
+            91,
+            8,
+            901,
+            7001
+          ]
+        },
+        {
+          "op": "insert",
+          "predicate": "finding",
+          "values": [
+            91,
+            9,
+            902,
+            4
+          ]
+        },
+        {
+          "op": "insert",
+          "predicate": "support",
+          "values": [
+            91,
+            9,
+            902,
+            7002
+          ]
+        },
+        {
+          "op": "insert",
+          "predicate": "finding",
+          "values": [
+            92,
+            9,
+            901,
+            2
+          ]
+        },
+        {
+          "op": "insert",
+          "predicate": "support",
+          "values": [
+            92,
+            8,
+            901,
+            7003
+          ]
+        },
+        {
+          "op": "insert",
+          "predicate": "finding",
+          "values": [
+            92,
+            9,
+            903,
+            3
+          ]
+        },
+        {
+          "op": "insert",
+          "predicate": "support",
+          "values": [
+            91,
+            9,
+            903,
+            7004
+          ]
+        },
+        {
+          "op": "insert",
+          "predicate": "finding",
+          "values": [
+            91,
+            9,
+            904,
+            3
+          ]
+        },
+        {
+          "op": "insert",
+          "predicate": "support",
+          "values": [
+            91,
+            9,
+            904,
+            7005
+          ]
+        },
+        {
+          "op": "insert",
+          "predicate": "support",
+          "values": [
+            91,
+            8,
+            901,
+            7008
+          ]
+        }
+      ]
+    },
+    {
+      "id": "supervisor_revision_probe",
+      "changes": [
+        {
+          "op": "insert",
+          "predicate": "support",
+          "values": [
+            92,
+            9,
+            901,
+            7006
+          ]
+        },
+        {
+          "op": "insert",
+          "predicate": "support",
+          "values": [
+            92,
+            9,
+            903,
+            7007
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "revision",
+          "values": [
+            91,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "id": "supervisor_cleanup_probe",
+      "changes": [
+        {
+          "op": "delete",
+          "predicate": "revision",
+          "values": [
+            91,
+            9
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "revision",
+          "values": [
+            92,
+            9
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "finding",
+          "values": [
+            91,
+            8,
+            901,
+            -4
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "support",
+          "values": [
+            91,
+            8,
+            901,
+            7001
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "finding",
+          "values": [
+            91,
+            9,
+            902,
+            4
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "support",
+          "values": [
+            91,
+            9,
+            902,
+            7002
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "finding",
+          "values": [
+            92,
+            9,
+            901,
+            2
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "support",
+          "values": [
+            92,
+            8,
+            901,
+            7003
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "finding",
+          "values": [
+            92,
+            9,
+            903,
+            3
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "support",
+          "values": [
+            91,
+            9,
+            903,
+            7004
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "finding",
+          "values": [
+            91,
+            9,
+            904,
+            3
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "support",
+          "values": [
+            91,
+            9,
+            904,
+            7005
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "support",
+          "values": [
+            92,
+            9,
+            901,
+            7006
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "support",
+          "values": [
+            92,
+            9,
+            903,
+            7007
+          ]
+        },
+        {
+          "op": "delete",
+          "predicate": "support",
+          "values": [
+            91,
+            8,
+            901,
+            7008
+          ]
+        }
+      ]
+    }
+  ]
+}

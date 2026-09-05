@@ -1,0 +1,20 @@
+{
+  "build-3-program.dl": "fc3942ac3b31792d097bbe6f4ded936a6ca8dcf5e89b49363126d49fa01f2a1f",
+  "provenance.json": "66880a0159f96ca52c8c236d0f42fef14cfaa96148b303543acdcbb0b5ce9dca",
+  "operator-build.sh": "d84bf5faaa5577f2929bfe39cc6f8c167f5c71b4a2c4678f550600e2fd15ef34",
+  "operator-run.sh": "a39d226e8db80a8bd7fdcbf8323bc033506c0d22e6e41c6421bd109ee145286f",
+  "build-1-program.dl": "fcc4f66476290402e33f31e36144d6a690a28e68e6722e3688e3df0d5cc89ff7",
+  "supervisor-probe-execution.md": "fcf47825b5f37b5962a3b4c7295741bc518248d1b221c3d80c04b8519ad70007",
+  "build-1-build.log": "a7887374b62211da2f4c2ea23e078d63c4a96bffff63041d2bea495656113bd4",
+  "README.md": "0c2385962a95fd97bb09541f9aa305896f6c21e4b7ee7d5e30031317a0ed8ae9",
+  "build-2-build.log": "e91debd4c75634472ed7b5bb0ad4b9d844a83ed00d507e75a9d01c195254704e",
+  "events.jsonl": "bb21ce241503f9a4da7c3897f089804c40680958ab399f090eedc87ec8811949",
+  "build-2-program.dl": "fc3942ac3b31792d097bbe6f4ded936a6ca8dcf5e89b49363126d49fa01f2a1f",
+  "negative-oracle-checks.json": "08bddfadea751ee99b664efe9fd9a8cc6ef51a3b8a93de3b39236d331202e0ee",
+  "test-output.txt": "d6f61fb2d3c78e2109d2711563120156f94fe81802c7748e4ffef4082cd90050",
+  "supervisor-probes.json": "a6094fe84f0803043c42471f91e53e7207edb47ab9ab823d6c84ecc81b733ba8",
+  "build-3-build.log": "7ace3cee395912f1f996c0c813e5bbfed67b284d227f08fbc3dc60ba51c3f003",
+  "author-report.md": "24f3461d6fcf8b8e31ae0c8bdc8d287e67f3b0413a3e3a1750895f0bb057d519",
+  "sanitization.json": "e9624b2de863c4495cc8eef1bd661bfd95f6b42d4fef81067bf0bfafec68186d",
+  "oracle-report.json": "233d7c795fc97ee7d0ac1d47a2c026116baf5098c7c849069e420a7b8b80b392"
+}

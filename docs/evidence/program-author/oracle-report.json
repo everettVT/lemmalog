@@ -1,0 +1,903 @@
+{
+  "actor_label": "codex-model-author",
+  "checks": [
+    {
+      "kind": "install",
+      "replayed_facts": 0,
+      "sequence": 3,
+      "stage": "initial_install",
+      "threshold": 2,
+      "version": 1
+    },
+    {
+      "expected": [
+        [
+          1,
+          101,
+          1
+        ],
+        [
+          2,
+          201,
+          1
+        ]
+      ],
+      "kind": "deltas",
+      "observed": [
+        [
+          1,
+          101,
+          1
+        ],
+        [
+          2,
+          201,
+          1
+        ]
+      ],
+      "sequence": 4,
+      "stage": "seed",
+      "supervisor": false
+    },
+    {
+      "after": "seed",
+      "expected": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "kind": "rows",
+      "observed": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "sequence": 5,
+      "stage": "seed",
+      "supervisor": false,
+      "version": 1
+    },
+    {
+      "binding_count": 2,
+      "kind": "direct_witnesses",
+      "rule_relation": "actionable",
+      "sequence": 6,
+      "stage": "seed",
+      "version": 1
+    },
+    {
+      "expected": [],
+      "kind": "deltas",
+      "observed": [],
+      "sequence": 7,
+      "stage": "duplicate",
+      "supervisor": false
+    },
+    {
+      "after": "duplicate",
+      "expected": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "kind": "rows",
+      "observed": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "sequence": 8,
+      "stage": "duplicate",
+      "supervisor": false,
+      "version": 1
+    },
+    {
+      "expected": [],
+      "kind": "deltas",
+      "observed": [],
+      "sequence": 9,
+      "stage": "alternate_support",
+      "supervisor": false
+    },
+    {
+      "after": "alternate_support",
+      "expected": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "kind": "rows",
+      "observed": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "sequence": 10,
+      "stage": "alternate_support",
+      "supervisor": false,
+      "version": 1
+    },
+    {
+      "binding_count": 2,
+      "kind": "direct_witnesses",
+      "rule_relation": "actionable",
+      "sequence": 11,
+      "stage": "alternate_support",
+      "version": 1
+    },
+    {
+      "expected": [
+        [
+          1,
+          101,
+          -1
+        ]
+      ],
+      "kind": "deltas",
+      "observed": [
+        [
+          1,
+          101,
+          -1
+        ]
+      ],
+      "sequence": 12,
+      "stage": "withdraw_last_support",
+      "supervisor": false
+    },
+    {
+      "after": "withdraw_last_support",
+      "expected": [
+        [
+          2,
+          201
+        ]
+      ],
+      "kind": "rows",
+      "observed": [
+        [
+          2,
+          201
+        ]
+      ],
+      "sequence": 13,
+      "stage": "withdraw_last_support",
+      "supervisor": false,
+      "version": 1
+    },
+    {
+      "expected": [
+        [
+          1,
+          101,
+          1
+        ]
+      ],
+      "kind": "deltas",
+      "observed": [
+        [
+          1,
+          101,
+          1
+        ]
+      ],
+      "sequence": 14,
+      "stage": "restore_support",
+      "supervisor": false
+    },
+    {
+      "after": "restore_support",
+      "expected": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "kind": "rows",
+      "observed": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "sequence": 15,
+      "stage": "restore_support",
+      "supervisor": false,
+      "version": 1
+    },
+    {
+      "expected": [
+        [
+          1,
+          101,
+          -1
+        ],
+        [
+          1,
+          103,
+          1
+        ]
+      ],
+      "kind": "deltas",
+      "observed": [
+        [
+          1,
+          101,
+          -1
+        ],
+        [
+          1,
+          103,
+          1
+        ]
+      ],
+      "sequence": 16,
+      "stage": "revision_change",
+      "supervisor": false
+    },
+    {
+      "after": "revision_change",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "kind": "rows",
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "sequence": 17,
+      "stage": "revision_change",
+      "supervisor": false,
+      "version": 1
+    },
+    {
+      "binding_count": 2,
+      "kind": "direct_witnesses",
+      "rule_relation": "actionable",
+      "sequence": 18,
+      "stage": "revision_change",
+      "version": 1
+    },
+    {
+      "kind": "install",
+      "replayed_facts": 12,
+      "sequence": 19,
+      "stage": "policy_change",
+      "threshold": 3,
+      "version": 2
+    },
+    {
+      "after": "policy_change",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "kind": "rows",
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "sequence": 20,
+      "stage": "policy_change",
+      "supervisor": false,
+      "version": 2
+    },
+    {
+      "binding_count": 5,
+      "kind": "direct_witnesses",
+      "rule_relation": "eligible",
+      "sequence": 21,
+      "stage": "policy_change",
+      "version": 2
+    },
+    {
+      "binding_count": 3,
+      "kind": "direct_witnesses",
+      "rule_relation": "actionable",
+      "sequence": 22,
+      "stage": "policy_change",
+      "version": 2
+    },
+    {
+      "after": "bad_mutation",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "kind": "rows",
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "sequence": 24,
+      "stage": "bad_mutation",
+      "supervisor": false,
+      "version": 2
+    },
+    {
+      "expected": [
+        [
+          1,
+          105,
+          1
+        ]
+      ],
+      "kind": "deltas",
+      "observed": [
+        [
+          1,
+          105,
+          1
+        ]
+      ],
+      "sequence": 25,
+      "stage": "corrected_mutation",
+      "supervisor": false
+    },
+    {
+      "after": "corrected_mutation",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          1,
+          105
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "kind": "rows",
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          1,
+          105
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "sequence": 26,
+      "stage": "corrected_mutation",
+      "supervisor": false,
+      "version": 2
+    },
+    {
+      "binding_count": 4,
+      "kind": "direct_witnesses",
+      "rule_relation": "actionable",
+      "sequence": 27,
+      "stage": "corrected_mutation",
+      "version": 2
+    },
+    {
+      "after": "failed_build",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          1,
+          105
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "kind": "rows",
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          1,
+          105
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "sequence": 29,
+      "stage": "failed_build",
+      "supervisor": false,
+      "version": 2
+    },
+    {
+      "binding_count": 4,
+      "kind": "direct_witnesses",
+      "rule_relation": "actionable",
+      "sequence": 30,
+      "stage": "failed_build",
+      "version": 2
+    },
+    {
+      "expected": [
+        [
+          91,
+          901,
+          1
+        ],
+        [
+          91,
+          904,
+          1
+        ]
+      ],
+      "kind": "deltas",
+      "observed": [
+        [
+          91,
+          901,
+          1
+        ],
+        [
+          91,
+          904,
+          1
+        ]
+      ],
+      "sequence": 31,
+      "stage": "supervisor_join_probe",
+      "supervisor": true
+    },
+    {
+      "after": "supervisor_join_probe",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          1,
+          105
+        ],
+        [
+          2,
+          201
+        ],
+        [
+          91,
+          901
+        ],
+        [
+          91,
+          904
+        ]
+      ],
+      "kind": "rows",
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          1,
+          105
+        ],
+        [
+          2,
+          201
+        ],
+        [
+          91,
+          901
+        ],
+        [
+          91,
+          904
+        ]
+      ],
+      "sequence": 32,
+      "stage": "supervisor_join_probe",
+      "supervisor": true,
+      "version": 2
+    },
+    {
+      "expected": [
+        [
+          91,
+          901,
+          -1
+        ],
+        [
+          92,
+          901,
+          1
+        ],
+        [
+          92,
+          903,
+          1
+        ]
+      ],
+      "kind": "deltas",
+      "observed": [
+        [
+          91,
+          901,
+          -1
+        ],
+        [
+          92,
+          901,
+          1
+        ],
+        [
+          92,
+          903,
+          1
+        ]
+      ],
+      "sequence": 33,
+      "stage": "supervisor_revision_probe",
+      "supervisor": true
+    },
+    {
+      "after": "supervisor_revision_probe",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          1,
+          105
+        ],
+        [
+          2,
+          201
+        ],
+        [
+          91,
+          904
+        ],
+        [
+          92,
+          901
+        ],
+        [
+          92,
+          903
+        ]
+      ],
+      "kind": "rows",
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          1,
+          105
+        ],
+        [
+          2,
+          201
+        ],
+        [
+          91,
+          904
+        ],
+        [
+          92,
+          901
+        ],
+        [
+          92,
+          903
+        ]
+      ],
+      "sequence": 34,
+      "stage": "supervisor_revision_probe",
+      "supervisor": true,
+      "version": 2
+    },
+    {
+      "expected": [
+        [
+          91,
+          904,
+          -1
+        ],
+        [
+          92,
+          901,
+          -1
+        ],
+        [
+          92,
+          903,
+          -1
+        ]
+      ],
+      "kind": "deltas",
+      "observed": [
+        [
+          91,
+          904,
+          -1
+        ],
+        [
+          92,
+          901,
+          -1
+        ],
+        [
+          92,
+          903,
+          -1
+        ]
+      ],
+      "sequence": 35,
+      "stage": "supervisor_cleanup_probe",
+      "supervisor": true
+    },
+    {
+      "after": "supervisor_cleanup_probe",
+      "expected": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          1,
+          105
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "kind": "rows",
+      "observed": [
+        [
+          1,
+          103
+        ],
+        [
+          1,
+          104
+        ],
+        [
+          1,
+          105
+        ],
+        [
+          2,
+          201
+        ]
+      ],
+      "sequence": 36,
+      "stage": "supervisor_cleanup_probe",
+      "supervisor": true,
+      "version": 2
+    }
+  ],
+  "cleanup": {
+    "at": "2026-09-05T19:22:53.219763+00:00",
+    "calls": 36,
+    "cleanup_error": null,
+    "cleanup_observation_errors": [],
+    "cleanup_signal_errors": [],
+    "elapsed_seconds": 416.4093451667577,
+    "event": "session_end",
+    "graceful": true,
+    "process_group_gone": true,
+    "server_exit_code": 0
+  },
+  "cleanup_pending": false,
+  "complete_author_task": true,
+  "errors": [],
+  "exchange_count": 36,
+  "expected_tool_errors": [
+    {
+      "message": "Expected signed 64-bit integer",
+      "sequence": 23,
+      "stage": "bad_mutation"
+    },
+    {
+      "message": "DDlog compilation failed; previous version retained. See ${RUNTIME_DIR}/builds/session-example/build-3/build.log",
+      "sequence": 28,
+      "stage": "failed_build"
+    }
+  ],
+  "final_expected_rows": [
+    [
+      1,
+      103
+    ],
+    [
+      1,
+      104
+    ],
+    [
+      1,
+      105
+    ],
+    [
+      2,
+      201
+    ]
+  ],
+  "final_threshold": 3,
+  "final_version": 2,
+  "inputs": {
+    "events_path": "docs/evidence/program-author/events.jsonl",
+    "events_sha256": "bb21ce241503f9a4da7c3897f089804c40680958ab399f090eedc87ec8811949",
+    "scenario_path": "docs/dogfood-scenario.json",
+    "scenario_sha256": "8a68e731fd5640cbd0edcb03acc2e491dce5ae7fa816f05cec4b77324992cd10"
+  },
+  "limitations": [
+    "Actor labels alone do not establish model authorship.",
+    "A failed_build label and tool error do not independently prove the operator flag injection.",
+    "Direct witnesses are factual variable bindings, not recursive provenance."
+  ],
+  "ok": true,
+  "retained_fact_count": 14,
+  "supervisor_exchanges": [
+    {
+      "sequence": 31,
+      "stage": "supervisor_join_probe"
+    },
+    {
+      "sequence": 32,
+      "stage": "supervisor_join_probe"
+    },
+    {
+      "sequence": 33,
+      "stage": "supervisor_revision_probe"
+    },
+    {
+      "sequence": 34,
+      "stage": "supervisor_revision_probe"
+    },
+    {
+      "sequence": 35,
+      "stage": "supervisor_cleanup_probe"
+    },
+    {
+      "sequence": 36,
+      "stage": "supervisor_cleanup_probe"
+    }
+  ],
+  "witness_scope": "Direct rule variable bindings; not recursive proof trees or confidence provenance"
+}
