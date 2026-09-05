@@ -1,0 +1,849 @@
+[
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "method": "initialize",
+      "params": {}
+    },
+    "response": {
+      "id": 1,
+      "jsonrpc": "2.0",
+      "result": {
+        "capabilities": {
+          "tools": {}
+        },
+        "protocolVersion": "2024-11-05",
+        "serverInfo": {
+          "name": "lemmalog-ddlog",
+          "version": "0.1.0"
+        }
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "method": "tools/list",
+      "params": {}
+    },
+    "response": {
+      "id": 2,
+      "jsonrpc": "2.0",
+      "result": {
+        "tools": [
+          {
+            "description": "Compile and atomically replace this session's typed positive rule program; replay retained facts. Unsupported syntax is rejected.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "rules": {
+                  "type": "string"
+                },
+                "schemas": {
+                  "additionalProperties": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "fields": {
+                        "items": {
+                          "enum": [
+                            "int",
+                            "string"
+                          ]
+                        },
+                        "minItems": 1,
+                        "type": "array"
+                      },
+                      "input": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "input",
+                      "fields"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "object"
+                }
+              },
+              "required": [
+                "rules",
+                "schemas"
+              ],
+              "type": "object"
+            },
+            "name": "lemmalog_install_rules"
+          },
+          {
+            "description": "Transactionally insert or delete input facts with set semantics.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "changes": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "op": {
+                        "enum": [
+                          "insert",
+                          "delete"
+                        ]
+                      },
+                      "predicate": {
+                        "type": "string"
+                      },
+                      "values": {
+                        "items": {
+                          "type": [
+                            "integer",
+                            "string"
+                          ]
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "op",
+                      "predicate",
+                      "values"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "changes"
+              ],
+              "type": "object"
+            },
+            "name": "apply_changes"
+          },
+          {
+            "description": "Dump a declared output relation at the last completed transaction. Returns DDlog row text.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "predicate": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "predicate"
+              ],
+              "type": "object"
+            },
+            "name": "lemmalog_query"
+          },
+          {
+            "description": "Read direct variable-binding witnesses for a zero-based rule index. Not recursive provenance.",
+            "inputSchema": {
+              "additionalProperties": false,
+              "properties": {
+                "rule": {
+                  "minimum": 0,
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "rule"
+              ],
+              "type": "object"
+            },
+            "name": "lemmalog_why"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_install_rules",
+        "arguments": {
+          "rules": "actionable(P,F) :- finding(P,F,S), current(P), S =< 2.",
+          "schemas": {
+            "finding": {
+              "input": true,
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ]
+            },
+            "current": {
+              "input": true,
+              "fields": [
+                "int"
+              ]
+            },
+            "actionable": {
+              "input": false,
+              "fields": [
+                "int",
+                "int"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "id": 3,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"backend\":\"ddlog/differential-dataflow\",\"replayed_facts\":0,\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 4,
+      "method": "tools/call",
+      "params": {
+        "name": "apply_changes",
+        "arguments": {
+          "changes": [
+            {
+              "op": "insert",
+              "predicate": "finding",
+              "values": [
+                1,
+                10,
+                1
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "response": {
+      "id": 4,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"deltas\":\"\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 5,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "actionable"
+        }
+      }
+    },
+    "response": {
+      "id": 5,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 6,
+      "method": "tools/call",
+      "params": {
+        "name": "apply_changes",
+        "arguments": {
+          "changes": [
+            {
+              "op": "insert",
+              "predicate": "current",
+              "values": [
+                1
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "response": {
+      "id": 6,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"deltas\":\"Evidence0:\\nEvidence0{.v_F = 10, .v_P = 1, .v_S = 1}: +1\\nR_actionable:\\nR_actionable{.f0 = 1, .f1 = 10}: +1\\n\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 7,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_why",
+        "arguments": {
+          "rule": 0
+        }
+      }
+    },
+    "response": {
+      "id": 7,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"bindings\":\"Evidence0{.v_F = 10, .v_P = 1, .v_S = 1}\\n\",\"rule\":0,\"scope\":\"Direct rule variable bindings; not recursive proof trees or confidence provenance\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 8,
+      "method": "tools/call",
+      "params": {
+        "name": "apply_changes",
+        "arguments": {
+          "changes": [
+            {
+              "op": "insert",
+              "predicate": "current",
+              "values": [
+                1
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "response": {
+      "id": 8,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"deltas\":\"\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 9,
+      "method": "tools/call",
+      "params": {
+        "name": "apply_changes",
+        "arguments": {
+          "changes": [
+            {
+              "op": "insert",
+              "predicate": "finding",
+              "values": [
+                1,
+                10,
+                2
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "response": {
+      "id": 9,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"deltas\":\"Evidence0:\\nEvidence0{.v_F = 10, .v_P = 1, .v_S = 2}: +1\\n\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 10,
+      "method": "tools/call",
+      "params": {
+        "name": "apply_changes",
+        "arguments": {
+          "changes": [
+            {
+              "op": "delete",
+              "predicate": "finding",
+              "values": [
+                1,
+                10,
+                2
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "response": {
+      "id": 10,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"deltas\":\"Evidence0:\\nEvidence0{.v_F = 10, .v_P = 1, .v_S = 2}: -1\\n\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 11,
+      "method": "tools/call",
+      "params": {
+        "name": "apply_changes",
+        "arguments": {
+          "changes": [
+            {
+              "op": "delete",
+              "predicate": "finding",
+              "values": [
+                1,
+                10,
+                1
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "response": {
+      "id": 11,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"deltas\":\"Evidence0:\\nEvidence0{.v_F = 10, .v_P = 1, .v_S = 1}: -1\\nR_actionable:\\nR_actionable{.f0 = 1, .f1 = 10}: -1\\n\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 12,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_why",
+        "arguments": {
+          "rule": 0
+        }
+      }
+    },
+    "response": {
+      "id": 12,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"bindings\":\"\",\"rule\":0,\"scope\":\"Direct rule variable bindings; not recursive proof trees or confidence provenance\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 13,
+      "method": "tools/call",
+      "params": {
+        "name": "apply_changes",
+        "arguments": {
+          "changes": [
+            {
+              "op": "insert",
+              "predicate": "finding",
+              "values": [
+                1,
+                11,
+                3
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "response": {
+      "id": 13,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"deltas\":\"\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 14,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "actionable"
+        }
+      }
+    },
+    "response": {
+      "id": 14,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"\",\"version\":1}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 15,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_install_rules",
+        "arguments": {
+          "rules": "actionable(P,F) :- finding(P,F,S), current(P), S =< 3.",
+          "schemas": {
+            "finding": {
+              "input": true,
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ]
+            },
+            "current": {
+              "input": true,
+              "fields": [
+                "int"
+              ]
+            },
+            "actionable": {
+              "input": false,
+              "fields": [
+                "int",
+                "int"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "id": 15,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"backend\":\"ddlog/differential-dataflow\",\"replayed_facts\":2,\"version\":2}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 16,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "actionable"
+        }
+      }
+    },
+    "response": {
+      "id": 16,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"R_actionable{.f0 = 1, .f1 = 11}\\n\",\"version\":2}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 17,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_install_rules",
+        "arguments": {
+          "rules": "actionable(P,F) :- finding(P,F,S), current(P), S =< 4.",
+          "schemas": {
+            "finding": {
+              "input": true,
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ]
+            },
+            "current": {
+              "input": true,
+              "fields": [
+                "int"
+              ]
+            },
+            "actionable": {
+              "input": false,
+              "fields": [
+                "int",
+                "int"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "id": 17,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "DDlog compilation failed; previous version retained. See /private/tmp/lemmalog-pr-build/session-89223-1788633982562775000/build-3/build.log",
+            "type": "text"
+          }
+        ],
+        "isError": true
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 18,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_why",
+        "arguments": {
+          "rule": 0
+        }
+      }
+    },
+    "response": {
+      "id": 18,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"bindings\":\"Evidence0{.v_F = 11, .v_P = 1, .v_S = 3}\\n\",\"rule\":0,\"scope\":\"Direct rule variable bindings; not recursive proof trees or confidence provenance\",\"version\":2}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 19,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_install_rules",
+        "arguments": {
+          "rules": "actionable(P,F) :- !finding(P,F,S).",
+          "schemas": {
+            "finding": {
+              "input": true,
+              "fields": [
+                "int",
+                "int",
+                "int"
+              ]
+            },
+            "current": {
+              "input": true,
+              "fields": [
+                "int"
+              ]
+            },
+            "actionable": {
+              "input": false,
+              "fields": [
+                "int",
+                "int"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "response": {
+      "id": 19,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "Unbound head variable P",
+            "type": "text"
+          }
+        ],
+        "isError": true
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 20,
+      "method": "tools/call",
+      "params": {
+        "name": "apply_changes",
+        "arguments": {
+          "changes": [
+            {
+              "op": "insert",
+              "predicate": "finding",
+              "values": [
+                1,
+                12,
+                "bad"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "response": {
+      "id": 20,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "Expected signed 64-bit integer",
+            "type": "text"
+          }
+        ],
+        "isError": true
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 21,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_query",
+        "arguments": {
+          "predicate": "actionable"
+        }
+      }
+    },
+    "response": {
+      "id": 21,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"rows\":\"R_actionable{.f0 = 1, .f1 = 11}\\n\",\"version\":2}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  },
+  {
+    "request": {
+      "jsonrpc": "2.0",
+      "id": 22,
+      "method": "tools/call",
+      "params": {
+        "name": "lemmalog_why",
+        "arguments": {
+          "rule": 0
+        }
+      }
+    },
+    "response": {
+      "id": 22,
+      "jsonrpc": "2.0",
+      "result": {
+        "content": [
+          {
+            "text": "{\"bindings\":\"Evidence0{.v_F = 11, .v_P = 1, .v_S = 3}\\n\",\"rule\":0,\"scope\":\"Direct rule variable bindings; not recursive proof trees or confidence provenance\",\"version\":2}",
+            "type": "text"
+          }
+        ],
+        "isError": false
+      }
+    }
+  }
+]
