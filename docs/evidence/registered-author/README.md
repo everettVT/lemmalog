@@ -29,7 +29,8 @@ Backend executable SHA-256:
 Backend source: `0317f0a4e5ae3adc05b40b89b3369d22bdd2f1d6`.
 The author verified that binary hash before execution; the root independently
 verified it against the clean source checkout and retained compiled binary.
-One DDlog program compilation succeeded using the existing v1.2.3 toolchain;
+The generated source is retained as `program.dl`; compiler and executable hashes
+are recorded in `provenance.txt`. One DDlog program compilation succeeded using the existing v1.2.3 toolchain;
 the generated program ran on Differential/Timely as described in the parent
 backend evidence.
 
