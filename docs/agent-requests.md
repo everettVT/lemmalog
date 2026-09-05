@@ -91,3 +91,12 @@ and entity isolation. It uses the same build environment as `docs/ddlog.md`.
 This establishes the registered lowering and lifecycle boundary. Actual
 model-authored tool calls are being dogfooded separately; this test is not an LLM
 benchmark or evidence of successful live inference.
+
+## Actual agent dogfood
+
+A subsequent separate Codex author/worker exercised this interface with its own
+routing program and classifications. Its 25 stepwise MCP exchanges passed an
+independent set/join replay check across three entities, including a stale/fresh
+revision race and ownership updates. See [the authored run](evidence/registered-author/README.md).
+This uses current Codex reasoning, not an external inference endpoint or a mock
+classifier, and does not claim grammar-constrained decoding.
