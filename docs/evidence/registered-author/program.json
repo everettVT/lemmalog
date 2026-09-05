@@ -1,0 +1,38 @@
+{
+  "operation": "triage",
+  "rules": "route(E,R,P,O,C) :- agent_result(E,R,C), project(E,P), owner(P,C,O), urgency(C,S), S =< 2.",
+  "schemas": {
+    "project": {
+      "input": true,
+      "fields": [
+        "string",
+        "string"
+      ]
+    },
+    "owner": {
+      "input": true,
+      "fields": [
+        "string",
+        "string",
+        "string"
+      ]
+    },
+    "urgency": {
+      "input": true,
+      "fields": [
+        "string",
+        "int"
+      ]
+    },
+    "route": {
+      "input": false,
+      "fields": [
+        "string",
+        "int",
+        "string",
+        "string",
+        "string"
+      ]
+    }
+  }
+}

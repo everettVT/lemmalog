@@ -1,0 +1,74 @@
+{
+  "passed": true,
+  "rpc_exchanges": 25,
+  "independent_checks": 18,
+  "stale_completions": 1,
+  "duplicate_claim_rejections": 1,
+  "expected_errors": 1,
+  "entities": 3,
+  "route_snapshots": [
+    {
+      "rpc": 14,
+      "rows": [
+        [
+          "SRCH-8",
+          1,
+          "search",
+          "search-oncall",
+          "incident"
+        ]
+      ]
+    },
+    {
+      "rpc": 18,
+      "rows": [
+        [
+          "SRCH-8",
+          1,
+          "search",
+          "search-oncall",
+          "incident"
+        ]
+      ]
+    },
+    {
+      "rpc": 21,
+      "rows": [
+        [
+          "PAY-17",
+          2,
+          "payments",
+          "trust-response",
+          "security"
+        ],
+        [
+          "SRCH-8",
+          1,
+          "search",
+          "search-oncall",
+          "incident"
+        ]
+      ]
+    },
+    {
+      "rpc": 24,
+      "rows": [
+        [
+          "PAY-17",
+          2,
+          "payments",
+          "trust-response",
+          "security"
+        ],
+        [
+          "SRCH-8",
+          1,
+          "search",
+          "search-escalation",
+          "incident"
+        ]
+      ]
+    }
+  ],
+  "scope": "Agent-authored routing/lifecycle correctness; does not score model classification quality or prove durable execution"
+}

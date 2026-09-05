@@ -40,3 +40,12 @@ marker. This agrees with its `handle_cmd` / `cmd_parser::interact` source paths.
 This evidence covers the experimental typed positive-rule backend. It does not
 establish full AgentMemory compatibility, durability, inference execution,
 concurrent clients, or a performance advantage.
+
+## Registered-operation follow-up
+
+The separate `test-agent-requests.py` fixture also executed the generated
+registered-operation graph. `registered-agent-receipts.json` records its actual
+MCP exchanges. It proved pending/running changes, stable identities, stale-response
+exclusion, claim-once admission, completion idempotency/conflicts, output
+retraction on revision change, and isolation across entities. The external
+provider was a mock worker; this does not establish live model inference.

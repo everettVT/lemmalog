@@ -1,0 +1,1 @@
+{"triage":{"version":"v1","description":"Classify issue text as incident when active service failure needs operational response, security when unauthorized access or data exposure needs containment, or backlog for non-urgent work. Return only the category string."}}

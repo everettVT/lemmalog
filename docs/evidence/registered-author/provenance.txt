@@ -1,0 +1,10 @@
+e8dceab1fb34bc7d09a58d86a08639e56f5586abacc643e3cfa6aa81969115ff  /private/tmp/lemmalog-differential-pr/target/debug/lemmalog-ddlog-mcp
+74558f51670b0fc44e17b74917a57f0188f295d26bd52b2288778b52f0f9e7f3  /private/tmp/direct-ddlog-lWl2crOF/ddlog/bin/ddlog
+DDlog v1.2.3 (cd1164ee3aed56734a3dd114a71ce4902fd7e3ef)
+Copyright (c) 2019-2021 VMware, Inc. (MIT License)
+rustc 1.65.0 (897e37553 2022-11-02)
+8647ba9c97faf2f63eb594b84966452d4ee0388034e578707fbe8c0d7530f848  /private/tmp/registered-operation-author/build/session-64613-1788635750352650000/build-1/program_cli
+2dffd7612f34e3b864ce37b89b328b3b692891bc4ba51d2486f29b3f4dea6a6b  /private/tmp/registered-operation-author/build/session-64613-1788635750352650000/build-1/program.dl
+2c764ac420fbde778acff53ad83203a897f86a52303d0e44ef56b7f5d03dbb94  /private/tmp/registered-operation-author/program.json
+bff846c130c763e58eca620e93c169f4bd86ef3db807e7a51aba648bd03ab8d9  /private/tmp/registered-operation-author/requests.jsonl
+97e49e4c0ae4b1cb51b3f2be18064780408607f766a9286eece0b2ee05f6944a  /private/tmp/registered-operation-author/responses.jsonl
